@@ -1,0 +1,106 @@
+<html>
+<body>
+<h2>Interval URI Set Test Page</h2>
+
+<h3>This is an experimental site it is unstable and could disappear
+or change at anytime and without notice.</h3>
+
+<p>If your are using Firefox, fire up the Tabulator extension and
+then try a couple of the URIs</p>
+
+<p><a href='cal/id/calendar-month/1582-10'>October 1582</a>, the month
+of the Julian to Gregorian change over</p>
+
+<p>URI have the following forms which designate <em>calendar-aligned</em> intevals:</p>
+
+<table border="1">
+	<tr>
+		<td>id/calendar-year/{year}</td>
+		<td>A specific 1 year interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-half/{year}-H{half}</td>
+		<td>A specific 6 month interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-quarter/{year}-Q{quarter}</td>
+		<td>A specific 3 month interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-month/{year}-{month}</td>
+		<td>A specific 1 month interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-day/{year}-{month}-{day}</td>
+		<td>A specific 1 day interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-hour/{year}-{month}-{day}T{hour}</td>
+		<td>A specific 1 hour interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-minute/{year}-{month}-{day}T{hour}:{minute}</td>
+		<td>A specific 1 minute interval.</td>
+	</tr>
+	<tr>
+		<td>id/calendar-second/{year}-{month}-{day}T{hour}:{minute}:{second}</td>
+		<td>A specific 1 second interval.</td>
+	</tr>
+</table>
+
+<p>Syntactic contraints on field values are intended to align with
+ISO 8601 syntax, with the deliberate omission of timezones (for now).
+ Syntactic constraints are as follows (in addition requests for
+non-existant dates will result in 404 responses).</p>
+
+<table border="1">
+	<tr>
+		<td>{year:[1-9][0-9]*}</td>
+		<td>Year in as decimal number without leading zeros</td>
+	</tr>
+	<tr>
+		<td>{half:[12]}</td>
+		<td>First or Second Half Year</td>
+	</tr>
+	<tr>
+		<td>{quarter:[1234]}</td>
+		<td>First through forth Quarter</td>
+	</tr>
+	<tr>
+		<td>{month:[0-1][0-9]}</td>
+		<td>Two digit month of year, starting with "01" for January</td>
+	</tr>
+	<tr>
+		<td>{day:[0-3][0-9]}</td>
+		<td>Two digit day of month, starting with "01" as the first day
+		of the given month.</td>
+	</tr>
+	<tr>
+		<td>{hour:[0-3][0-9]}</td>
+		<td>Two digit hour of day, starting with "00" as the first hour
+		of a given day.</td>
+	</tr>
+	<tr>
+		<td>{minute:[0-5][0-9]}</td>
+		<td>Two digit minute of hour, starting with "00" as the first
+		minute of a given hour.</td>
+	</tr>
+	<tr>
+		<td>{second:[0-3][0-9]}</td>
+		<td>Two digit second of minute, starting with "00" as the first
+		second of a given hour.</td>
+	</tr>
+</table>
+
+<p>
+These URI are intended to denote particular aggregation periods for
+statistical data sets and it is not clear that the need to be strongly
+grounded in a zoned time-line. For example it would be relevant to cite
+a given month (or indeed month of year - but that is for later) as being
+a period of aggregation for statistical purposes without being
+absolutely grounded in a zoned timeline. That would allow statistics for
+the same month to be tabulated across geographies without having to be
+overly specific about the exact start and end time of each aggregation.</p>
+
+</body>
+</html>
