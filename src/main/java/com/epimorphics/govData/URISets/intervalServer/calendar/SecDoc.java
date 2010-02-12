@@ -2,7 +2,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -120,7 +120,7 @@ public class SecDoc extends Doc {
 		m.add(r_sec, SKOS.prefLabel, s_label, "en");
 		m.add(r_sec, RDFS.label, s_label, "en");
 	
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
@@ -131,8 +131,8 @@ public class SecDoc extends Doc {
 	
 		// String s_dayOfMonth = cal.getDisplayName(Calendar.DAY_OF_MONTH,
 		// Calendar.LONG , Locale.UK);
-		m.add(r_sec, RDFS.comment, som + s_somSuffix + " second of " + moh
-				+ s_mohSuffix + " minute of " + hod + s_hodSuffix + " hour of "
+		m.add(r_sec, RDFS.comment, (som+1) + s_somSuffix + " second of " + (moh+1)
+				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
 				+ " " + year, "en");
 	
@@ -142,7 +142,7 @@ public class SecDoc extends Doc {
 	static protected Resource createResource(URI base, Model m,	int year, int moy, int dom, int hod, int moh, int som) {
 		Resource r_sec = createResourceAndLabels(base, m, year, moy, dom, hod, moh, som);
 		m.add(r_sec, RDF.type, SCOVO.Dimension);
-		GregorianCalendar cal = new GregorianCalendar(year, moy-1 , dom, hod, moh, som);
+		EnglishCalendar cal = new EnglishCalendar(year, moy-1 , dom, hod, moh, som);
 		cal.setLenient(false);
 
 		m.add(r_sec, INTERVALS.hasXsdDurationDescription, oneSecond);
@@ -193,9 +193,9 @@ public class SecDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource  r_nextSec, r_prevSec;
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		try {
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.SECOND,1);
 			r_nextSec = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),cal.get(Calendar.SECOND));
 			cal.set(year, month-1, day, hour, min, sec);
@@ -210,8 +210,8 @@ public class SecDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month ,day, hour, min, sec);
-		addPlaceTimeLink(model, startTime.getTime(),oneSecond);
+		addGeneralIntervalTimeLink(model, startTime.getTime(),oneSecond);
 	}
 }

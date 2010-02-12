@@ -2,7 +2,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -125,7 +125,7 @@ public class QuarterDoc extends Doc {
 											 			  INTERVALS.Q4));
 		}
 
-		GregorianCalendar cal = new GregorianCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
+		EnglishCalendar cal = new EnglishCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
 		cal.setLenient(false);
 
 		m.add(r_quarter, INTERVALS.hasXsdDurationDescription, oneQuarter);
@@ -172,15 +172,15 @@ public class QuarterDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		Resource r_nextQuarter;
 		Resource r_prevQuarter;
 		
 		try{
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,3);
 			r_nextQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-3);
 			r_prevQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);	
 		} catch (IllegalArgumentException e){
@@ -191,10 +191,10 @@ public class QuarterDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, quarter);	
 		
-		addPlaceTimeLink(model, startTime.getTime(), oneQuarter);
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneQuarter);
 	}
 
 }

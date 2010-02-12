@@ -2,7 +2,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -100,7 +100,7 @@ public class YearDoc extends Doc {
 	static protected Resource createResource(URI base, Model model, int year) {
 		Resource r_year = createResourceAndLabels(base, model, year);
 		model.add(r_year, RDF.type, SCOVO.Dimension);
-		GregorianCalendar cal = new GregorianCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
+		EnglishCalendar cal = new EnglishCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
 		cal.setLenient(false);
 		
 		
@@ -166,20 +166,20 @@ public class YearDoc extends Doc {
 
 	@Override
 	protected void addNeighboringIntervals() {
-		GregorianCalendar cal = (GregorianCalendar) startTime.clone();
+		EnglishCalendar cal = (EnglishCalendar) startTime.clone();
 		
 		cal.add(Calendar.YEAR, 1);
 		Resource r_nextYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
-		cal = (GregorianCalendar) startTime.clone();
+		cal = (EnglishCalendar) startTime.clone();
 		cal.add(Calendar.YEAR, -1);
 		Resource r_prevYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextYear, r_prevYear);
 	}
 
 	@Override
-	protected void addThisInterval() {
+	protected void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year);
 		
-		addPlaceTimeLink(model, startTime.getTime(), oneYear);
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneYear);
 	}
 }

@@ -147,20 +147,20 @@ public class InstantDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day, hour, min, sec);
 		
-		addPlaceTimeInstantLink(model, startTime.getTime());
-		
-		// Link to www.placetime.com
-		String s_placeTimeURI = "http://www.placetime.com/instant/gregorian/" + year + 
-								"-"+String.format("%02d", month)+
-								"-"+String.format("%02d", day)+
-								"T"+String.format("%02d", hour)+
-								":"+String.format("%02d", min)+
-								":"+String.format("%02d", sec)+
-								"Z";
-		Resource r_placeTimeInterval = model.createResource(s_placeTimeURI,TIME.Interval);
-		model.add(r_thisTemporalEntity, TIME.hasBeginning, r_placeTimeInterval);
+//		addPlaceTimeInstantLink(model, startTime.getTime());
+//		
+//		// Link to www.placetime.com
+//		String s_placeTimeURI = "http://www.placetime.com/instant/gregorian/" + year + 
+//								"-"+String.format("%02d", month)+
+//								"-"+String.format("%02d", day)+
+//								"T"+String.format("%02d", hour)+
+//								":"+String.format("%02d", min)+
+//								":"+String.format("%02d", sec)+
+//								"Z";
+//		Resource r_placeTimeInterval = model.createResource(s_placeTimeURI,TIME.Interval);
+//		model.add(r_thisTemporalEntity, TIME.hasBeginning, r_placeTimeInterval);
 	}
 }

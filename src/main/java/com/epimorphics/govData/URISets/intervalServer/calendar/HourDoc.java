@@ -3,7 +3,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -115,18 +115,18 @@ public class HourDoc extends Doc {
 		m.add(r_hour, SKOS.prefLabel, s_label, "en");
 		m.add(r_hour, RDFS.label, s_label, "en");
 	
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
 				Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK,
 				Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);
-		String s_hodSuffix = getDecimalSuffix(hod);
+		String s_hodSuffix = getDecimalSuffix(hod+1);
 	
 		// String s_dayOfMonth = cal.getDisplayName(Calendar.DAY_OF_MONTH,
 		// Calendar.LONG , Locale.UK);
-		m.add(r_hour, RDFS.comment, hod + s_hodSuffix + " hour of "
+		m.add(r_hour, RDFS.comment, (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
 				+ " " + year, "en");
 	
@@ -136,7 +136,7 @@ public class HourDoc extends Doc {
 	protected static Resource createResource(URI base, Model m, int year, int moy, int dom, int hod) {
 		Resource r_hour = createResourceAndLabels(base, m, year, moy, dom, hod);
 		m.add(r_hour, RDF.type, SCOVO.Dimension);
-		GregorianCalendar cal = new GregorianCalendar(year, moy-1, dom, hod, 0, 0);
+		EnglishCalendar cal = new EnglishCalendar(year, moy-1, dom, hod, 0, 0);
 		cal.setLenient(false);
 
 		m.add(r_hour, INTERVALS.hasXsdDurationDescription, oneHour);
@@ -158,7 +158,7 @@ public class HourDoc extends Doc {
 
 	@Override
 	void addContainedIntervals() {
-		GregorianCalendar cal = (GregorianCalendar) startTime.clone();
+		EnglishCalendar cal = (EnglishCalendar) startTime.clone();
 		ArrayList<Resource> minutes = new ArrayList<Resource>();
 		
 		// Add the minutes to the hourday
@@ -198,13 +198,13 @@ public class HourDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource r_nextHour, r_prevHour;
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		
 		try {
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.HOUR_OF_DAY,1);
 			r_nextHour = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY));
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,-1);
 			r_prevHour = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY));
 		} catch (IllegalArgumentException e) {
@@ -215,8 +215,8 @@ public class HourDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day, hour);
-		addPlaceTimeLink(model, startTime.getTime(), oneHour);
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneHour);
 	}
 }

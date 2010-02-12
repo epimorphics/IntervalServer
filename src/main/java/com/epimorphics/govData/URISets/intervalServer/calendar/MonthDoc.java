@@ -3,7 +3,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -98,7 +98,7 @@ public class MonthDoc extends Doc {
 		m.add(r_month, SKOS.prefLabel, s_label, "en");
 		m.add(r_month, RDFS.label, s_label, "en");
 	
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.set(year, moy - 1, 01);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
 				Locale.UK);
@@ -113,7 +113,7 @@ public class MonthDoc extends Doc {
 		Resource r_month = createResourceAndLabels(base, m, year, moy);
 		m.add(r_month, RDF.type, SCOVO.Dimension);
 
-		GregorianCalendar cal = new GregorianCalendar(year, moy-1, 1, 0, 0, 0);
+		EnglishCalendar cal = new EnglishCalendar(year, moy-1, 1, 0, 0, 0);
 		cal.setLenient(false);
 				
 		m.add(r_month, INTERVALS.hasXsdDurationDescription, oneMonth);
@@ -136,7 +136,7 @@ public class MonthDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianCalendar cal = (GregorianCalendar) startTime.clone();
+		EnglishCalendar cal = (EnglishCalendar) startTime.clone();
 		while(cal.get(Calendar.MONTH)==(month-1)) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 			connectToContainingInterval(model, r_thisTemporalEntity, r_day);
@@ -161,14 +161,14 @@ public class MonthDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		Resource r_nextMonth = null;
 		Resource r_prevMonth = null;
 		try {
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,1);
 			r_nextMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-1);
 			r_prevMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
 		} catch (IllegalArgumentException e) {
@@ -179,10 +179,10 @@ public class MonthDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month);
 		
-		addPlaceTimeLink(model, startTime.getTime(), oneMonth);		
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneMonth);		
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -26,7 +26,7 @@ public class WeekOfYearId extends Id {
 			@PathParam(WEEK_TOKEN) int week) {
 		
 		//Check that the date is in the Calendar
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		try {
 			CalendarUtils.setWeekOfYear(year, CalendarUtils.inCutOverAnomaly(year, week) ? week+1 : week , cal);
 		} catch (IllegalArgumentException e) {

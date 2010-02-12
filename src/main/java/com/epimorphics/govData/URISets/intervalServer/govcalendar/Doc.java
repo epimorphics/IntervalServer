@@ -7,7 +7,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
@@ -43,7 +43,7 @@ abstract public class Doc extends URITemplate {
 	protected int year, half, quarter, month, day, hour, min, sec;
 	
 	protected Model model;
-	protected GregorianCalendar startTime;
+	protected EnglishCalendar startTime;
 	protected Resource r_thisTemporalEntity;
 	
 	static final protected Literal oneSecond = ResourceFactory.createTypedLiteral("PT1S", XSDDatatype.XSDduration);
@@ -75,7 +75,7 @@ abstract public class Doc extends URITemplate {
 	
 	protected void populateModel () {
 		model = ModelFactory.createDefaultModel();
-		startTime = new GregorianCalendar(Locale.UK);
+		startTime = new EnglishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min , sec);
 		try {
@@ -228,7 +228,7 @@ abstract public class Doc extends URITemplate {
 	}
 
 	protected static String toXsdDateTime(int yr, int moy, int dom, int hod, int moh, int som) {
-		GregorianCalendar cal = new GregorianCalendar(yr, moy+Calendar.JANUARY-1, dom, hod, moh, som);
+		EnglishCalendar cal = new EnglishCalendar(yr, moy+Calendar.JANUARY-1, dom, hod, moh, som);
 		return iso8601format.format(cal.getTime());
 	}
 

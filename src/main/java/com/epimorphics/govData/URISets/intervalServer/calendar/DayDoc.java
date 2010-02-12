@@ -3,7 +3,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -106,7 +106,7 @@ public class DayDoc extends Doc {
 		m.add(r_day, SKOS.prefLabel, s_label, "en");
 		m.add(r_day, RDFS.label, s_label, "en");
 	
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 	
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,Locale.UK);
@@ -120,7 +120,7 @@ public class DayDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int moy, int dom) {
 		Resource r_day = createResourceAndLabels(base, m, year, moy, dom);
 		m.add(r_day, RDF.type, SCOVO.Dimension);
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, moy-1, dom,0 , 0, 0);
 		cal.getTimeInMillis();
@@ -150,7 +150,7 @@ public class DayDoc extends Doc {
 
 	@Override
 	void addContainedIntervals() {
-		GregorianCalendar cal = (GregorianCalendar) startTime.clone();
+		EnglishCalendar cal = (EnglishCalendar) startTime.clone();
 		ArrayList<Resource> hours = new ArrayList<Resource>();
 		
 		cal.set(year, month-1, day);
@@ -188,13 +188,13 @@ public class DayDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource r_nextDay, r_prevDay;
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		
 		try {
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,1);
 			r_nextDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,-1);
 			r_prevDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 		} catch (IllegalArgumentException e) {
@@ -205,7 +205,7 @@ public class DayDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day);
 		
 		/*
@@ -218,7 +218,7 @@ public class DayDoc extends Doc {
 		Resource r_woyDay = model.createResource(base+"calendar-day-weekdate/"+woy_year+"-W"+woy_week+"D"+woy_dow);
 		model.add(r_thisTemporalEntity, TIME.intervalEquals, r_woyDay);
         */
-		addPlaceTimeLink(model, startTime.getTime(), oneDay);	
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneDay);	
 	}
 	
 }

@@ -3,7 +3,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -31,7 +31,7 @@ public class WeekOfYearDoc extends Doc {
 
 	protected void reset(int year, int week) {
 		reset();
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		try {
 			CalendarUtils.setWeekOfYear(year, CalendarUtils.inCutOverAnomaly(year, week)? week+1 : week, cal);	
 		} catch (IllegalArgumentException e) {
@@ -118,7 +118,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, RDF.type, SCOVO.Dimension);
 
 
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		CalendarUtils.setWeekOfYear(year, CalendarUtils.inCutOverAnomaly(year, woy) ? woy+1 : woy , cal);
 
 		m.add(r_week, INTERVALS.hasXsdDurationDescription, oneWeek);
@@ -140,7 +140,7 @@ public class WeekOfYearDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianCalendar cal = (GregorianCalendar) startTime.clone();
+		EnglishCalendar cal = (EnglishCalendar) startTime.clone();
 		int i_initial_woy = cal.get(Calendar.WEEK_OF_YEAR);
 		while(cal.get(Calendar.WEEK_OF_YEAR) == i_initial_woy) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
@@ -159,14 +159,14 @@ public class WeekOfYearDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		Resource r_nextWeek = null;
 		Resource r_prevWeek = null;
 		try {
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,7);
 			r_nextWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal),cal.get(Calendar.WEEK_OF_YEAR));
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,-7);
 			r_prevWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal) ,cal.get(Calendar.WEEK_OF_YEAR));
 		} catch (IllegalArgumentException e) {
@@ -177,10 +177,10 @@ public class WeekOfYearDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, woy_week);
 		
-		addPlaceTimeLink(model, startTime.getTime(), oneWeek);		
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneWeek);		
 	}
 
 

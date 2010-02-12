@@ -2,7 +2,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -115,7 +115,7 @@ public class HalfDoc extends Doc {
 			r_half.addProperty(RDF.type, (half==1 ? INTERVALS.H1 : INTERVALS.H2 ));
 		}
 
-		GregorianCalendar cal = new GregorianCalendar(year, (half-1)*6, 1, 0, 0, 0);
+		EnglishCalendar cal = new EnglishCalendar(year, (half-1)*6, 1, 0, 0, 0);
 		cal.setLenient(false);
 		
 		m.add(r_half, INTERVALS.hasXsdDurationDescription, oneSecond);
@@ -169,17 +169,17 @@ public class HalfDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianCalendar cal;
+		EnglishCalendar cal;
 		Resource r_nextHalf;
 		Resource r_prevHalf;
 
 		try{
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.getTimeInMillis();
 			cal.add(Calendar.MONTH,6);
 			r_nextHalf = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);
 			
-			cal = (GregorianCalendar) startTime.clone();
+			cal = (EnglishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-6);
 			r_prevHalf = createResourceAndLabels(base ,model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);	
 			
@@ -190,10 +190,10 @@ public class HalfDoc extends Doc {
 	}
 
 	@Override
-	void addThisInterval() {
+	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, half);
 		
-		addPlaceTimeLink(model, startTime.getTime(), oneHalf);
+		addGeneralIntervalTimeLink(model, startTime.getTime(), oneHalf);
 	}
 }
 

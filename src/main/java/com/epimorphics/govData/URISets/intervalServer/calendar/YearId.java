@@ -1,6 +1,6 @@
 package com.epimorphics.govData.URISets.intervalServer.calendar;
 
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -15,7 +15,7 @@ public class YearId extends Id {
 	@GET
 	public Response redirector(@PathParam(YEAR_TOKEN) int year) {
 		//Check that the date is in the Gregorian Calendar
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, 0, 1);
 		try {

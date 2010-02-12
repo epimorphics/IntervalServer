@@ -1,6 +1,6 @@
 package com.epimorphics.govData.URISets.intervalServer.calendar;
 
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -24,7 +24,7 @@ public class HourId extends Id {
 			@PathParam(HOUR_TOKEN)  int hour ){
 
 		//Check that the date is in the Calendar
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, month-1, day, hour, 0, 0);
 		try {

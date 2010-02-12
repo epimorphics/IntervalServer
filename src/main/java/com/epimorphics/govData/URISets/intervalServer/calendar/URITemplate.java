@@ -13,6 +13,7 @@ public class URITemplate {
 	protected static final String MINUTE_TOKEN 			= "minute";
 	protected static final String SECOND_TOKEN 			= "second";
 	protected static final String EXT_TOKEN 			= "ext";
+	protected static final String DURATION_TOKEN		= "duration";
 
 	protected static final String ID_STEM 				= "id/";
 	protected static final String DOC_STEM 				= "doc/";
@@ -32,6 +33,7 @@ public class URITemplate {
 	protected static final String MINUTE_ID_STEM 		= CALENDAR_ID_STEM + "-minute/";
 	protected static final String SECOND_ID_STEM		= CALENDAR_ID_STEM + "-second/";
 	protected static final String INSTANT_ID_STEM		= CALENDAR_ID_STEM + "-instant/";
+	protected static final String INTERVAL_ID_STEM		= CALENDAR_ID_STEM + "-interval/";
 
 	protected static final String CALENDAR_DOC_STEM 	= DOC_STEM + CALENDAR_STEM;
 	protected static final String YEAR_DOC_STEM 		= CALENDAR_DOC_STEM + "-year/";
@@ -44,6 +46,7 @@ public class URITemplate {
 	protected static final String MINUTE_DOC_STEM 		= CALENDAR_DOC_STEM + "-minute/";
 	protected static final String SECOND_DOC_STEM 		= CALENDAR_DOC_STEM + "-second/";
 	protected static final String INSTANT_DOC_STEM		= CALENDAR_DOC_STEM + "-instant/";
+	protected static final String INTERVAL_DOC_STEM		= CALENDAR_DOC_STEM + "-interval/";
 
 	protected static final String HALF_PREFIX			= "-H";
 	protected static final String QUARTER_PREFIX		= "-Q";
@@ -53,7 +56,16 @@ public class URITemplate {
 	protected static final String HOUR_PREFIX			= "T";
 	protected static final String MINUTE_PREFIX			= ":";
 	protected static final String SECOND_PREFIX			= ":";
+	protected static final String DURATION_PREFIX		= "/";
+	protected static final String DURATION_REGEX 		= "P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?";
+	                                                      // ^2          ^4           ^6        ^7 ^9          ^11         ^13
 	
+	protected static int DURATION_YEARS 	= 2;
+	protected static int DURATION_MONTHS 	= 4;
+	protected static int DURATION_DAYS	 	= 6;
+	protected static int DURATION_HOURS 	= 9;
+	protected static int DURATION_MINUTES 	= 11;
+	protected static int DURATION_SECONDS 	= 13;
 	
 	protected static final String YEAR_PATTERN 		=                                     "{" + YEAR_TOKEN    + ":[1-9][0-9]*}";
 	protected static final String HALF_PATTERN 		= YEAR_PATTERN 	   + HALF_PREFIX    + "{" + HALF_TOKEN	  + ":[12]}";		// H1 or H2
@@ -66,7 +78,8 @@ public class URITemplate {
 	protected static final String MINUTE_PATTERN 	= HOUR_PATTERN 	   + MINUTE_PREFIX  + "{" + MINUTE_TOKEN  + ":[0-5][0-9]}"; // Minute of hour
 	protected static final String SECOND_PATTERN 	= MINUTE_PATTERN   + SECOND_PREFIX  + "{" + SECOND_TOKEN  + ":[0-5][0-9]}"; // Second of minute
 	protected static final String INSTANT_PATTERN 	= SECOND_PATTERN;
-	
+	protected static final String INTERVAL_PATTERN  = SECOND_PATTERN    + "/"			+ "{" + DURATION_TOKEN + ":"+ DURATION_REGEX + "}";
+
 	protected static final String EXT_RDF = "rdf";
 	protected static final String EXT_NT  = "nt";
 	protected static final String EXT_TTL = "ttl";

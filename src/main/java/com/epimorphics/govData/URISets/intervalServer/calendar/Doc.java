@@ -7,7 +7,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
@@ -49,7 +49,7 @@ abstract public class Doc extends URITemplate {
 	protected int woy_week, woy_year;
 	
 	protected Model model;
-	protected GregorianCalendar startTime;
+	protected EnglishCalendar startTime;
 	
 	protected Resource r_thisTemporalEntity;
 	
@@ -78,7 +78,7 @@ abstract public class Doc extends URITemplate {
 	}
 	
 	protected void setWeekOfYearAndMonth(int year, int month, int day) {
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, month-1, day, 0, 0, 0);
 		
@@ -105,7 +105,7 @@ abstract public class Doc extends URITemplate {
 	
 	protected void populateModel () {
 		model = ModelFactory.createDefaultModel();
-		startTime = new GregorianCalendar(Locale.UK);
+		startTime = new EnglishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min , sec);
 		try {
@@ -114,14 +114,14 @@ abstract public class Doc extends URITemplate {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		setNamespaces();
-		addThisInterval();
+		addThisTemporalEntity();
 		addDocInfo();
 		addNeighboringIntervals();
 		addContainingIntervals();
 		addContainedIntervals();	
 	}
 	
-	abstract void  addThisInterval();
+	abstract void  addThisTemporalEntity();
 	abstract void  addNeighboringIntervals();
 	abstract void  addContainingIntervals();
 	abstract void  addContainedIntervals();
@@ -298,16 +298,16 @@ abstract public class Doc extends URITemplate {
 	}
 
 	protected static String toXsdDateTime(int yr, int moy, int dom, int hod, int moh, int som) {
-		GregorianCalendar cal = new GregorianCalendar(yr, moy+Calendar.JANUARY-1, dom, hod, moh, som);
+		EnglishCalendar cal = new EnglishCalendar(yr, moy+Calendar.JANUARY-1, dom, hod, moh, som);
 		return iso8601dateTimeformat.format(cal.getTime());
 	}
 
-	protected void addPlaceTimeLink(Model model, Date d, Literal isoDuration) {
+	protected void addGeneralIntervalTimeLink(Model model, Date d, Literal isoDuration) {
 		String s_isoDate = iso8601dateTimeformat.format(d);
-		// Link to www.placetime.com
-		String s_placeTimeURI = "http://www.placetime.com/interval/gregorian/" + s_isoDate+"Z/"+isoDuration.getLexicalForm();
-		Resource r_placeTimeInterval = model.createResource(s_placeTimeURI,TIME.Interval);
-		model.add(r_thisTemporalEntity, TIME.intervalEquals, r_placeTimeInterval);
+		
+		String s_intervalURI = base + INTERVAL_ID_STEM + s_isoDate +"/" + isoDuration.getLexicalForm();
+		Resource r_interval = model.createResource(s_intervalURI,TIME.Interval);
+		model.add(r_thisTemporalEntity, TIME.intervalEquals, r_interval);
 	}
 	
 	protected void addPlaceTimeInstantLink(Model model, Date d) {

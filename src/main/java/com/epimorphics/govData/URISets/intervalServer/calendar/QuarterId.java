@@ -1,6 +1,6 @@
 package com.epimorphics.govData.URISets.intervalServer.calendar;
 
-import java.util.GregorianCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -19,7 +19,7 @@ public class QuarterId extends Id {
 			@PathParam(QUARTER_TOKEN) int quarter) {
 
 		//Check that the date is in the Calendar
-		GregorianCalendar cal = new GregorianCalendar(Locale.UK);
+		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, (quarter-1)*3 , 1);
 		try {
