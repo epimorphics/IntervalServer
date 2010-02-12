@@ -1,6 +1,6 @@
 package com.epimorphics.govData.URISets.intervalServer.govcalendar;
 
-import com.epimorphics.govData.URISets.intervalServer.util.EnglishCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -20,7 +20,7 @@ public class YearId extends Id {
 		if(year2!=year1+1) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		EnglishCalendar cal = new EnglishCalendar(Locale.UK);
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year1, 0, 1);
 		try {
