@@ -14,8 +14,7 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 
 public class URITemplate {
@@ -36,7 +35,7 @@ public class URITemplate {
 	protected static final String DOC_STEM 				= "doc/";
 	
 	
-	protected static final String CALENDAR_STEM 		= "gregorian";
+	protected static final String CALENDAR_STEM 		= "calendar";
 	protected static final String CALENDAR_ID_STEM 		= ID_STEM + CALENDAR_STEM;
 
 	

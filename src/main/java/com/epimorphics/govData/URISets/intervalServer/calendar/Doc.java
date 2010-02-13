@@ -14,16 +14,13 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
@@ -33,9 +30,10 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -83,7 +81,7 @@ abstract public class Doc extends URITemplate {
 
 	
 	protected void setWeekOfYearAndMonth(int year, int month, int day) {
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, month-1, day, 0, 0, 0);
 		

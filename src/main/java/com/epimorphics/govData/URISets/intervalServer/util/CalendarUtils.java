@@ -1,13 +1,70 @@
+/******************************************************************
+ * File:        CalendarUtils.java
+ * Created by:  Stuart Williams
+ * Created on:  13 Feb 2010
+ * 
+ * (c) Copyright 2010, Epimorphics Limited
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * $Id:  $
+ *****************************************************************/
+
 package com.epimorphics.govData.URISets.intervalServer.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
+import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+
 
 
 public class CalendarUtils {
+	
+	public static final SimpleDateFormat iso8601dateTimeformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	static final SimpleDateFormat iso8601gYearformat =    new SimpleDateFormat("yyyy");
+	static final SimpleDateFormat iso8601gYearMonthformat = new SimpleDateFormat("yyyy-MM");
+	public static final SimpleDateFormat iso8601dateformat = new SimpleDateFormat("yyyy-MM-dd");
+
+	public static String toXsdDateTime(Calendar cal2) {
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		cal.setLenient(false);
+		cal.setTime(cal2.getTime());
+		return CalendarUtils.iso8601dateTimeformat.format(cal.getTime());
+	}
+	
+	/*
+	public static String toXsdDateTime(int yr, int moy, int dom, int hod, int moh, int som) {
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(yr, moy+Calendar.JANUARY-1, dom, hod, moh, som);
+		cal.setLenient(false);
+		return CalendarUtils.iso8601dateTimeformat.format(cal.getTime());
+	}
+	*/
+	public static Literal formatScvDate (Calendar cal2, SimpleDateFormat fmt, XSDDatatype type) {
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		cal.setLenient(false);
+		cal.setTimeInMillis(cal2.getTimeInMillis());
+		return ResourceFactory.createTypedLiteral(formatScvDate(cal, fmt), type);		
+	}
+
+	public static String formatScvDate (Calendar cal2, SimpleDateFormat fmt) {		
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		cal.setLenient(false);
+		cal.setTimeInMillis(cal2.getTimeInMillis());
+		return fmt.format(cal.getTime());		
+	}
+	
+
 	
 	public static int getWeekOfYearYear(GregorianCalendar cal) {
 		int y = cal.get(Calendar.YEAR);

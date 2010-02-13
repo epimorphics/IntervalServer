@@ -1,3 +1,20 @@
+/******************************************************************
+ * File:        IntervalDoc.java
+ * Created by:  Stuart Williams
+ * Created on:  13 Feb 2010
+ * 
+ * (c) Copyright 2010, Epimorphics Limited
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * $Id:  $
+ *****************************************************************/
+
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 import java.net.URI;
@@ -10,6 +27,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -127,9 +145,20 @@ public class IntervalDoc extends Doc {
 		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
 	}
 
-	static protected Resource createResourceAndLabels(URI base, Model m,int year, int moy, int dom, int hod, int moh, int som, Duration duration) {
-		String relPart = toXsdDateTime(year, moy, dom, hod, moh, som);
+	static public Resource createResourceAndLabels(URI base, Model m, Calendar cal2 , Duration duration) {
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		cal.setLenient(false);
+		cal.setTimeInMillis(cal2.getTimeInMillis());
+		
+		String relPart = CalendarUtils.toXsdDateTime(cal);
 		String durPart = duration.toString();
+
+		int year  = cal.get(Calendar.YEAR);
+		int moy   = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
+		int dom   = cal.get(Calendar.DATE);
+		int hod   = cal.get(Calendar.HOUR);
+		int moh   = cal.get(Calendar.MINUTE);
+		int som   = cal.get(Calendar.SECOND);
 			
 		String s_intURI = base + INTERVAL_ID_STEM + relPart +"/" + durPart;
 		
@@ -139,7 +168,6 @@ public class IntervalDoc extends Doc {
 		m.add(r_int, SKOS.prefLabel, s_label, "en");
 		m.add(r_int, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
@@ -164,39 +192,15 @@ public class IntervalDoc extends Doc {
 	
 		return r_int;
 	}
-	
-	public static Resource createResourceAndLabels(URI base, Model model, Calendar cal, Duration duration) {
-		GregorianOnlyCalendar d = new GregorianOnlyCalendar(Locale.UK);
-		d.setTime(cal.getTime());
-		return createResourceAndLabels(base, model, 
-				d.get(Calendar.YEAR),
-				d.get(Calendar.MONTH),
-				d.get(Calendar.DATE),
-				d.get(Calendar.HOUR),
-				d.get(Calendar.MINUTE),
-				d.get(Calendar.SECOND),
-				duration);
-	}
-	
-	protected static Resource createResource(URI base, Model model, Calendar cal, Duration duration) {
-		GregorianOnlyCalendar d = new GregorianOnlyCalendar(Locale.UK);
-		d.setTime(cal.getTime());
-		return createResource(base, model, 
-				d.get(Calendar.YEAR),
-				d.get(Calendar.MONTH),
-				d.get(Calendar.DATE),
-				d.get(Calendar.HOUR),
-				d.get(Calendar.MINUTE),
-				d.get(Calendar.SECOND),
-				duration);
-	}
-
-	static protected Resource createResource(URI base, Model m,	int year, int moy, int dom, int hod, int moh, int som, Duration duration) {
 		
-		Resource r_int = createResourceAndLabels(base, m, year, moy, dom, hod, moh, som, duration);
-		m.add(r_int, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1 , dom, hod, moh, som);
+
+	static public Resource createResource(URI base, Model m, Calendar cal2, Duration duration) {
+		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
+		cal.setTime(cal2.getTime());
+
+		Resource r_int = createResourceAndLabels(base, m,  cal, duration);
+		m.add(r_int, RDF.type, SCOVO.Dimension);
 		
 		String dur = duration.toString();
 		Literal l = ResourceFactory.createTypedLiteral(dur, XSDDatatype.XSDduration);
@@ -205,7 +209,7 @@ public class IntervalDoc extends Doc {
 		
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_int, TIME.hasBeginning, r_instant);
-		m.add(r_int, SCOVO.min, formatScvDate(cal, iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_int, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
 
 		duration.addToCalendar(cal);
 
@@ -213,7 +217,7 @@ public class IntervalDoc extends Doc {
 		m.add(r_int, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_int, SCOVO.max, formatScvDate(cal, iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_int, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
 
 		return r_int;
 	}
@@ -235,7 +239,7 @@ public class IntervalDoc extends Doc {
 
 	@Override
 	void addThisTemporalEntity() {
-		r_thisTemporalEntity = createResource(base, model, year, month ,day, hour, min, sec, duration);
+		r_thisTemporalEntity = createResource(base, model, startTime, duration);
 	}
 
 }

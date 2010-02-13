@@ -14,14 +14,14 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
-
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -54,9 +54,10 @@ public class DayDoc extends Doc {
 		this.quarter = ((month-1)/3)+1;
 		this.day = day;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -124,17 +125,17 @@ public class DayDoc extends Doc {
 		Resource r_day = m.createResource(s_dayURI, INTERVALS.CalendarDay);
 
 		
-		String s_label = "Gregorian Day:" + relPart;
+		String s_label = "Calendar Day:" + relPart;
 		m.add(r_day, SKOS.prefLabel, s_label, "en");
 		m.add(r_day, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 	
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);
-		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the Gregorian calendar year " + year, "en");
+		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the British calendar year " + year, "en");
 	
 		return r_day;
 	}
@@ -142,7 +143,7 @@ public class DayDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int moy, int dom) {
 		Resource r_day = createResourceAndLabels(base, m, year, moy, dom);
 		m.add(r_day, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, moy-1, dom,0 , 0, 0);
 		cal.getTimeInMillis();
@@ -172,7 +173,7 @@ public class DayDoc extends Doc {
 
 	@Override
 	void addContainedIntervals() {
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		ArrayList<Resource> hours = new ArrayList<Resource>();
 		
 		cal.set(year, month-1, day);
@@ -210,13 +211,13 @@ public class DayDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource r_nextDay, r_prevDay;
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,1);
 			r_nextDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,-1);
 			r_prevDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 		} catch (IllegalArgumentException e) {

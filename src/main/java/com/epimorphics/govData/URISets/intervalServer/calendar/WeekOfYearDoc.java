@@ -14,13 +14,11 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -30,6 +28,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.vocabulary.INTERVALS;
 import com.epimorphics.govData.vocabulary.SCOVO;
@@ -48,7 +48,7 @@ public class WeekOfYearDoc extends Doc {
 
 	protected void reset(int year, int week) {
 		reset();
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		try {
 			CalendarUtils.setWeekOfYear(year, week, cal);	
 		} catch (IllegalArgumentException e) {
@@ -62,9 +62,10 @@ public class WeekOfYearDoc extends Doc {
 		this.month = cal.get(Calendar.MONTH) + 1 - Calendar.JANUARY;
 		this.day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -129,7 +130,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, SKOS.prefLabel, s_label, "en");
 		m.add(r_week, RDFS.label, s_label, "en");
 	
-		m.add(r_week, RDFS.comment, "Week " + woy + " of the Gregorian calendar year " + year);
+		m.add(r_week, RDFS.comment, "Week " + woy + " of the British calendar " +  year);
 			
 		return r_week;
 	}
@@ -139,7 +140,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, RDF.type, SCOVO.Dimension);
 
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		CalendarUtils.setWeekOfYear(year, woy , cal);
 
 		m.add(r_week, INTERVALS.hasXsdDurationDescription, oneWeek);
@@ -161,7 +162,7 @@ public class WeekOfYearDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		int i_initial_woy = cal.get(Calendar.WEEK_OF_YEAR);
 		while(cal.get(Calendar.WEEK_OF_YEAR) == i_initial_woy) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
@@ -180,14 +181,14 @@ public class WeekOfYearDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextWeek = null;
 		Resource r_prevWeek = null;
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,7);
 			r_nextWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal),cal.get(Calendar.WEEK_OF_YEAR));
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,-7);
 			r_prevWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal) ,cal.get(Calendar.WEEK_OF_YEAR));
 		} catch (IllegalArgumentException e) {

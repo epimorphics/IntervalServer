@@ -14,15 +14,15 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -58,9 +58,10 @@ public class HourDoc extends Doc {
 		this.day = day;
 		this.hour = hour;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -133,23 +134,25 @@ public class HourDoc extends Doc {
 		String s_hourURI = base + HOUR_ID_STEM + relPart;
 		Resource r_hour = m.createResource(s_hourURI, INTERVALS.CalendarHour);
 
-		String s_label = "Gregorian Hour:" + relPart;
+		String s_label = "Calendar Hour:" + relPart;
 	
 		m.add(r_hour, SKOS.prefLabel, s_label, "en");
 		m.add(r_hour, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
-		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.UK);
-		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
+		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
+				Locale.UK);
+		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK,
+				Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);
 		String s_hodSuffix = getDecimalSuffix(hod+1);
 	
 		// String s_dayOfMonth = cal.getDisplayName(Calendar.DAY_OF_MONTH,
 		// Calendar.LONG , Locale.UK);
-		m.add(r_hour, RDFS.comment, "The " + (hod+1) + s_hodSuffix + " hour of "
+		m.add(r_hour, RDFS.comment, "The "+ (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " in the Gregorian calendar year" + year, "en");
+				+ " of the British calendar year " + year, "en");
 	
 		return r_hour;
 	}
@@ -157,7 +160,7 @@ public class HourDoc extends Doc {
 	protected static Resource createResource(URI base, Model m, int year, int moy, int dom, int hod) {
 		Resource r_hour = createResourceAndLabels(base, m, year, moy, dom, hod);
 		m.add(r_hour, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, dom, hod, 0, 0);
+		BritishCalendar cal = new BritishCalendar(year, moy-1, dom, hod, 0, 0);
 		cal.setLenient(false);
 
 		m.add(r_hour, INTERVALS.hasXsdDurationDescription, oneHour);
@@ -179,7 +182,7 @@ public class HourDoc extends Doc {
 
 	@Override
 	void addContainedIntervals() {
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		ArrayList<Resource> minutes = new ArrayList<Resource>();
 		
 		// Add the minutes to the hour of day
@@ -219,13 +222,13 @@ public class HourDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource r_nextHour, r_prevHour;
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.HOUR_OF_DAY,1);
 			r_nextHour = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY));
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,-1);
 			r_prevHour = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY));
 		} catch (IllegalArgumentException e) {

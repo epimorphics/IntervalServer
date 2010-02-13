@@ -1,8 +1,27 @@
+/******************************************************************
+ * File:        MinuteDoc.java
+ * Created by:  Stuart Williams
+ * Created on:  13 Feb 2010
+ * 
+ * (c) Copyright 2010, Epimorphics Limited
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * $Id:  $
+ *****************************************************************/
+
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import java.util.Locale;
 
@@ -126,7 +145,7 @@ public class MinuteDoc extends Doc {
 		m.add(r_min, RDFS.label, s_label, "en");
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
-		cal.set(year, moy - 1, dom);
+		cal.set(year, moy - 1, dom, 0, 0, 0);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
 				Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK,
@@ -137,9 +156,9 @@ public class MinuteDoc extends Doc {
 
 		// String s_dayOfMonth = cal.getDisplayName(Calendar.DAY_OF_MONTH,
 		// Calendar.LONG , Locale.UK);
-		m.add(r_min, RDFS.comment, (moh+1) + s_mohSuffix + " minute of " + (hod+1)
+		m.add(r_min, RDFS.comment, "The " + (moh+1) + s_mohSuffix + " minute of " + (hod+1)
 				+ s_hodSuffix + " hour of " + s_dayOfWeek + " the " + dom
-				+ s_domSuffix + " " + s_month + " " + year, "en");
+				+ s_domSuffix + " " + s_month + " of the Gregorian calendar year " + year, "en");
 
 		return r_min;
 	}
@@ -156,7 +175,7 @@ public class MinuteDoc extends Doc {
 	
 		Resource r_instant = InstantDoc.createResource(base, m, cal);		
 		m.add(r_min, TIME.hasBeginning, r_instant);
-		m.add(r_min, SCOVO.min, formatScvDate(cal, iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_min, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
 
 		
 		cal.add(Calendar.MINUTE, 1);
@@ -165,7 +184,7 @@ public class MinuteDoc extends Doc {
 		m.add(r_min, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_min, SCOVO.max, formatScvDate(cal, iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_min, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
 
 		
 		return r_min;

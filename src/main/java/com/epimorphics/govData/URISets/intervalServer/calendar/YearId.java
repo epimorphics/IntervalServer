@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        WeekOfYearId.java
+ * File:        YearId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -14,8 +14,7 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.util.Locale;
 
@@ -25,30 +24,23 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 
 
-@Path(URITemplate.WEEK_ID_STEM+URITemplate.WOY_PATTERN)
-public class WeekOfYearId extends Id {
-
-
-	/**
-	 * id->doc 303 Redirections for URI of the form /id/yyyy-Www
-	 */
+@Path(URITemplate.YEAR_ID_STEM+URITemplate.YEAR_PATTERN)
+public class YearId extends Id {
 	@GET
-	public Response redirector(
-			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(WEEK_TOKEN) int week) {
-		
-		//Check that the date is in the Calendar
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+	public Response redirector(@PathParam(YEAR_TOKEN) int year) {
+		//Check that the date is in the Gregorian Calendar
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
+		cal.setLenient(false);
+		cal.set(year, 0, 1);
 		try {
-			CalendarUtils.setWeekOfYear(year,  week , cal);
+			cal.getTimeInMillis();
 		} catch (IllegalArgumentException e) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
-		
 		return redirector();
+	
 	}
 }

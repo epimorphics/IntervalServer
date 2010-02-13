@@ -14,15 +14,16 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -47,9 +48,10 @@ public class YearDoc extends Doc {
 	protected void reset(int year) {
 		reset();
 		this.year = year;
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -112,10 +114,10 @@ public class YearDoc extends Doc {
 		Resource r_year = model.createResource(s_yearURI, INTERVALS.CalendarYear);
 
 		
-		String s_label = "Gregorian Year:" + year;
+		String s_label = "Calendar Year:" + year;
 		model.add(r_year, SKOS.prefLabel, s_label, "en");
 		model.add(r_year, RDFS.label, s_label, "en");
-		model.add(r_year, RDFS.comment, "The Gregorian calendar year of " + year, "en");
+		model.add(r_year, RDFS.comment, "The British calendar year of " + year, "en");
 
 		return r_year;
 	}
@@ -123,7 +125,7 @@ public class YearDoc extends Doc {
 	static protected Resource createResource(URI base, Model model, int year) {
 		Resource r_year = createResourceAndLabels(base, model, year);
 		model.add(r_year, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
+		BritishCalendar cal = new BritishCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
 		cal.setLenient(false);
 		
 		
@@ -189,11 +191,11 @@ public class YearDoc extends Doc {
 
 	@Override
 	protected void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		
 		cal.add(Calendar.YEAR, 1);
 		Resource r_nextYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
-		cal = (GregorianOnlyCalendar) startTime.clone();
+		cal = (BritishCalendar) startTime.clone();
 		cal.add(Calendar.YEAR, -1);
 		Resource r_prevYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextYear, r_prevYear);

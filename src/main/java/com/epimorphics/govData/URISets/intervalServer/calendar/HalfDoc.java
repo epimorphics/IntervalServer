@@ -14,15 +14,15 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -52,9 +52,10 @@ public class HalfDoc extends Doc {
 		this.month=((half-1)*6)+1;
 		this.quarter=((half-1)*2)+1;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -121,11 +122,11 @@ public class HalfDoc extends Doc {
 			r_half.addProperty(RDF.type, r_quarterType);
 		}
 	
-		String s_label = "Gregorian Half:" + relPart;
+		String s_label = "Calendar Half:" + relPart;
 		m.add(r_half, SKOS.prefLabel, s_label, "en");
 		m.add(r_half, RDFS.label, s_label, "en");
 		m.add(r_half, RDFS.comment, "The " + ((half == 1) ? "first" : "second")
-				+ " half of Gregorian calendar year " + year, "en");
+				+ " half of the British calendar year " + year, "en");
 		return r_half;
 	}
 
@@ -139,7 +140,7 @@ public class HalfDoc extends Doc {
 			r_half.addProperty(RDF.type, (half==1 ? INTERVALS.H1 : INTERVALS.H2 ));
 		}
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, (half-1)*6, 1, 0, 0, 0);
+		BritishCalendar cal = new BritishCalendar(year, (half-1)*6, 1, 0, 0, 0);
 		cal.setLenient(false);
 		
 		m.add(r_half, INTERVALS.hasXsdDurationDescription, oneSecond);
@@ -193,17 +194,17 @@ public class HalfDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextHalf;
 		Resource r_prevHalf;
 
 		try{
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.getTimeInMillis();
 			cal.add(Calendar.MONTH,6);
 			r_nextHalf = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);
 			
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-6);
 			r_prevHalf = createResourceAndLabels(base ,model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);	
 			

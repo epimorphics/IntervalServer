@@ -14,15 +14,15 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -54,9 +54,10 @@ public class MonthDoc extends Doc {
 		this.half =((month-1)/6)+1;
 		this.quarter = ((month-1)/3)+1;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -117,17 +118,17 @@ public class MonthDoc extends Doc {
 		String s_monthURI = base + MONTH_ID_STEM + relPart;
 		Resource r_month = m.createResource(s_monthURI, INTERVALS.CalendarMonth);
 		
-		String s_label = "Gregorian Month:" + relPart;
+		String s_label = "Calendar Month:" + relPart;
 		m.add(r_month, SKOS.prefLabel, s_label, "en");
 		m.add(r_month, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.set(year, moy - 1, 01);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
 				Locale.UK);
 	
 		m.add(r_month, RDFS.comment, "The month of " + s_month
-				+ " in the Gregorian calendar year " + year, "en");
+				+ " in British calendar year " + year, "en");
 			
 		return r_month;
 	}
@@ -136,13 +137,13 @@ public class MonthDoc extends Doc {
 		Resource r_month = createResourceAndLabels(base, m, year, moy);
 		m.add(r_month, RDF.type, SCOVO.Dimension);
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, 1, 0, 0, 0);
+		BritishCalendar cal = new BritishCalendar(year, moy-1, 1, 0, 0, 0);
+		cal.getTimeInMillis();
 		cal.setLenient(false);
 				
 		m.add(r_month, INTERVALS.hasXsdDurationDescription, oneMonth);
 		m.add(r_month, TIME.hasDurationDescription, INTERVALS.one_month );
 		m.add(r_month, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
-
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_month, TIME.hasBeginning, r_instant);
@@ -159,7 +160,7 @@ public class MonthDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		while(cal.get(Calendar.MONTH)==(month-1)) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 			connectToContainingInterval(model, r_thisTemporalEntity, r_day);
@@ -184,14 +185,14 @@ public class MonthDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextMonth = null;
 		Resource r_prevMonth = null;
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,1);
 			r_nextMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-1);
 			r_prevMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
 		} catch (IllegalArgumentException e) {

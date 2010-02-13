@@ -14,15 +14,15 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -53,9 +53,10 @@ public class QuarterDoc extends Doc {
 		this.half = ((quarter-1)/2)+1;
 		this.month = ((quarter-1)*3)+1;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 
 	@GET
@@ -126,14 +127,14 @@ public class QuarterDoc extends Doc {
 			r_quarter.addProperty(RDF.type, r_quarterType);
 		}
 		
-		String s_label = "Gregorian Quarter:" + relPart;
+		String s_label = "Calendar Quarter:" + relPart;
 		m.add(r_quarter, SKOS.prefLabel, s_label, "en");
 		m.add(r_quarter, RDFS.label, s_label, "en");
 		m.add(r_quarter, RDFS.comment, "The "
 				+ ((quarter == 1) ? "first" 
 				 : (quarter == 2) ? "second"
 				 : (quarter == 3) ? "third" : "forth")
-				+ " quarter of the Gregorian calendar year " + year, "en");
+				+ " quarter of the British calendar year " + year, "en");
 		return r_quarter;
 	}
 
@@ -149,7 +150,7 @@ public class QuarterDoc extends Doc {
 											 			  INTERVALS.Q4));
 		}
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
+		BritishCalendar cal = new BritishCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
 		cal.setLenient(false);
 
 		m.add(r_quarter, INTERVALS.hasXsdDurationDescription, oneQuarter);
@@ -196,15 +197,15 @@ public class QuarterDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextQuarter;
 		Resource r_prevQuarter;
 		
 		try{
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,3);
 			r_nextQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-3);
 			r_prevQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);	
 		} catch (IllegalArgumentException e){

@@ -14,14 +14,14 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 import java.net.URI;
 import java.util.Calendar;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -56,9 +56,10 @@ public class SecDoc extends Doc {
 		this.min = min;
 		this.sec = sec;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.getTimeInMillis();
 	}
 	
 	@GET
@@ -140,14 +141,14 @@ public class SecDoc extends Doc {
 		+ String.format("%02d", moh) + SECOND_PREFIX
 		+ String.format("%02d", som);
 		
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, moy-1, dom, hod, moh, som);
-			
+	
 		String s_secURI = base + SECOND_ID_STEM + relPart;
 		Resource r_sec = m.createResource(s_secURI, INTERVALS.CalendarSecond);
 		
-		String s_label = "Gregorian Second:" + relPart;
+		String s_label = "Calendar Second:" + relPart;
 		m.add(r_sec, SKOS.prefLabel, s_label, "en");
 		m.add(r_sec, RDFS.label, s_label, "en");
 	
@@ -163,7 +164,7 @@ public class SecDoc extends Doc {
 		m.add(r_sec, RDFS.comment, "The " + (som+1) + s_somSuffix + " second of " + (moh+1)
 				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " of the Gregorian calendar year " + year, "en");
+				+ " of the British calendar year " + year, "en");
 	
 		return r_sec;
 	}
@@ -171,7 +172,7 @@ public class SecDoc extends Doc {
 	static protected Resource createResource(URI base, Model m,	int year, int moy, int dom, int hod, int moh, int som) {
 		Resource r_sec = createResourceAndLabels(base, m, year, moy, dom, hod, moh, som);
 		m.add(r_sec, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1 , dom, hod, moh, som);
+		BritishCalendar cal = new BritishCalendar(year, moy-1 , dom, hod, moh, som);
 		cal.setLenient(false);
 
 		m.add(r_sec, INTERVALS.hasXsdDurationDescription, oneSecond);
@@ -222,9 +223,9 @@ public class SecDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource  r_nextSec, r_prevSec;
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.SECOND,1);
 			r_nextSec = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),cal.get(Calendar.SECOND));
 			cal.set(year, month-1, day, hour, min, sec);
