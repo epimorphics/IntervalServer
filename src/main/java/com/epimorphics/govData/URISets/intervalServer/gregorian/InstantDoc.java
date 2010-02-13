@@ -157,8 +157,8 @@ public class InstantDoc extends Doc {
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
 				+ " of the Gregorian calendar year " + year, "en");
 				                    
-		model.add(r_inst, RDFS.label, s_relPart, "en");
-		model.add(r_inst, SKOS.prefLabel, s_relPart, "en");
+		model.add(r_inst, RDFS.label, "Gregorian Instant:"+s_relPart, "en");
+		model.add(r_inst, SKOS.prefLabel, "Gregorian Instant:"+s_relPart, "en");
 		model.add(r_inst, TIME.inXSDDateTime, l_dateTime);
 		
 		return r_inst;
