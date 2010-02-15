@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
@@ -86,10 +87,12 @@ abstract public class Doc extends URITemplate {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, month-1, day, 0, 0, 0);
-		
-		woy_week = cal.get(Calendar.WEEK_OF_YEAR);
-		woy_year = CalendarUtils.getWeekOfYearYear(cal);
-		
+		try {
+			woy_week = cal.get(Calendar.WEEK_OF_YEAR);
+			woy_year = CalendarUtils.getWeekOfYearYear(cal);
+		} catch (IllegalArgumentException e) {
+			throw new WebApplicationException(e, Status.NOT_FOUND);
+		}
 	}
 	
 	protected void  reset() {

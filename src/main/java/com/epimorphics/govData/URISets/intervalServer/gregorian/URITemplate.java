@@ -19,6 +19,8 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 
 public class URITemplate {
+	
+	protected static final String DEFAULT_BASE_URI		= "http://reference.data.gov.uk/";
 
 	protected static final String YEAR_TOKEN 			= "year";
 	protected static final String HALF_TOKEN 			= "half";

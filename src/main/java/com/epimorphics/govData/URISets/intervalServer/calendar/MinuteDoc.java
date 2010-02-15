@@ -60,7 +60,6 @@ public class MinuteDoc extends Doc {
 		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
-		startTime.getTimeInMillis();
 	}
 	
 	@GET
