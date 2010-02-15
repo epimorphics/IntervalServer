@@ -34,37 +34,63 @@ public class URITemplate {
 
 	protected static final String ID_STEM 				= "id/";
 	protected static final String DOC_STEM 				= "doc/";
-	
+	protected static final String SET_STEM				= "set/";
+	protected static final String SET_DOC_STEM			= "doc/set/";
 	
 	protected static final String CALENDAR_STEM 		= "gregorian";
-	protected static final String CALENDAR_ID_STEM 		= ID_STEM + CALENDAR_STEM;
-
+//	protected static final String CALENDAR_ID_STEM 		= ID_STEM + CALENDAR_STEM;
+//	protected static final String CALENDAR_SET_STEM		= SET_STEM + CALENDAR_STEM;
+//	protected static final String CALENDAR_SET_DOC_STEM	= SET_DOC_STEM + CALENDAR_STEM;
 	
-	protected static final String YEAR_ID_STEM 			= CALENDAR_ID_STEM + "-year/";
-	protected static final String HALF_ID_STEM 			= CALENDAR_ID_STEM + "-half/";
-	protected static final String QUARTER_ID_STEM 		= CALENDAR_ID_STEM + "-quarter/";
-	protected static final String MONTH_ID_STEM 		= CALENDAR_ID_STEM + "-month/";
-	protected static final String WEEK_ID_STEM 			= CALENDAR_ID_STEM + "-week/";
-	protected static final String DAY_ID_STEM 			= CALENDAR_ID_STEM + "-day/";
-	protected static final String HOUR_ID_STEM 			= CALENDAR_ID_STEM + "-hour/";
-	protected static final String MINUTE_ID_STEM 		= CALENDAR_ID_STEM + "-minute/";
-	protected static final String SECOND_ID_STEM		= CALENDAR_ID_STEM + "-second/";
-	protected static final String INSTANT_ID_STEM		= CALENDAR_ID_STEM + "-instant/";
-	protected static final String INTERVAL_ID_STEM		= CALENDAR_ID_STEM + "-interval/";
+	protected static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;
+	protected static final String YEAR_SEGMENT 		= CALENDAR_STEM + "-year";
+	protected static final String HALF_SEGMENT 		= CALENDAR_STEM + "-half";
+	protected static final String QUARTER_SEGMENT 	= CALENDAR_STEM + "-quarter";
+	protected static final String MONTH_SEGMENT 	= CALENDAR_STEM + "-month";
+	protected static final String WEEK_SEGMENT 		= CALENDAR_STEM + "-week";
+	protected static final String DAY_SEGMENT 		= CALENDAR_STEM + "-day";
+	protected static final String HOUR_SEGMENT 		= CALENDAR_STEM + "-hour";
+	protected static final String MINUTE_SEGMENT 	= CALENDAR_STEM + "-minute";
+	protected static final String SECOND_SEGMENT	= CALENDAR_STEM + "-second";
+	protected static final String INSTANT_SEGMENT	= CALENDAR_STEM + "-instant";
+	protected static final String INTERVAL_SEGMENT	= CALENDAR_STEM + "-interval";
+	
+	protected static final String YEAR_ID_STEM 			= ID_STEM + YEAR_SEGMENT +"/";
+	protected static final String HALF_ID_STEM 			= ID_STEM + HALF_SEGMENT + "/";
+	protected static final String QUARTER_ID_STEM 		= ID_STEM + QUARTER_SEGMENT +"/";
+	protected static final String MONTH_ID_STEM 		= ID_STEM + MONTH_SEGMENT + "/";
+	protected static final String WEEK_ID_STEM 			= ID_STEM + WEEK_SEGMENT + "/";
+	protected static final String DAY_ID_STEM 			= ID_STEM + DAY_SEGMENT + "/";
+	protected static final String HOUR_ID_STEM 			= ID_STEM + HOUR_SEGMENT + "/";
+	protected static final String MINUTE_ID_STEM 		= ID_STEM + MINUTE_SEGMENT + "/";
+	protected static final String SECOND_ID_STEM		= ID_STEM + SECOND_SEGMENT + "/";
+	protected static final String INSTANT_ID_STEM		= ID_STEM + INSTANT_SEGMENT + "/";
+	protected static final String INTERVAL_ID_STEM		= ID_STEM + INTERVAL_SEGMENT + "/";
+	
+	protected static final String YEAR_DOC_STEM 		= DOC_STEM + YEAR_SEGMENT +"/";
+	protected static final String HALF_DOC_STEM 		= DOC_STEM + HALF_SEGMENT + "/";
+	protected static final String QUARTER_DOC_STEM 		= DOC_STEM + QUARTER_SEGMENT +"/";
+	protected static final String MONTH_DOC_STEM 		= DOC_STEM + MONTH_SEGMENT + "/";
+	protected static final String WEEK_DOC_STEM 		= DOC_STEM + WEEK_SEGMENT + "/";
+	protected static final String DAY_DOC_STEM 			= DOC_STEM + DAY_SEGMENT + "/";
+	protected static final String HOUR_DOC_STEM 		= DOC_STEM + HOUR_SEGMENT + "/";
+	protected static final String MINUTE_DOC_STEM 		= DOC_STEM + MINUTE_SEGMENT + "/";
+	protected static final String SECOND_DOC_STEM		= DOC_STEM + SECOND_SEGMENT + "/";
+	protected static final String INSTANT_DOC_STEM		= DOC_STEM + INSTANT_SEGMENT + "/";
+	protected static final String INTERVAL_DOC_STEM		= DOC_STEM + INTERVAL_SEGMENT + "/";
 
-	protected static final String CALENDAR_DOC_STEM 	= DOC_STEM + CALENDAR_STEM;
-	protected static final String YEAR_DOC_STEM 		= CALENDAR_DOC_STEM + "-year/";
-	protected static final String HALF_DOC_STEM 		= CALENDAR_DOC_STEM + "-half/";
-	protected static final String QUARTER_DOC_STEM 		= CALENDAR_DOC_STEM + "-quarter/";
-	protected static final String MONTH_DOC_STEM 		= CALENDAR_DOC_STEM + "-month/";
-	protected static final String WEEK_DOC_STEM 		= CALENDAR_DOC_STEM + "-week/";
-	protected static final String DAY_DOC_STEM 			= CALENDAR_DOC_STEM + "-day/";
-	protected static final String HOUR_DOC_STEM 		= CALENDAR_DOC_STEM + "-hour/";
-	protected static final String MINUTE_DOC_STEM 		= CALENDAR_DOC_STEM + "-minute/";
-	protected static final String SECOND_DOC_STEM 		= CALENDAR_DOC_STEM + "-second/";
-	protected static final String INSTANT_DOC_STEM		= CALENDAR_DOC_STEM + "-instant/";
-	protected static final String INTERVAL_DOC_STEM		= CALENDAR_DOC_STEM + "-interval/";
-
+	protected static final String YEAR_SET_RELURI 		= SET_STEM + YEAR_SEGMENT;
+	protected static final String HALF_SET_RELURI 		= SET_STEM + HALF_SEGMENT;
+	protected static final String QUARTER_SET_RELURI 	= SET_STEM + QUARTER_SEGMENT;
+	protected static final String MONTH_SET_RELURI 		= SET_STEM + MONTH_SEGMENT;
+	protected static final String WEEK_SET_RELURI 		= SET_STEM + WEEK_SEGMENT;
+	protected static final String DAY_SET_RELURI 		= SET_STEM + DAY_SEGMENT;
+	protected static final String HOUR_SET_RELURI 		= SET_STEM + HOUR_SEGMENT;
+	protected static final String MINUTE_SET_RELURI 	= SET_STEM + MINUTE_SEGMENT;
+	protected static final String SECOND_SET_RELURI		= SET_STEM + SECOND_SEGMENT;
+	protected static final String INSTANT_SET_RELURI	= SET_STEM + INSTANT_SEGMENT;
+	protected static final String INTERVAL_SET_RELURI	= SET_STEM + INTERVAL_SEGMENT;
+	
 	protected static final String HALF_PREFIX			= "-H";
 	protected static final String QUARTER_PREFIX		= "-Q";
 	protected static final String MONTH_PREFIX			= "-";
@@ -96,6 +122,30 @@ public class URITemplate {
 	protected static final String SECOND_PATTERN 	= MINUTE_PATTERN   + SECOND_PREFIX  + "{" + SECOND_TOKEN  + ":[0-5][0-9]}"; // Second of minute
 	protected static final String INSTANT_PATTERN 	= SECOND_PATTERN;
 	protected static final String INTERVAL_PATTERN  = SECOND_PATTERN    + "/"			+ "{" + DURATION_TOKEN + ":"+ DURATION_REGEX + "}";
+	
+	protected static final String YEAR_PATTERN_PLAIN 	= "[1-9][0-9]*";
+	protected static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+"-H[1-2]";
+	protected static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+"-Q[1-4]";
+	protected static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+"-[0-1][0-9]";
+	protected static final String DAY_PATTERN_PLAIN  	= MONTH_PATTERN_PLAIN+"-[0-3][0-9]";
+	protected static final String HOUR_PATTERN_PLAIN 	= DAY_PATTERN_PLAIN+"T[0-2][0-9]";
+	protected static final String MIN_PATTERN_PLAIN  	= HOUR_PATTERN_PLAIN+":[0-5][0-9]";
+	protected static final String SEC_PATTERN_PLAIN  	= MIN_PATTERN_PLAIN+":[0-5][0-9]";
+	protected static final String INSTANT_PATTERN_PLAIN = SEC_PATTERN_PLAIN;
+	protected static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+"/P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?";
+
+	final static String PATH_REGEX =
+		"("+YEAR_SEGMENT+")|"+
+		"("+HALF_SEGMENT+")|"+
+		"("+QUARTER_SEGMENT+")|"+
+		"("+MONTH_SEGMENT+")|"+
+		"("+DAY_SEGMENT+")|"+
+		"("+WEEK_SEGMENT+")|"+
+		"("+HOUR_SEGMENT+")|"+
+		"("+MINUTE_SEGMENT+")|"+
+		"("+SECOND_SEGMENT+")|"+
+		"("+INSTANT_SEGMENT+")|"+
+		"("+INTERVAL_SEGMENT+")";
 
 	protected static final String EXT_RDF = "rdf";
 	protected static final String EXT_NT  = "nt";

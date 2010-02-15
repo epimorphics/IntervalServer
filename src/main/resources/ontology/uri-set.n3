@@ -1,0 +1,56 @@
+# Saved by TopBraid on Sat Feb 13 20:01:10 GMT 2010
+# baseURI: http://reference.data.gov.uk/def/uri-set/
+# imports: http://purl.org/net/provenance/ns
+# imports: http://purl.org/dc/elements/1.1/
+# imports: http://rdfs.org/ns/void
+# imports: http://www.w3.org/2004/02/skos/core
+
+@prefix :        <http://reference.data.gov.uk/def/uri-set/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix void:	<http://rdfs.org/ns/void#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports <http://purl.org/dc/elements/1.1/> , <http://www.w3.org/2004/02/skos/core> , <http://purl.org/net/provenance/ns> , <http://rdfs.org/ns/void> .
+
+:UriSet
+      rdf:type rdfs:Class ;
+      rdfs:comment "A class for URI Sets (see <http://www.cabinetoffice.gov.uk/cio/chief_technology_officer/public_sector_ia.aspx>)"^^xsd:string ;
+      rdfs:label "Uri Set"^^xsd:string ;
+      rdfs:subClassOf <http://rdfs.org/ns/void#Dataset> .
+
+:has-member
+      rdf:type rdf:Property ;
+      rdfs:comment ""^^xsd:string ;
+      rdfs:domain :UriSet ;
+      rdfs:label "has-member"^^xsd:string ;
+      owl:inverseOf :is-memberOf ;
+      skos:prefLabel "has-member"^^xsd:string .
+
+:is-memberOf
+      rdf:type rdf:Property ;
+      rdfs:comment "A property for associating a thing with a URI Set of which it is a member."^^xsd:string ;
+      rdfs:label "is-member of"^^xsd:string ;
+      rdfs:range :UriSet ;
+      owl:inverseOf :has-member ;
+      skos:prefLabel "is-member of"^^xsd:string .
+
+:uriSetClass
+      rdf:type rdf:Property ;
+      rdfs:comment "A property for associating a URI Sets with an OWL or RDFS class with a URI Set."^^xsd:string ;
+      rdfs:domain :UriSet ;
+      rdfs:label "uri set class"^^xsd:string ;
+      rdfs:range rdfs:Class .
+
+:uriSetConceptScheme
+      rdf:type rdf:Property ;
+      rdfs:comment "A property for associating a SKOS Concept Scheme with a URI Set"^^xsd:string ;
+      rdfs:domain :UriSet ;
+      rdfs:label "uri set concept"^^xsd:string ;
+      rdfs:range
+              [ rdf:type owl:Class ;
+                owl:unionOf (skos:Concept skos:ConceptScheme)
+              ] .

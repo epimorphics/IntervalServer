@@ -1,0 +1,66 @@
+# Saved by TopBraid on Sun Feb 14 13:13:47 GMT 2010
+# baseURI: http://reference.data.gov.uk/def/reference/
+# imports: http://rdfs.org/ns/void
+
+@prefix :        <http://reference.data.gov.uk/def/reference/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix status:  <http://reference.data.gov.uk/def/status/> .
+@prefix void:    <http://rdfs.org/ns/void#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+:     rdf:type owl:Ontology ;
+      owl:imports <http://rdfs.org/ns/void> .
+
+:Status
+      rdf:type rdfs:Class ;
+      rdfs:comment "The status of of a URI set or dataset."@en ;
+      rdfs:label "Status"@en ;
+      rdfs:subClassOf skos:Concept .
+
+:URIset
+      rdf:type rdfs:Class ;
+      rdfs:comment "A collection of resources that are all the same kind of thing."@en ;
+      rdfs:label "URI Set"@en ;
+      rdfs:subClassOf void:Dataset .
+
+:itemType
+      rdf:type rdf:Property ;
+      rdfs:comment "The common class for all the items in this URI set."@en ;
+      rdfs:domain :URIset ;
+      rdfs:label "Type of Resources"@en ;
+      rdfs:range rdfs:Class .
+
+:status
+      rdf:type rdf:Property ;
+      rdfs:comment "The status of the URI set or dataset."@en ;
+      rdfs:label "Status"@en ;
+      rdfs:range :Status .
+
+:uriSet
+      rdf:type rdf:Property ;
+      rdfs:comment "The URI set that this resource is part of."@en ;
+      rdfs:label "URI Set"@en ;
+      rdfs:range :URIset .
+
+<http://reference.data.gov.uk/def/status>
+      rdf:type skos:ConceptScheme ;
+      rdfs:label "Statuses"@en ;
+      skos:hasTopConcept status:draft , status:final ;
+      skos:prefLabel "Statuses"@en .
+
+status:draft
+      rdf:type :Status , skos:Concept ;
+      rdfs:label "Draft"@en ;
+      skos:definition "Drafts have not been through rigourous review. You are encouraged to use them and give feedback about their suitability, but they may be subject to change without warning."@en ;
+      skos:prefLabel "Draft"@en ;
+      skos:topConceptOf <http://reference.data.gov.uk/def/status> .
+
+status:final
+      rdf:type :Status , skos:Concept ;
+      rdfs:label "Final"@en ;
+      skos:definition "Final URI sets or datasets have been through review and are not expected to change. You are encouraged to use them."@en ;
+      skos:prefLabel "Final"@en ;
+      skos:topConceptOf <http://reference.data.gov.uk/def/status> .
