@@ -120,6 +120,8 @@ public class URITemplate {
 	protected static final String INSTANT_PATTERN 	= SECOND_PATTERN;
 	protected static final String INTERVAL_PATTERN  = SECOND_PATTERN    + "/"			+ "{" + DURATION_TOKEN + ":"+ DURATION_REGEX + "}";
 	
+	protected static final String SUMMARY_PATTERN_PLAIN = "-[^/]+/.+";
+
 	protected static final String YEAR_PATTERN_PLAIN 	= "[1-9][0-9]*";
 	protected static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+HALF_PREFIX+"[1-2]";
 	protected static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+QUARTER_PREFIX+"[1-4]";

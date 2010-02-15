@@ -71,11 +71,23 @@ public class SetDoc extends URITemplate {
 	URI base;
 	URI contentURI;
 	URI setURI;
-
-
+	
 	
 	static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
 	static final String GREGORIAN_CALENDAR_REF ="http://en.wikipedia.org/wiki/Gregorian_calendar";
+	
+	static final String DBPEDIA_SUBJECT_GREGORIAN_CALENDAR 	= "http://dbpedia.org/resources/Gregorian_calendar";
+	static final String DBPEDIA_SUBJECT_YEAR 				= "http://dbpedia.org/resources/Year";
+	static final String DBPEDIA_SUBJECT_MONTH 				= "http://dbpedia.org/resources/Month";
+	static final String DBPEDIA_SUBJECT_QUARTER 			= "http://dbpedia.org/resource/Fiscal_quarter";
+//	static final String DBPEDIA_SUBJECT_HALF 				= "http://dbpedia.org/resources/Year";
+	static final String DBPEDIA_SUBJECT_WEEK 				= "http://dbpedia.org/resources/Week";
+	static final String DBPEDIA_SUBJECT_DAY 				= "http://dbpedia.org/resources/Day";
+	static final String DBPEDIA_SUBJECT_HOUR 				= "http://dbpedia.org/resources/Hour";
+	static final String DBPEDIA_SUBJECT_MINUTE				= "http://dbpedia.org/resources/Minute";
+	static final String DBPEDIA_SUBJECT_SECOND 				= "http://dbpedia.org/resources/Second";
+//	static final String DBPEDIA_SUBJECT_INSTANT 			= "http://dbpedia.org/resources/Year";
+	static final String DBPEDIA_SUBJECT_INTERVAL 			= "http://dbpedia.org/resources/Interval_(time)";
 	
 	Model model = ModelFactory.createDefaultModel();
 	{ setNamespaces();};
@@ -134,6 +146,9 @@ public class SetDoc extends URITemplate {
 		
 	private void populateCalSet() {
 		Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
+		
 		
 		model.add(r_set, RDFS.label, "Gregorian calendar aligned intervals.","en");
 		model.add(r_set, SKOS.prefLabel, "Gregorian calendar aligned intervals.","en");
@@ -146,16 +161,18 @@ public class SetDoc extends URITemplate {
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		
 		model.add(r_set, DGU.itemType, INTERVALS.Interval);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+YEAR_ID_STEM+YEAR_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+HALF_ID_STEM+HALF_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+QUARTER_ID_STEM+QUARTER_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+MONTH_ID_STEM+MONTH_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+DAY_ID_STEM+DAY_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+HOUR_ID_STEM+HOUR_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+MINUTE_ID_STEM+MIN_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+SECOND_ID_STEM+SEC_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+INSTANT_ID_STEM+INSTANT_PATTERN_PLAIN);
-		model.add(r_set, VOID.uriRegexPattern, base_reg+INTERVAL_ID_STEM+INTERVAL_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+YEAR_ID_STEM+YEAR_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+HALF_ID_STEM+HALF_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+QUARTER_ID_STEM+QUARTER_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+MONTH_ID_STEM+MONTH_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+DAY_ID_STEM+DAY_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+HOUR_ID_STEM+HOUR_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+MINUTE_ID_STEM+MIN_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+SECOND_ID_STEM+SEC_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+INSTANT_ID_STEM+INSTANT_PATTERN_PLAIN);
+//		model.add(r_set, VOID.uriRegexPattern, base_reg+INTERVAL_ID_STEM+INTERVAL_PATTERN_PLAIN);
+		
+		model.add(r_set, VOID.uriRegexPattern, base_reg+ID_STEM+CALENDAR_STEM+SUMMARY_PATTERN_PLAIN);
 		
 		model.add(r_set, VOID.exampleResource, YearDoc.createResourceAndLabels(base, model, 1752));
 		model.add(r_set, VOID.exampleResource, HalfDoc.createResourceAndLabels(base, model, 2010, 1));
@@ -170,7 +187,7 @@ public class SetDoc extends URITemplate {
 		model.add(r_set, VOID.exampleResource, IntervalDoc.createResourceAndLabels(base, model, new GregorianOnlyCalendar(1977, 10, 1, 12, 22, 45), new Duration("P2Y1MT1H6S") ));
 		
 
-		addGregorianSourceRef(r_set);	
+		addGregorianSourceRef(r_set);
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		
@@ -188,20 +205,7 @@ public class SetDoc extends URITemplate {
 			
 	}
 
-	private void addLinkset(Resource r_superSet, 
-			                Resource r_subjectSet,
-			                Resource r_objectSet,
-			                Resource r_linkPredicate,
-			                String s_label,
-			                String s_comment) {
-		Resource r_linkSet = model.createResource(VOID.Linkset);
-		model.add(r_superSet, VOID.subset, r_linkSet);
-		model.add(r_linkSet, VOID.linkPredicate, r_linkPredicate);
-		model.add(r_linkSet, VOID.subjectsTarget, r_subjectSet);
-		model.add(r_linkSet, VOID.objectsTarget, r_objectSet);
-		model.add(r_linkSet, RDFS.label, s_label,"en");
-		model.add(r_linkSet, RDFS.comment, s_comment,"en");
-	}
+
 
 	/*********************************************************************************
 	 * 
@@ -261,6 +265,8 @@ public class SetDoc extends URITemplate {
 	private void populateYearSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createYearSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one year duration" +
 									   " starting at midnight on the 1st of January of a given year.","en");
@@ -372,6 +378,8 @@ public class SetDoc extends URITemplate {
 	private void populateHalfSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createHalfSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one half year (6 calendar month) duration" +
 									   " starting at midnight on the 1st day of a given half year.","en");
@@ -482,6 +490,8 @@ public class SetDoc extends URITemplate {
 	private void populateQuarterSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createQuarterSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one quarter year (3 calendar month) duration" +
 									   " starting at midnight on the 1st day of a given quarter year.","en");
@@ -591,6 +601,8 @@ public class SetDoc extends URITemplate {
 	private void populateMonthSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createMonthSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one calendar month duration" +
 									   " starting at midnight on the 1st day of a given month.","en");
@@ -704,6 +716,8 @@ public class SetDoc extends URITemplate {
 	private void populateDaySet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createDaySet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one calendar day duration" +
 									   " starting at midnight on a given day.","en");
@@ -821,6 +835,8 @@ public class SetDoc extends URITemplate {
 	private void populateHourSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createDaySet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one hour duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
@@ -941,6 +957,8 @@ public class SetDoc extends URITemplate {
 	private void populateMinuteSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createMinSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one minute duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
@@ -1065,6 +1083,8 @@ public class SetDoc extends URITemplate {
 		
 	private void populateSecondSet() {
 		Resource r_set = createSecSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one second duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
@@ -1190,6 +1210,8 @@ public class SetDoc extends URITemplate {
 	private void populateWeekSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createWeekSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of ISO 8601 numbered Gregorian calendar aligned time intervals of one week duration" +
 									   " starting at midnight on the Monday of a given week.","en");
@@ -1287,6 +1309,8 @@ public class SetDoc extends URITemplate {
 		
 	private void populateIntervalSet() {
 		Resource r_set = createSecSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian general purpose time intervals of arbitary duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
@@ -1415,6 +1439,8 @@ public class SetDoc extends URITemplate {
 		
 	private void populateInstantSet() {
 		Resource r_set = createSecSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc);
 		
 		model.add(r_set, RDFS.comment, "A dataset of time instant on the Gregorian time line.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
@@ -1562,7 +1588,10 @@ public class SetDoc extends URITemplate {
 		};
 		return Response.ok(so);
 	}
-	
+
+	/*********************************************************************************
+	 * 
+	 ********************************************************************************/	
 	protected void setNamespaces() {
 		model
 		.setNsPrefix("rdfs", RDFS.getURI())
@@ -1580,12 +1609,33 @@ public class SetDoc extends URITemplate {
 		.setNsPrefix("dgu", DGU.NS)
 		.setNsPrefix("void", VOID.NS)
 		.setNsPrefix("prv", PROVENANCE.NS)
-		;
+		;		
+	}
+	
+	protected void initModel(Resource r_set, Resource r_doc) {
+
+		setNamespaces();
+
+		//Statements to make in every set.
+		model.add(r_set, DGU.status, DGU.draft);
+		model.add(r_set, FOAF.isPrimaryTopicOf, r_doc);
+		model.add(r_doc, FOAF.primaryTopic, r_set);
 	}
 
-	/*********************************************************************************
-	 * 
-	 ********************************************************************************/
+	private void addLinkset(Resource r_superSet, 
+							Resource r_subjectSet,
+							Resource r_objectSet, 
+							Resource r_linkPredicate, 
+							String s_label,
+							String s_comment) {
+		Resource r_linkSet = model.createResource(VOID.Linkset);
+		model.add(r_superSet, VOID.subset, r_linkSet);
+		model.add(r_linkSet, VOID.linkPredicate, r_linkPredicate);
+		model.add(r_linkSet, VOID.subjectsTarget, r_subjectSet);
+		model.add(r_linkSet, VOID.objectsTarget, r_objectSet);
+		model.add(r_linkSet, RDFS.label, s_label, "en");
+		model.add(r_linkSet, RDFS.comment, s_comment, "en");
+	}
 
 	private Resource createIntervalSet() {
 		Resource r_secs = model.createResource(base+INTERVAL_SET_RELURI, VOID.Dataset);
@@ -1675,5 +1725,6 @@ public class SetDoc extends URITemplate {
 		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource("http://en.wikipedia.org/wiki/Gregorian_calendar"));
 		model.add(r_calendarAct, RDFS.label, "Wikipedia on Gregorian Calendar","en");
 		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on Gregorian Calendar","en");
-	}	
+	}
+	
 }
