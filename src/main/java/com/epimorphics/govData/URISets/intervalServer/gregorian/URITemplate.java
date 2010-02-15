@@ -38,9 +38,6 @@ public class URITemplate {
 	protected static final String SET_DOC_STEM			= "doc/set/";
 	
 	protected static final String CALENDAR_STEM 		= "gregorian";
-//	protected static final String CALENDAR_ID_STEM 		= ID_STEM + CALENDAR_STEM;
-//	protected static final String CALENDAR_SET_STEM		= SET_STEM + CALENDAR_STEM;
-//	protected static final String CALENDAR_SET_DOC_STEM	= SET_DOC_STEM + CALENDAR_STEM;
 	
 	protected static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;
 	protected static final String YEAR_SEGMENT 		= CALENDAR_STEM + "-year";
@@ -124,15 +121,16 @@ public class URITemplate {
 	protected static final String INTERVAL_PATTERN  = SECOND_PATTERN    + "/"			+ "{" + DURATION_TOKEN + ":"+ DURATION_REGEX + "}";
 	
 	protected static final String YEAR_PATTERN_PLAIN 	= "[1-9][0-9]*";
-	protected static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+"-H[1-2]";
-	protected static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+"-Q[1-4]";
-	protected static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+"-[0-1][0-9]";
-	protected static final String DAY_PATTERN_PLAIN  	= MONTH_PATTERN_PLAIN+"-[0-3][0-9]";
-	protected static final String HOUR_PATTERN_PLAIN 	= DAY_PATTERN_PLAIN+"T[0-2][0-9]";
-	protected static final String MIN_PATTERN_PLAIN  	= HOUR_PATTERN_PLAIN+":[0-5][0-9]";
-	protected static final String SEC_PATTERN_PLAIN  	= MIN_PATTERN_PLAIN+":[0-5][0-9]";
+	protected static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+HALF_PREFIX+"[1-2]";
+	protected static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+QUARTER_PREFIX+"[1-4]";
+	protected static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+MONTH_PREFIX+"[0-1][0-9]";
+	protected static final String WEEK_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+WEEK_PREFIX+"[0-5][0-9]";
+	protected static final String DAY_PATTERN_PLAIN  	= MONTH_PATTERN_PLAIN+DAY_PREFIX+"[0-3][0-9]";
+	protected static final String HOUR_PATTERN_PLAIN 	= DAY_PATTERN_PLAIN+HOUR_PREFIX+"[0-2][0-9]";
+	protected static final String MIN_PATTERN_PLAIN  	= HOUR_PATTERN_PLAIN+MINUTE_PREFIX+"[0-5][0-9]";
+	protected static final String SEC_PATTERN_PLAIN  	= MIN_PATTERN_PLAIN+SECOND_PREFIX+"[0-5][0-9]";
 	protected static final String INSTANT_PATTERN_PLAIN = SEC_PATTERN_PLAIN;
-	protected static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+"/P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?";
+	protected static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
 
 	final static String PATH_REGEX =
 		"("+YEAR_SEGMENT+")|"+
