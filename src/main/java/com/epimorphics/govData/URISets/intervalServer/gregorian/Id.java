@@ -26,6 +26,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+
 
 public class Id extends URITemplate{
 	protected @Context UriInfo ui;
@@ -34,12 +36,12 @@ public class Id extends URITemplate{
 	 * id->doc 303 Redirections for URI of the form /id/yyyy-mm-ddThh:mm:ss
 	 */
 	public Response redirector() {
-		String fullURI = ui.getAbsolutePath().toString();
-		fullURI = fullURI.replaceFirst(ID_STEM, DOC_STEM);
+		String base = (BaseURI.getBase()== null ? ui.getBaseUri() : BaseURI.getBase()).toString();
+		String path = ui.getPath().replaceFirst(ID_STEM, DOC_STEM);
 
 		ResponseBuilder resp = null;
 		try {
-			resp = Response.seeOther(new URI(fullURI));
+			resp = Response.seeOther(new URI(base+path));
 		} catch (URISyntaxException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}

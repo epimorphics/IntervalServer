@@ -27,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
@@ -47,7 +48,7 @@ public class SetDoc extends Doc {
 	@GET
 	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
 		MediaType mt;
-		base = ui.getBaseUri();
+		base = getBaseUri();
 		//Remove leading .
 		ext2 = (ext2!=null && !ext2.equals("")) ? ext2.substring(1) : null ; //skip the '.'
 		try {
@@ -112,8 +113,8 @@ public class SetDoc extends Doc {
 	
 	private void populateCalSet() {
 		Resource r_set = model.createResource(setURI.toString(),VOID.Dataset);
-		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
-		initModel(r_set, r_doc, CALENDAR_SET_LABEL);
+		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
+		initSetModel(r_set, r_doc, CALENDAR_SET_LABEL);
 		
 		model.add(r_set, RDFS.label, CALENDAR_SET_LABEL, "en");
 		model.add(r_set, SKOS.prefLabel, CALENDAR_SET_LABEL,"en");

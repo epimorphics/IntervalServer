@@ -21,18 +21,27 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+
+
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.govcalendar.Id;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
@@ -64,6 +73,8 @@ import com.hp.hpl.jena.vocabulary.XSD;
 abstract public class Doc extends URITemplate {
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
+
+	static private Logger logger = LoggerFactory.getLogger(Id.class);
 	
 	protected URI loc;
 	protected URI base;
@@ -90,7 +101,14 @@ abstract public class Doc extends URITemplate {
 	static final protected Literal oneQuarter = ResourceFactory.createTypedLiteral("P3M", XSDDatatype.XSDduration);
 	static final protected Literal oneHalf 	= ResourceFactory.createTypedLiteral("P6M", XSDDatatype.XSDduration);
 	static final protected Literal oneYear 	= ResourceFactory.createTypedLiteral("P1Y", XSDDatatype.XSDduration);
+	
+	
+	
+	protected URI getBaseUri() {
+		return BaseURI.getBase() == null ? ui.getBaseUri() : BaseURI.getBase();
+	}
 
+	
 	protected void setWeekOfYearAndMonth(int year, int month, int day) {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
@@ -141,71 +159,13 @@ abstract public class Doc extends URITemplate {
 	protected void addDocInfo() {
 		String documentStem = r_thisTemporalEntity.getURI().replaceFirst(ID_STEM, DOC_STEM);
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
-//		Resource r_doc = model.createResource(ui.getAbsolutePath().toASCIIString(), FOAF.Document);
-		
-//		if(ext==null || ext.equals("")) {
-		if(!loc.equals(contentURI)) {
-			Resource r_ntDoc   = model.createResource(documentStem+"."+EXT_NT,   FOAF.Document);
-			Resource r_rdfDoc  = model.createResource(documentStem+"."+EXT_RDF,  FOAF.Document);
-			Resource r_ttlDoc  = model.createResource(documentStem+"."+EXT_TTL,  FOAF.Document);
-			Resource r_n3Doc   = model.createResource(documentStem+"."+EXT_N3,   FOAF.Document);
-			Resource r_jsonDoc = model.createResource(documentStem+"."+EXT_JSON, FOAF.Document);
-			
-			model.add(r_doc, DCTERMS.hasFormat, r_ntDoc);
-			model.add(r_doc, DCTERMS.hasFormat, r_rdfDoc);
-			model.add(r_doc, DCTERMS.hasFormat, r_ttlDoc);
-			model.add(r_doc, DCTERMS.hasFormat, r_n3Doc);
-			model.add(r_doc, DCTERMS.hasFormat, r_jsonDoc);
-			
-			Statement s_comment = model.getProperty(r_thisTemporalEntity, RDFS.label);
-			if(s_comment != null) {
-				String l = s_comment.getString();
-				String label = "Generic document about: "+l;
-				model.add(r_doc, RDFS.label, label, "en" );
-				
-				label = "N-Triple document about: "+l;
-				model.add(r_ntDoc, RDFS.label, label, "en" );
-				
-				label = "N3 document about: "+l;
-				model.add(r_n3Doc, RDFS.label, label, "en" );
-				
-				label = "Turtle document about: "+l;
-				model.add(r_ttlDoc, RDFS.label, label, "en" );
-				
-				label = "JSON document about: "+l;
-				model.add(r_jsonDoc, RDFS.label, label, "en" );
-				
-				label = "RDF/XML document about: "+l;
-				model.add(r_rdfDoc, RDFS.label, label, "en" );
-			}
-		} else {
-			String s_mediaType = 
-				ext.equals(EXT_NT)   ? "text/plain" :
-				ext.equals(EXT_N3)   ? "text/n3" :
-				ext.equals(EXT_TTL)  ? "text/turtle" :
-				ext.equals(EXT_JSON) ? "application/json" :
-			    ext.equals(EXT_RDF)  ? "application/rdf+xml" :"application/bytestream" ;
-			
-			String s_preamble = 
-				ext.equals(EXT_NT)   ? "N-Triple document" :
-				ext.equals(EXT_N3)   ? "N3 document" :
-				ext.equals(EXT_TTL)  ? "Turtle document" :
-				ext.equals(EXT_JSON) ? "JSON document" :
-			    ext.equals(EXT_RDF)  ? "RDF/XML document" :"Unknown format document" ;
-
-			Statement s_comment = model.getProperty(r_thisTemporalEntity, RDFS.label);
-			if(s_comment != null) {
-				String l = s_comment.getString();
-				l = s_preamble +" about: "+l;
-				model.add(r_doc, RDFS.label, l, "en" );
-			}
-			Resource r_mediaType = model.createResource();
-			r_mediaType.addProperty(RDFS.label, s_mediaType, XSDDatatype.XSDstring);
-			model.add(r_doc, DCTERMS.format, r_mediaType);
-		}
 		
 		model.add(r_thisTemporalEntity, FOAF.isPrimaryTopicOf, r_doc);
 		model.add(r_doc, FOAF.primaryTopic, r_thisTemporalEntity);
+
+		Statement s_comment = model.getProperty(r_thisTemporalEntity, RDFS.label);
+		String l = (s_comment!=null) ? s_comment.getString() : null;
+		addDocumentLabels(r_doc, l);
 	}
 	
 	protected ResponseBuilder doGet(final String lang) {
@@ -347,7 +307,7 @@ abstract public class Doc extends URITemplate {
 			    ((dom != 13) && ((dom % 10) == 3)) ? "rd" : "th");
 	}
 	
-	protected void initModel(Resource r_set, Resource r_doc, String docLabel) {
+	protected void initSetModel(Resource r_set, Resource r_doc, String docLabel) {
 
 		setNamespaces();
 
@@ -355,9 +315,78 @@ abstract public class Doc extends URITemplate {
 		model.add(r_set, DGU.status, DGU.draft);
 		model.add(r_set, FOAF.isPrimaryTopicOf, r_doc);
 		model.add(r_doc, FOAF.primaryTopic, r_set);
-		model.add(r_doc, RDFS.label, "URI Set Document about \""+docLabel+"\"");
+		
+		addDocumentLabels(r_doc, docLabel);
 	}
 
+	private void addDocumentLabels(Resource r_doc, String docLabel) {
+		if(loc.equals(contentURI)) {
+			String s_mediaType = 
+				ext.equals(EXT_NT)   ? "text/plain" :
+				ext.equals(EXT_N3)   ? "text/n3" :
+				ext.equals(EXT_TTL)  ? "text/turtle" :
+				ext.equals(EXT_JSON) ? "application/json" :
+			    ext.equals(EXT_RDF)  ? "application/rdf+xml" :"application/octet-stream" ;
+			
+			String s_preamble = 
+				ext.equals(EXT_NT)   ? "N-Triple document" :
+				ext.equals(EXT_N3)   ? "N3 document" :
+				ext.equals(EXT_TTL)  ? "Turtle document" :
+				ext.equals(EXT_JSON) ? "JSON document" :
+			    ext.equals(EXT_RDF)  ? "RDF/XML document" :"Unknown format document" ;
+
+			if(docLabel != null && !docLabel.equals("")) {
+				String l = s_preamble +" about: "+docLabel;
+				model.add(r_doc, RDFS.label, l, "en" );
+			}
+			Resource r_mediaType = model.createResource();
+			r_mediaType.addProperty(RDFS.label, s_mediaType, XSDDatatype.XSDstring);
+			model.add(r_doc, DCTERMS.format, r_mediaType);
+			
+		} else {
+			Resource r_ntDoc   = createDocResource(loc+"."+EXT_NT,   "text/plain");
+			Resource r_rdfDoc  = createDocResource(loc+"."+EXT_RDF,  "application/rdf+xml");
+			Resource r_ttlDoc  = createDocResource(loc+"."+EXT_TTL,  "text/turtle");
+			Resource r_n3Doc   = createDocResource(loc+"."+EXT_N3,   "text/n3");
+			Resource r_jsonDoc = createDocResource(loc+"."+EXT_JSON,  "application/json");
+			
+			r_doc.addProperty(DCTERMS.hasFormat, r_ntDoc);
+			r_doc.addProperty(DCTERMS.hasFormat, r_rdfDoc);
+			r_doc.addProperty(DCTERMS.hasFormat, r_ttlDoc);
+			r_doc.addProperty(DCTERMS.hasFormat, r_n3Doc);
+			r_doc.addProperty(DCTERMS.hasFormat, r_jsonDoc);
+			
+			if(docLabel != null && !docLabel.equals("")) {
+				
+				String label = "Generic Dataset document about: "+docLabel;
+				model.add(r_doc, RDFS.label, label, "en" );
+				
+				label = "N-Triple document about: "+docLabel;
+				model.add(r_ntDoc, RDFS.label, label, "en" );
+				
+				label = "N3 document about: "+docLabel;
+				model.add(r_n3Doc, RDFS.label, label, "en" );
+				
+				label = "Turtle document about: "+docLabel;
+				model.add(r_ttlDoc, RDFS.label, label, "en" );
+				
+				label = "JSON document about: "+docLabel;
+				model.add(r_jsonDoc, RDFS.label, label, "en" );
+				
+				label = "RDF/XML document about: "+docLabel;
+				model.add(r_rdfDoc, RDFS.label, label, "en" );
+			}
+		}
+	}
+
+	private Resource createDocResource(String docURI, String mediaType) {
+		Resource r_doc = model.createResource(docURI, FOAF.Document);
+		Resource r_mediaType = model.createResource();
+		r_mediaType.addProperty(RDFS.label, mediaType);
+		model.add(r_doc, DCTERMS.format, r_mediaType);
+		return r_doc;
+	}
+	
 	protected void addLinkset(Resource r_superSet, 
 							Resource r_subjectSet,
 							Resource r_objectSet, 

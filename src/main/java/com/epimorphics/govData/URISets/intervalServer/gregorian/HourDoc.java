@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
@@ -103,7 +104,7 @@ public class HourDoc extends Doc {
 	}
 
 	private Response respond(int year,int month, int day, int hour, MediaType mt, boolean addExtent) {
-		base = ui.getBaseUri();
+		base = getBaseUri();
 		try {
 				loc = new URI(base + ui.getPath());
 				contentURI = new URI(loc.toString() + (addExtent? "."+ ext :""));
@@ -125,7 +126,7 @@ public class HourDoc extends Doc {
 	@GET
 	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
 		MediaType mt;
-		base = ui.getBaseUri();
+		base = getBaseUri();
 		//Remove leading .
 		ext2 = (ext2!=null && !ext2.equals("")) ? ext2.substring(1) : null ; //skip the '.'
 		try {
@@ -277,8 +278,8 @@ public class HourDoc extends Doc {
 	private void populateHourSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
 		Resource r_set = createDaySet();
-		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
-		initModel(r_set, r_doc, HOUR_SET_LABEL);
+		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
+		initSetModel(r_set, r_doc, HOUR_SET_LABEL);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one hour duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

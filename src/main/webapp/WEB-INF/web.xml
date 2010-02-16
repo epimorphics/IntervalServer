@@ -14,9 +14,9 @@
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>com.epimorphics.govData.URISets.intervalServer;
-			             com.epimorphics.govData.URISets.intervalServer.calendar;
-			             com.epimorphics.govData.URISets.intervalServer.gregorian;
-			             com.epimorphics.govData.URISets.intervalServer.govcalendar;
+				com.epimorphics.govData.URISets.intervalServer.calendar;
+				com.epimorphics.govData.URISets.intervalServer.gregorian;
+				com.epimorphics.govData.URISets.intervalServer.govcalendar;
 		</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -28,4 +28,10 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	<env-entry>
+		<env-entry-name>hard-base-uri</env-entry-name>
+		<!-- <env-entry-value>http://reference.data.gov.uk/</env-entry-value> -->
+		<env-entry-value>http://reference.data.gov.uk/</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
 </web-app>

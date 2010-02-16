@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
@@ -115,7 +116,7 @@ public class IntervalDoc extends Doc {
 	}
 
 	private Response respond(int year, int month, int day, int hour, int min, int sec, String duration, MediaType mt, boolean addExtent) {
-		base = ui.getBaseUri();
+		base = getBaseUri();
 		try {
 				loc = new URI(base + ui.getPath());
 				contentURI = new URI(loc.toString() + (addExtent? "."+ ext :""));
@@ -137,7 +138,7 @@ public class IntervalDoc extends Doc {
 	@GET
 	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
 		MediaType mt;
-		base = ui.getBaseUri();
+		base = getBaseUri();
 		//Remove leading .
 		ext2 = (ext2!=null && !ext2.equals("")) ? ext2.substring(1) : null ; //skip the '.'
 		try {
@@ -268,8 +269,8 @@ public class IntervalDoc extends Doc {
 	
 	private void populateIntervalSet() {
 		Resource r_set = createSecSet();
-		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
-		initModel(r_set, r_doc, INTERVAL_SET_LABEL);
+		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
+		initSetModel(r_set, r_doc, INTERVAL_SET_LABEL);
 		
 		model.add(r_set, RDFS.comment, "A dataset of Gregorian general purpose time intervals of arbitary duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
