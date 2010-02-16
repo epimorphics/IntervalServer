@@ -21,13 +21,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
@@ -38,11 +37,13 @@ import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.DCTERMS;
+import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
 import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
+import com.epimorphics.govData.vocabulary.VOID;
 import com.epimorphics.jsonrdf.Encoder;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -62,15 +63,23 @@ import com.hp.hpl.jena.vocabulary.XSD;
 
 abstract public class Doc extends URITemplate {
 	@Context UriInfo ui;
-	protected URI loc, base;
+	@Context HttpHeaders hdrs;
+	
+	protected URI loc;
+	protected URI base;
+	protected URI contentURI;
+	protected URI setURI;
+	
 	protected String ext;
+	
 	protected int year, half, quarter, month, day, hour, min, sec;
 	protected int woy_week, woy_year;
 	
-	protected Model model;
 	protected Calendar startTime;
 	
 	protected Resource r_thisTemporalEntity;
+	
+	protected Model model = ModelFactory.createDefaultModel();
 	
 	static final protected Literal oneSecond = ResourceFactory.createTypedLiteral("PT1S", XSDDatatype.XSDduration);
 	static final protected Literal oneMinute = ResourceFactory.createTypedLiteral("PT1M", XSDDatatype.XSDduration);
@@ -82,7 +91,6 @@ abstract public class Doc extends URITemplate {
 	static final protected Literal oneHalf 	= ResourceFactory.createTypedLiteral("P6M", XSDDatatype.XSDduration);
 	static final protected Literal oneYear 	= ResourceFactory.createTypedLiteral("P1Y", XSDDatatype.XSDduration);
 
-	
 	protected void setWeekOfYearAndMonth(int year, int month, int day) {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
@@ -96,7 +104,6 @@ abstract public class Doc extends URITemplate {
 	}
 	
 	protected void  reset() {
-		init();
 		half = quarter = month = day = 1;
 		woy_week = 1;
 		hour = min = sec = 0;
@@ -108,11 +115,10 @@ abstract public class Doc extends URITemplate {
 			   ext.equals(EXT_TTL) ?  (doGetTurtle().contentLocation(loc).type("text/turtle").build())  : 
 			   ext.equals(EXT_JSON) ?  (doGetJson().contentLocation(loc).type("application/json").build())  : 
 			   ext.equals(EXT_N3)  ?  (doGetTurtle().contentLocation(loc).type("text/n3").build()) : 
-				                     (doGetNTriple().contentLocation(loc).type("text/plain").build());
+				                          (doGetNTriple().contentLocation(loc).type("text/plain").build());
 	}
 	
 	protected void populateModel () {
-		model = ModelFactory.createDefaultModel();
 		try {
 			startTime.getTimeInMillis();
 		} catch (IllegalArgumentException e) {
@@ -134,9 +140,11 @@ abstract public class Doc extends URITemplate {
 
 	protected void addDocInfo() {
 		String documentStem = r_thisTemporalEntity.getURI().replaceFirst(ID_STEM, DOC_STEM);
-		Resource r_doc = model.createResource(ui.getAbsolutePath().toASCIIString(), FOAF.Document);
+		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
+//		Resource r_doc = model.createResource(ui.getAbsolutePath().toASCIIString(), FOAF.Document);
 		
-		if(ext==null || ext.equals("")) {
+//		if(ext==null || ext.equals("")) {
+		if(!loc.equals(contentURI)) {
 			Resource r_ntDoc   = model.createResource(documentStem+"."+EXT_NT,   FOAF.Document);
 			Resource r_rdfDoc  = model.createResource(documentStem+"."+EXT_RDF,  FOAF.Document);
 			Resource r_ttlDoc  = model.createResource(documentStem+"."+EXT_TTL,  FOAF.Document);
@@ -200,13 +208,7 @@ abstract public class Doc extends URITemplate {
 		model.add(r_doc, FOAF.primaryTopic, r_thisTemporalEntity);
 	}
 	
-	private void init() {
-		loc = URI.create(ui.getPath());
-		base = ui.getBaseUri();
-	}
-
 	protected ResponseBuilder doGet(final String lang) {
-		populateModel();
 		StreamingOutput so = new StreamingOutput() {
 			public void write(OutputStream os) throws IOException {
 				model.write(os, lang);
@@ -227,7 +229,6 @@ abstract public class Doc extends URITemplate {
 	}
 	
 	protected ResponseBuilder doGetJson() {
-		populateModel();
 		StreamingOutput so = new StreamingOutput () {
 			public void write(OutputStream output) throws IOException,
 					WebApplicationException {
@@ -344,5 +345,96 @@ abstract public class Doc extends URITemplate {
 		return (((dom != 11) && ((dom % 10) == 1)) ? "st" :
 			    ((dom != 12) && ((dom % 10) == 2)) ? "nd" :
 			    ((dom != 13) && ((dom % 10) == 3)) ? "rd" : "th");
+	}
+	
+	protected void initModel(Resource r_set, Resource r_doc, String docLabel) {
+
+		setNamespaces();
+
+		//Statements to make in every set.
+		model.add(r_set, DGU.status, DGU.draft);
+		model.add(r_set, FOAF.isPrimaryTopicOf, r_doc);
+		model.add(r_doc, FOAF.primaryTopic, r_set);
+		model.add(r_doc, RDFS.label, "URI Set Document about \""+docLabel+"\"");
+	}
+
+	protected void addLinkset(Resource r_superSet, 
+							Resource r_subjectSet,
+							Resource r_objectSet, 
+							Resource r_linkPredicate, 
+							String s_label,
+							String s_comment) {
+		Resource r_linkSet = model.createResource(VOID.Linkset);
+		model.add(r_superSet, VOID.subset, r_linkSet);
+		model.add(r_linkSet, VOID.linkPredicate, r_linkPredicate);
+		model.add(r_linkSet, VOID.subjectsTarget, r_subjectSet);
+		model.add(r_linkSet, VOID.objectsTarget, r_objectSet);
+		model.add(r_linkSet, RDFS.label, s_label, "en");
+		model.add(r_linkSet, RDFS.comment, s_comment, "en");
+	}
+
+	protected Resource createSet(String uri, String label) {
+		Resource r_set = model.createResource(uri, VOID.Dataset);
+		r_set.addProperty(RDF.type, DGU.URIset);
+		r_set.addProperty(RDFS.label, label, "en");
+		r_set.addProperty(SKOS.prefLabel, label, "en");
+		return r_set;
+	}
+
+	protected Resource createIntervalSet() {
+		return createSet(base+INTERVAL_SET_RELURI, INTERVAL_SET_LABEL);
+	}
+	protected Resource createInstantSet() {
+		return createSet(base+INSTANT_SET_RELURI, INSTANT_SET_LABEL);
+	}
+
+	protected Resource createSecSet() {
+		return createSet(base+SECOND_SET_RELURI, SECOND_SET_LABEL);
+	}
+
+	protected Resource createMinSet() {
+		return createSet(base+MINUTE_SET_RELURI, MINUTE_SET_LABEL);
+	}
+
+	protected Resource createHourSet() {
+		return createSet(base+HOUR_SET_RELURI, HOUR_SET_LABEL);
+	}
+
+	protected Resource createDaySet() {
+		return createSet(base+DAY_SET_RELURI, DAY_SET_LABEL);
+	}
+
+	protected Resource createWeekSet() {
+		return createSet(base+WEEK_SET_RELURI, WEEK_SET_LABEL);
+	}
+
+	protected Resource createMonthSet() {
+		return createSet(base+MONTH_SET_RELURI, MONTH_SET_LABEL);
+	}
+
+	protected Resource createQuarterSet() {
+		return createSet(base+QUARTER_SET_RELURI, QUARTER_SET_LABEL);
+	}
+
+	protected Resource createHalfSet() {
+		return createSet(base+HALF_SET_RELURI, HALF_SET_LABEL);
+	}
+
+	protected Resource createYearSet() {
+		return createSet(base+YEAR_SET_RELURI, YEAR_SET_LABEL);
+	}
+
+	protected void addCalendarActRef(Resource r_set) {
+		Resource r_calendarAct;
+		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource(CALENDAR_ACT_URI));
+		model.add(r_calendarAct, RDFS.label, "Calendar (New Style) Act 1750.","en");
+		model.add(r_calendarAct, SKOS.prefLabel, "Calendar (New Style) Act 1750.","en");
+	}	
+	
+	protected void addGregorianSourceRef(Resource r_set) {
+		Resource r_calendarAct;
+		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource("http://en.wikipedia.org/wiki/Gregorian_calendar"));
+		model.add(r_calendarAct, RDFS.label, "Wikipedia on Gregorian Calendar","en");
+		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on Gregorian Calendar","en");
 	}
 }

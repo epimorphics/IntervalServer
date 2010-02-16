@@ -53,7 +53,7 @@ public class SetId extends URITemplate {
 	public Response redirector(
 			@PathParam("path")  String path){
 		String fullURI = ui.getAbsolutePath().toString();
-		fullURI = fullURI.replaceFirst(SET_STEM, SET_DOC_STEM);
+		fullURI = fullURI.replaceFirst(SET_STEM, DOC_STEM);
 
 		ResponseBuilder resp = null;
 		try {

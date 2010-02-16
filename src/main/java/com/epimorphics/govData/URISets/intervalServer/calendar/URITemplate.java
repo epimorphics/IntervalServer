@@ -18,6 +18,7 @@ package com.epimorphics.govData.URISets.intervalServer.calendar;
 
 
 public class URITemplate {
+	
 
 	protected static final String YEAR_TOKEN 			= "year";
 	protected static final String HALF_TOKEN 			= "half";

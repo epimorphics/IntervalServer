@@ -18,35 +18,41 @@
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Locale;
 
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.vocabulary.DGU;
+import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
 import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
+import com.epimorphics.govData.vocabulary.VOID;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
-
-@Path(URITemplate.QUARTER_DOC_STEM)
+@Path(URITemplate.DOC_STEM+URITemplate.QUARTER_SEGMENT+URITemplate.SET_EXT_PATTERN)
 public class QuarterDoc extends Doc {
 
 
-	private void reset(int year, int quarter) {
+	private void populateModel(int year, int quarter) {
 		reset();
 		this.year = year;
 		this.quarter = quarter;
@@ -56,62 +62,91 @@ public class QuarterDoc extends Doc {
 		startTime = new GregorianOnlyCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+
+		super.populateModel();
 	}
 
+	
 	@GET
 	@Path(QUARTER_PATTERN+EXT_PATTERN)
 	@Produces()
 	public Response getResponse(
 			@PathParam(YEAR_TOKEN) int year,
 			@PathParam(QUARTER_TOKEN) int quarter,
-			@PathParam(EXT_TOKEN)  String ext ) {
-		reset(year, quarter);
-		this.ext = ext;
-		return doGet() ;
-	}
+			@PathParam(EXT_TOKEN)  String ext2 ) {
+		if(ext2.equals(""))
+			throw new WebApplicationException(Status.NOT_FOUND);
 
-	@GET
-	@Path(QUARTER_PATTERN)
-	@Produces("text/plain")
-	public Response getNTriple(
-			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(QUARTER_TOKEN) int quarter) {
-		reset(year, quarter);
-		return doGetNTriple().contentLocation(URI.create(ui.getPath()+"."+EXT_NT)).build();
-	}
-
-	@GET
-	@Path(QUARTER_PATTERN)
-	@Produces("application/rdf+xml")
-	public Response getRDF(
-			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(QUARTER_TOKEN) int quarter) {
-		reset(year, quarter);
-		return doGetRDF().contentLocation(URI.create(ui.getPath()+"."+EXT_RDF)).build();
-	}
-
-	@GET
-	@Path(QUARTER_PATTERN)
-	@Produces("application/json")
-	public Response getJson(
-			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(QUARTER_TOKEN) int quarter) {
-		reset(year, quarter);
-		return doGetJson()
-		       .contentLocation(URI.create(ui.getPath()+"."+EXT_JSON))
-		       .build();
+		MediaType mt = MediaTypeUtils.extToMediaType(ext2);
+		
+		ext = ext2;
+		return respond(year, quarter, mt, false);
 	}
 	
 	@GET
 	@Path(QUARTER_PATTERN)
-	@Produces( { "text/turtle", "application/x-turtle", "text/n3" })
-	public Response getTurtle(
+	public Response getResponse2(
 			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(QUARTER_TOKEN) int quarter) {
-		reset(year, quarter);
-		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
+			@PathParam(QUARTER_TOKEN) int quarter ) {
+		MediaType mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
+		ext = MediaTypeUtils.getExtOfMediaType(mt);
+		return respond(year, quarter, mt, true);
 	}
 
+	private Response respond(int year, int quarter, MediaType mt, boolean addExtent) {
+		base = ui.getBaseUri();
+		try {
+				loc = new URI(base + ui.getPath());
+				contentURI = new URI(loc.toString() + (addExtent? "."+ ext :""));
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+		} catch (URISyntaxException e) {
+			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+		
+		String lang = MediaTypeUtils.getLangOfMediaType(mt);
+
+		populateModel(year, quarter);
+
+		if (lang.equals("JSON"))
+			return doGetJson().type(mt).contentLocation(contentURI).build();
+ 
+		return doGet(lang).type(mt).contentLocation(contentURI).build();
+	}
+	
+	@GET
+	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
+		MediaType mt;
+		base = ui.getBaseUri();
+		//Remove leading .
+		ext2 = (ext2!=null && !ext2.equals("")) ? ext2.substring(1) : null ; //skip the '.'
+		try {
+			// Sort out media type from extent or pick media type and ext.
+			if (ext2 != null && !ext2.equals("")) {
+				mt = MediaTypeUtils.extToMediaType(ext2);
+				loc = new URI(base + ui.getPath());
+				ext = ext2;
+				contentURI = new URI(loc.toString());
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+			} else {
+				mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
+				ext = MediaTypeUtils.getExtOfMediaType(mt);
+				loc = new URI(base + ui.getPath());
+				contentURI = new URI(loc.toString()+ "."+ ext);
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+			}
+		} catch (URISyntaxException e) {
+			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+		
+		String lang = MediaTypeUtils.getLangOfMediaType(mt);
+
+		populateQuarterSet();
+
+		if (lang.equals("JSON"))
+			return doGetJson().type(mt).contentLocation(contentURI).build();
+
+		return doGet(lang).type(mt).contentLocation(contentURI).build();
+	}
 	
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int quarter) {
 		String relPart = year + QUARTER_PREFIX + quarter;
@@ -221,4 +256,61 @@ public class QuarterDoc extends Doc {
 		addGeneralIntervalTimeLink(model, startTime, oneQuarter);
 	}
 
+	private void populateQuarterSet() {
+		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
+		Resource r_set = createQuarterSet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc, QUARTER_SET_LABEL);
+		
+		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one quarter year (3 calendar month) duration" +
+									   " starting at midnight on the 1st day of a given quarter year.","en");
+		model.add(r_set, RDF.type, VOID.Dataset);
+		
+		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
+		
+		model.add(r_set, DGU.itemType, INTERVALS.CalendarQuarter);
+		model.add(r_set, VOID.uriRegexPattern, base_reg+QUARTER_ID_STEM+QUARTER_PATTERN_PLAIN);
+
+		model.add(r_set, VOID.exampleResource, QuarterDoc.createResourceAndLabels(base, model, 1644, 3));
+	
+		addGregorianSourceRef(r_set);	
+		
+		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
+		
+		r_yearSet=createYearSet();
+		r_halfSet=createHalfSet();
+//		r_quarterSet=createQuarterSet();
+		r_monthSet=createMonthSet();
+//		r_weekSet=createWeekSet();
+//		r_daySet=createDaySet();
+//		r_hourSet=createHourSet();
+//		r_minSet=createMinSet();
+//		r_secSet=createSecSet();
+		r_intervalSet=createIntervalSet();
+		r_instantSet=createInstantSet();
+		
+		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
+				"Gregorian quarter year to year interval containment links",
+				"Links between Gregorian calandar aligned half years and years in which they occur.");
+
+		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
+				"Gregorian quarter year to half year interval containment links",
+				"Links between Gregorian calandar aligned quarter years and calendar aligned half years in which they occur.");
+
+		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
+				"Gregorian quarter year to month interval containment links",
+				"Links between Gregorian calandar aligned quarter years and the months they contain.");
+
+		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
+				"Gregorian quarter year to starting instant links",
+				"Links between Gregorian calandar aligned quarter years and their starting instant.");		
+
+		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
+				"Gregorian quarter year to ending instant links",
+				"Links between Gregorian calandar aligned quarter years and their ending instant.");
+		
+		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
+				"Gregorian quarter year to generic interval links",
+				"Links between Gregorian calandar aligned quarter years and their corresponding generic interval.");		
+	}
 }

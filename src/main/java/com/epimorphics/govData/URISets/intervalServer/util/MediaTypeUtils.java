@@ -35,7 +35,7 @@ public class MediaTypeUtils {
 	
 	private static String languages[] =  {"RDF/XML-ABBREV","N3", "JSON", "N3", "N3", "N-TRIPLE"};
 	
-	private static String exts[] = {".rdf", ".ttl", ".json", ".ttl", ".n3", ".nt" };
+	private static String exts[] = {"rdf", "ttl", "json", "ttl", "n3", "nt" };
 	
 	/**
 	 * @param mt
@@ -60,11 +60,11 @@ public class MediaTypeUtils {
 	 * @return
 	 */
 	public static MediaType pickMediaType(List<MediaType> acceptableMediaTypes) {
-		MediaType res = null;
+		MediaType res = rdfMediaTypes[0]; //Default to RDF/XML
 		int i = -1;
 		for(MediaType mt : acceptableMediaTypes) {
 			int j = indexOfMt(mt);
-			if(j<1)
+			if(j<0)
 				continue;
 			
 			if( i==-1  ||
@@ -82,10 +82,14 @@ public class MediaTypeUtils {
 	}
 	
 	private static  int indexOfMt(MediaType mt) {
+		String type = mt.getType();
+		String subType = mt .getSubtype();
+		
 		for(int i=0; i<rdfMediaTypes.length; i++) {
-			if(rdfMediaTypes[i].equals(mt)){
+			MediaType other = rdfMediaTypes[i];
+			if(other.getType().equals(type) && 
+			   other.getSubtype().equals(subType))  
 				return i;
-			}
 		}
 		return -1;
 	}
@@ -104,9 +108,6 @@ public class MediaTypeUtils {
 	 * @return
 	 */
 	public static MediaType extToMediaType(String ext) {
-		if(!ext.startsWith("."))
-			ext = "."+ext;
-		
 		int i = indexOfExt(ext);
 		
 		return i>=0 ? rdfMediaTypes[i] : rdfMediaTypes[0]; 

@@ -19,8 +19,41 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 
 public class URITemplate {
+
+	protected static final String CALENDAR_STEM 		= "gregorian";
+	protected static final String CALENDAR_NAME			= "Gregorian";
 	
 	protected static final String DEFAULT_BASE_URI		= "http://reference.data.gov.uk/";
+	
+	static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
+	static final String GREGORIAN_CALENDAR_REF ="http://en.wikipedia.org/wiki/Gregorian_calendar";
+	
+	protected static final String DBPEDIA_SUBJECT_GREGORIAN_CALENDAR 	= "http://dbpedia.org/resources/Gregorian_calendar";
+	protected static final String DBPEDIA_SUBJECT_YEAR 				= "http://dbpedia.org/resources/Year";
+	protected static final String DBPEDIA_SUBJECT_MONTH 				= "http://dbpedia.org/resources/Month";
+	protected static final String DBPEDIA_SUBJECT_QUARTER 			= "http://dbpedia.org/resource/Fiscal_quarter";
+//	protected static final String DBPEDIA_SUBJECT_HALF 				= "http://dbpedia.org/resources/Year";
+	protected static final String DBPEDIA_SUBJECT_WEEK 				= "http://dbpedia.org/resources/Week";
+	protected static final String DBPEDIA_SUBJECT_DAY 				= "http://dbpedia.org/resources/Day";
+	protected static final String DBPEDIA_SUBJECT_HOUR 				= "http://dbpedia.org/resources/Hour";
+	protected static final String DBPEDIA_SUBJECT_MINUTE				= "http://dbpedia.org/resources/Minute";
+	protected static final String DBPEDIA_SUBJECT_SECOND 				= "http://dbpedia.org/resources/Second";
+//	protected static final String DBPEDIA_SUBJECT_INSTANT 			= "http://dbpedia.org/resources/Year";
+	protected static final String DBPEDIA_SUBJECT_INTERVAL 			= "http://dbpedia.org/resources/Interval_(time)";
+	
+	
+	protected static final String CALENDAR_SET_LABEL 	= CALENDAR_NAME+" calendar aligned intervals."; 
+	protected static final String YEAR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one year intervals."; 
+	protected static final String HALF_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one half year intervals."; 
+	protected static final String QUARTER_SET_LABEL 	= CALENDAR_NAME+" calendar aligned one quarter year intervals."; 
+	protected static final String MONTH_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one month intervals."; 
+	protected static final String WEEK_SET_LABEL 		= CALENDAR_NAME+" calendar aligned ISO8601 numbered week long intervals."; 
+	protected static final String DAY_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one day intervals."; 
+	protected static final String HOUR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one hour intervals."; 
+	protected static final String MINUTE_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one minute intervals."; 
+	protected static final String SECOND_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one second intervals."; 
+	protected static final String INTERVAL_SET_LABEL 	= "Arbitary duration intervals on the "+CALENDAR_NAME+" timeline."; 
+	protected static final String INSTANT_SET_LABEL 	= "Arbitary instants on the "+CALENDAR_NAME+" timeline."; 
 
 	protected static final String YEAR_TOKEN 			= "year";
 	protected static final String HALF_TOKEN 			= "half";
@@ -32,6 +65,7 @@ public class URITemplate {
 	protected static final String MINUTE_TOKEN 			= "minute";
 	protected static final String SECOND_TOKEN 			= "second";
 	protected static final String EXT_TOKEN 			= "ext";
+	protected static final String EXT2_TOKEN 			= "ext2";
 	protected static final String DURATION_TOKEN		= "duration";
 
 	protected static final String ID_STEM 				= "id/";
@@ -39,7 +73,6 @@ public class URITemplate {
 	protected static final String SET_STEM				= "set/";
 	protected static final String SET_DOC_STEM			= "doc/set/";
 	
-	protected static final String CALENDAR_STEM 		= "gregorian";
 	
 	protected static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;
 	protected static final String YEAR_SEGMENT 		= CALENDAR_STEM + "-year";
@@ -154,5 +187,6 @@ public class URITemplate {
 	protected static final String EXT_TTL = "ttl";
 	protected static final String EXT_JSON = "json";
 	protected static final String EXT_N3 = "n3";
+	protected static final String SET_EXT_PATTERN ="{"+EXT2_TOKEN+": (((\\."+EXT_RDF+")|(\\."+EXT_NT+")|(\\."+EXT_TTL+")|(\\."+EXT_N3+")||(\\."+EXT_JSON+"))$)?}";
 	protected static final String EXT_PATTERN =".{"+EXT_TOKEN+": (("+EXT_RDF+")|("+EXT_NT+")|("+EXT_TTL+")|("+EXT_N3+")||("+EXT_JSON+"))}";
 }

@@ -18,11 +18,14 @@
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
+
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -30,12 +33,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.vocabulary.DGU;
+import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
 import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
+import com.epimorphics.govData.vocabulary.VOID;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFList;
@@ -43,10 +51,10 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(URITemplate.HOUR_DOC_STEM)
+@Path(URITemplate.DOC_STEM+URITemplate.HOUR_SEGMENT+URITemplate.SET_EXT_PATTERN)
 public class HourDoc extends Doc {
 	
-	protected void reset(int year, int month, int day, int hour) {
+	protected void populateModel(int year, int month, int day, int hour) {
 		reset();
 		
 		setWeekOfYearAndMonth(year, month, day);
@@ -61,69 +69,94 @@ public class HourDoc extends Doc {
 		startTime = new GregorianOnlyCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
+		super.populateModel();
+
 	}
 	
 	@GET
 	@Path(HOUR_PATTERN+EXT_PATTERN)
 	@Produces()
 	public Response getResponse(
-			@PathParam(YEAR_TOKEN)  int year,
+			@PathParam(YEAR_TOKEN) int year,
 			@PathParam(MONTH_TOKEN) int month,
 			@PathParam(DAY_TOKEN)   int day,
 			@PathParam(HOUR_TOKEN)	int hour,
-			@PathParam(EXT_TOKEN)  String ext ) {
-		reset(year, month, day, hour);
-		this.ext   = ext;
-		return doGet();
+			@PathParam(EXT_TOKEN)  String ext2 ) {
+		if(ext2.equals(""))
+			throw new WebApplicationException(Status.NOT_FOUND);
+		
+		MediaType mt = MediaTypeUtils.extToMediaType(ext2);
+		ext = ext2;
+		return respond(year, month, day, hour, mt, false);
 	}
 	
 	@GET
 	@Path(HOUR_PATTERN)
-	@Produces("text/plain")
-	public Response getNTriple(
-			@PathParam(YEAR_TOKEN)  int year,
+	public Response getResponse2(
+			@PathParam(YEAR_TOKEN) int year,
 			@PathParam(MONTH_TOKEN) int month,
 			@PathParam(DAY_TOKEN)   int day,
-			@PathParam(HOUR_TOKEN)  int hour ) {
-		reset(year, month, day, hour);
-		return doGetNTriple().contentLocation(URI.create(ui.getPath()+"."+EXT_NT)).build();
+			@PathParam(HOUR_TOKEN)	int hour ) {
+		MediaType mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
+		ext = MediaTypeUtils.getExtOfMediaType(mt);
+		return respond(year, month, day, hour, mt, true);
 	}
 
-	@GET
-	@Path(HOUR_PATTERN)
-	@Produces("application/rdf+xml")
-	public Response getRDF(
-			@PathParam(YEAR_TOKEN)  int year,
-			@PathParam(MONTH_TOKEN) int month,
-			@PathParam(DAY_TOKEN)   int day,
-			@PathParam(HOUR_TOKEN)  int hour ) {
-		reset(year, month, day, hour);
-		return doGetRDF().contentLocation(URI.create(ui.getPath()+"."+EXT_RDF)).build();
-	}
+	private Response respond(int year,int month, int day, int hour, MediaType mt, boolean addExtent) {
+		base = ui.getBaseUri();
+		try {
+				loc = new URI(base + ui.getPath());
+				contentURI = new URI(loc.toString() + (addExtent? "."+ ext :""));
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+		} catch (URISyntaxException e) {
+			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+		
+		String lang = MediaTypeUtils.getLangOfMediaType(mt);
 
-	@GET
-	@Path(HOUR_PATTERN)
-	@Produces("application/json")
-	public Response getJson(
-			@PathParam(YEAR_TOKEN)  int year,
-			@PathParam(MONTH_TOKEN) int month,
-			@PathParam(DAY_TOKEN)   int day,
-			@PathParam(HOUR_TOKEN)  int hour ) {
-		reset(year, month, day, hour);
-		return doGetJson().contentLocation(URI.create(ui.getPath()+"."+EXT_JSON)).build();
+		populateModel(year, month, day, hour);
+
+		if (lang.equals("JSON"))
+			return doGetJson().type(mt).contentLocation(contentURI).build();
+ 
+		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 	
 	@GET
-	@Path(HOUR_PATTERN)
-	@Produces( { "text/turtle", "application/x-turtle", "text/n3" })
-	public Response getTurtle(
-			@PathParam(YEAR_TOKEN)  int year,
-			@PathParam(MONTH_TOKEN) int month,
-			@PathParam(DAY_TOKEN)   int day,
-			@PathParam(HOUR_TOKEN)  int hour ) {
-		reset(year, month, day, hour);
-		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
+	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
+		MediaType mt;
+		base = ui.getBaseUri();
+		//Remove leading .
+		ext2 = (ext2!=null && !ext2.equals("")) ? ext2.substring(1) : null ; //skip the '.'
+		try {
+			// Sort out media type from extent or pick media type and ext.
+			if (ext2 != null && !ext2.equals("")) {
+				mt = MediaTypeUtils.extToMediaType(ext2);
+				loc = new URI(base + ui.getPath());
+				ext = ext2;
+				contentURI = new URI(loc.toString());
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+			} else {
+				mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
+				ext = MediaTypeUtils.getExtOfMediaType(mt);
+				loc = new URI(base + ui.getPath());
+				contentURI = new URI(loc.toString()+ "."+ ext);
+				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+			}
+		} catch (URISyntaxException e) {
+			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+		
+		String lang = MediaTypeUtils.getLangOfMediaType(mt);
+
+		populateHourSet();
+
+		if (lang.equals("JSON"))
+			return doGetJson().type(mt).contentLocation(contentURI).build();
+
+		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
+	
 
 	protected static Resource createResourceAndLabels(URI base, Model m, int year, int moy, int dom, int hod) {
 		String relPart = year + MONTH_PREFIX + String.format("%02d", moy)
@@ -239,5 +272,74 @@ public class HourDoc extends Doc {
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day, hour);
 		addGeneralIntervalTimeLink(model, startTime, oneHour);
+	}
+	
+	private void populateHourSet() {
+		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
+		Resource r_set = createDaySet();
+		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
+		initModel(r_set, r_doc, HOUR_SET_LABEL);
+		
+		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one hour duration.","en");
+		model.add(r_set, RDF.type, VOID.Dataset);
+		
+		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
+		
+		model.add(r_set, DGU.itemType, INTERVALS.CalendarHour);
+		model.add(r_set, VOID.uriRegexPattern, base_reg+HOUR_ID_STEM+HOUR_PATTERN_PLAIN);
+
+		model.add(r_set, VOID.exampleResource, HourDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23));
+	
+		addGregorianSourceRef(r_set);	
+		
+		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
+		
+		r_yearSet=createYearSet();
+		r_halfSet=createHalfSet();
+		r_quarterSet=createQuarterSet();
+		r_monthSet=createMonthSet();
+		r_weekSet=createWeekSet();
+		r_daySet=createDaySet();
+//		r_hourSet=createHourSet();
+		r_minSet=createMinSet();
+//		r_secSet=createSecSet();
+		r_intervalSet=createIntervalSet();
+		r_instantSet=createInstantSet();
+		
+		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
+				"Gregorian calendar hour to calendar year interval containment links",
+				"Links between Gregorian calendar hours and the calendar years in which they occur.");
+
+		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
+				"Gregorian calendar hour to half year interval containment links",
+				"Links between Gregorian calendar hours and the calendar aligned half years in which they occur.");
+
+		addLinkset(r_set, r_set, r_quarterSet, TIME.intervalDuring, 
+				"Gregorian calendar hours to calendar quarter year interval containment links",
+				"Links between Gregorian calendar hours and the calendar aligned quarter years in which they occur.");
+
+		addLinkset(r_set, r_set, r_weekSet, TIME.intervalDuring, 
+				"Gregorian calendar days to calendar week interval containment links",
+				"Links between Gregorian calendar days and the ISO 8601 numbered week in which they occur.");
+
+		addLinkset(r_set, r_set, r_daySet, TIME.intervalDuring, 
+				"Gregorian calendar hours to calendar day interval containment links",
+				"Links between Gregorian calendar days and the calendar day in which they occur.");
+
+		addLinkset(r_set, r_set, r_minSet, INTERVALS.intervalContainsMinute, 
+				"Gregorian calendar hour to calendar aligned minute interval containment links",
+				"Links between Gregorian calendar hour and the calendar aligned minutes they contain.");
+
+		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
+				"Gregorian calendar hour to starting instant links",
+				"Links between Gregorian calendar hours and their starting instant.");		
+
+		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
+				"Gregorian calendar hours to ending instant links",
+				"Links between Gregorian calendar hours and their ending instant.");
+		
+		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
+				"Gregorian calendar hour to generic interval links",
+				"Links between Gregorian calendar hours and their corresponding generic interval.");		
 	}
 }
