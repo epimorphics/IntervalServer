@@ -253,6 +253,7 @@ public class HalfDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, half);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createHalfSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneHalf);
 	}

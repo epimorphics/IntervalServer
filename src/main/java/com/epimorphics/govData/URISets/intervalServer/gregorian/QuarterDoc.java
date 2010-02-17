@@ -253,6 +253,7 @@ public class QuarterDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, quarter);	
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createQuarterSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneQuarter);
 	}

@@ -213,6 +213,7 @@ public class InstantDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, startTime);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createInstantSet());
 		
 //		addPlaceTimeInstantLink(model, startTime.getTime());
 //		
@@ -229,7 +230,7 @@ public class InstantDoc extends Doc {
 	}
 	
 	private void populateInstantSet() {
-		Resource r_set = createSecSet();
+		Resource r_set = createInstantSet();
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INSTANT_SET_LABEL);
 		

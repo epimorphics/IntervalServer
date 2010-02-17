@@ -268,6 +268,7 @@ public class SecDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month ,day, hour, min, sec);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createSecSet());
 		addGeneralIntervalTimeLink(model, startTime, oneSecond);
 	}
 	

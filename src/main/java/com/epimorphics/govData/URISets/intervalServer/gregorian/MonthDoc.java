@@ -152,57 +152,6 @@ public class MonthDoc extends Doc {
 		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 
-//	@GET
-//	@Path(MONTH_PATTERN+EXT_PATTERN)
-//	@Produces()
-//	public Response getResponse(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month,
-//			@PathParam(EXT_TOKEN)  String ext ) {
-//		populateModel(year, month);
-//		this.ext   = ext;
-//		return doGet();
-//	}
-//	
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("text/plain")
-//	public Response getNTriple(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetNTriple().contentLocation(URI.create(ui.getPath()+"."+EXT_NT)).build();
-//	}
-//
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("application/rdf+xml")
-//	public Response getRDF(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetRDF().contentLocation(URI.create(ui.getPath()+"."+EXT_RDF)).build();
-//	}
-//
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("application/json")
-//	public Response getJson(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetJson().contentLocation(URI.create(ui.getPath()+"."+EXT_JSON)).build();
-//	}
-//	
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces({ "text/turtle", "application/x-turtle", "text/n3" })
-//	public Response getTurtle(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
-//	}
 		
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int moy) {
 		String relPart = year + MONTH_PREFIX + String.format("%02d", moy);
@@ -297,6 +246,7 @@ public class MonthDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createMonthSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneMonth);		
 	}

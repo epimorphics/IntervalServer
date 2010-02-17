@@ -23,6 +23,13 @@ import java.util.regex.Pattern;
 
 public class Duration {
 
+	private int years  = 0;
+	private int months = 0;
+	private int days   = 0;
+	private int hours  = 0;
+	private int mins   = 0;
+	private int secs   = 0;
+	
 	protected static int DURATION_YEARS = 2;
 	protected static int DURATION_MONTHS = 4;
 	protected static int DURATION_DAYS = 6;
@@ -32,55 +39,6 @@ public class Duration {
 	
 	protected static final String DURATION_REGEX = "P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?";
 	//                                                ^2          ^4          ^6         ^7 ^9          ^11         ^13
-
-	/**
-	 * @return the years
-	 */
-	public int getYears() {
-		return years;
-	}
-
-	/**
-	 * @return the months
-	 */
-	public int getMonths() {
-		return months;
-	}
-
-	/**
-	 * @return the days
-	 */
-	public int getDays() {
-		return days;
-	}
-
-	/**
-	 * @return the hours
-	 */
-	public int getHours() {
-		return hours;
-	}
-
-	/**
-	 * @return the mins
-	 */
-	public int getMins() {
-		return mins;
-	}
-
-	/**
-	 * @return the secs
-	 */
-	public int getSecs() {
-		return secs;
-	}
-
-	private int years = 0;
-	private int months = 0;
-	private int days = 0;
-	private int hours = 0;
-	private int mins = 0;
-	private int secs = 0;
 
 	public Duration(String duration) {
 		Pattern p = Pattern.compile(DURATION_REGEX);
@@ -111,6 +69,23 @@ public class Duration {
 			if (s != null && !s.equals(""))
 				secs = Integer.parseInt(s);
 		}
+	}
+
+	/**
+	 * @param years2
+	 * @param months2
+	 * @param days2
+	 * @param hours2
+	 * @param mins2
+	 * @param secs2
+	 */
+	public Duration(int years2, int months2, int days2, int hours2,	int mins2, int secs2) {
+			years 	= years2;
+			months 	= months2;
+			days 	= days2;
+			hours	= hours2;
+			mins 	= mins2;
+			secs 	= secs2;
 	}
 
 	public String toString() {
@@ -167,5 +142,48 @@ public class Duration {
 		if(secs>0)
 			cal.add(Calendar.SECOND, secs);
 	}
+	
+	/**
+	 * @return the years
+	 */
+	public int getYears() {
+		return years;
+	}
+
+	/**
+	 * @return the months
+	 */
+	public int getMonths() {
+		return months;
+	}
+
+	/**
+	 * @return the days
+	 */
+	public int getDays() {
+		return days;
+	}
+
+	/**
+	 * @return the hours
+	 */
+	public int getHours() {
+		return hours;
+	}
+
+	/**
+	 * @return the mins
+	 */
+	public int getMins() {
+		return mins;
+	}
+
+	/**
+	 * @return the secs
+	 */
+	public int getSecs() {
+		return secs;
+	}
+
 
 }

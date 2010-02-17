@@ -295,6 +295,7 @@ public class MonthDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createMonthSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneMonth);		
 	}

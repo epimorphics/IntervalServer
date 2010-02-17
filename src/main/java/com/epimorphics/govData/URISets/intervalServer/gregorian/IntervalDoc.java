@@ -265,10 +265,11 @@ public class IntervalDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, startTime, duration);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createIntervalSet());
 	}
 	
 	private void populateIntervalSet() {
-		Resource r_set = createSecSet();
+		Resource r_set = createIntervalSet();
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INTERVAL_SET_LABEL);
 		

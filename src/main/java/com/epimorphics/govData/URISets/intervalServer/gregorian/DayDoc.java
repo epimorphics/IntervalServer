@@ -266,6 +266,7 @@ public class DayDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createDaySet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneDay);	
 	}

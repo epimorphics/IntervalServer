@@ -21,7 +21,7 @@ package com.epimorphics.govData.URISets.intervalServer.ukcal;
 public class BritishCalendarURITemplate {
 
 	public static final String CALENDAR_STEM 		= "";
-	public static final String CALENDAR_NAME			= "UK Calendar";
+	public static final String CALENDAR_NAME			= "British";
 	
 	public static final String DEFAULT_BASE_URI		= "http://reference.data.gov.uk/";
 	

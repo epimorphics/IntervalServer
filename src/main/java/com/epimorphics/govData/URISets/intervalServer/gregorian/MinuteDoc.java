@@ -283,6 +283,7 @@ public class MinuteDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month ,day ,hour, min);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createMinSet());
 		addGeneralIntervalTimeLink(model, startTime, oneMinute);
 	}
 	

@@ -270,12 +270,13 @@ public class HourDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, month, day, hour);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createHourSet());
 		addGeneralIntervalTimeLink(model, startTime, oneHour);
 	}
 	
 	private void populateHourSet() {
 		//Resource r_set = model.createResource(setURI.toString(), DGU.URIset);
-		Resource r_set = createDaySet();
+		Resource r_set = createHourSet();
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, HOUR_SET_LABEL);
 		

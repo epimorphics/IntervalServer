@@ -239,6 +239,7 @@ public class WeekOfYearDoc extends Doc {
 	@Override
 	void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year, woy_week);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createWeekSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneWeek);		
 	}

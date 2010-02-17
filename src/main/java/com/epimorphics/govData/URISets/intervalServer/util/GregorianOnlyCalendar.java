@@ -17,6 +17,8 @@
 
 package com.epimorphics.govData.URISets.intervalServer.util;
 
+import java.awt.Dialog;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -74,4 +76,45 @@ public class GregorianOnlyCalendar extends GregorianCalendar {
 		this.setGregorianChange(new Date(Long.MIN_VALUE));		
 	}
 
+	/**
+	 * @param gcEnd
+	 * @return
+	 */
+	public Duration getDurationTo(Calendar other) {
+		long start = getTimeInMillis();
+		long end = other.getTimeInMillis();
+		GregorianOnlyCalendar working = (GregorianOnlyCalendar) this.clone();
+		if(start==end) 
+			return null;
+		
+		if(start>end) {
+			return null;
+		}
+		int years 		= advanceFieldUptoLimit(Calendar.YEAR, end, working);
+		int months		= advanceFieldUptoLimit(Calendar.MONTH, end, working);
+		int days		= advanceFieldUptoLimit(Calendar.DATE, end, working);
+		int hours		= advanceFieldUptoLimit(Calendar.HOUR, end, working);
+		int mins		= advanceFieldUptoLimit(Calendar.MINUTE, end, working);;
+		int secs		= advanceFieldUptoLimit(Calendar.SECOND, end, working);;
+
+		return new Duration(years, months, days, hours, mins, secs);
+	}
+	
+	private int advanceFieldUptoLimit(int calendar_field, long limit, GregorianOnlyCalendar working) {
+		int count = 0;
+		
+		if (working.getTimeInMillis() >= limit)
+			return 0;
+		
+		while (working.getTimeInMillis()< limit) {
+			count++;
+			working.add(calendar_field, 1);
+			if(working.getTimeInMillis()==limit) {
+				return count;
+			}
+		}
+		// Back out of a step too far
+		working.add(calendar_field, -1);
+		return --count;
+	}
 }

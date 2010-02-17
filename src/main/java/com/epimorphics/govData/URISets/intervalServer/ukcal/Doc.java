@@ -42,6 +42,7 @@ import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
+import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
@@ -261,10 +262,23 @@ abstract public class Doc extends BritishCalendarURITemplate {
 	}
 
 	protected void addGeneralIntervalTimeLink(Model model, Calendar d, Literal isoDuration) {
-		Resource r_interval = IntervalDoc.createResourceAndLabels(base, model , d , new Duration(isoDuration.getLexicalForm()));
-//		String s_intervalURI = base + INTERVAL_ID_STEM + s_isoDate +"/" + isoDuration.getLexicalForm();
-//		Resource r_interval = model.createResource(s_intervalURI,TIME.Interval);
-		model.add(r_thisTemporalEntity, TIME.intervalEquals, r_interval);
+		Duration dur = new Duration(isoDuration.getLexicalForm());
+		GregorianOnlyCalendar gcal = new GregorianOnlyCalendar(Locale.UK);
+		gcal.setTimeInMillis(d.getTimeInMillis());
+
+		Calendar calEnd = (Calendar) d.clone();
+		GregorianOnlyCalendar gcEnd = (GregorianOnlyCalendar) gcal.clone();
+		
+		dur.addToCalendar(calEnd);
+		dur.addToCalendar(gcEnd);
+		
+		if(calEnd.getTimeInMillis()==gcEnd.getTimeInMillis()) {
+			// All is fine and dandy!
+			IntervalDoc.createResourceAndLabels(base, model , gcal, dur);
+		} else  {
+			Duration dur2 = gcal.getDurationTo(calEnd);
+			IntervalDoc.createResourceAndLabels(base, model , gcal , dur2);
+		}	
 	}
 
 

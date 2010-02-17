@@ -235,8 +235,10 @@ public class YearDoc extends Doc {
 	@Override
 	protected void addThisTemporalEntity() {
 		r_thisTemporalEntity = createResource(base, model, year);
+		r_thisTemporalEntity.addProperty(DGU.uriSet,createYearSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneYear);
+		
 	}
 	
 	private void populateYearSet() {
