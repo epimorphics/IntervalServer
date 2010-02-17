@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        YearId.java
+ * File:        DayId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -15,9 +15,9 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -27,20 +27,24 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(GregorianURITemplate.YEAR_ID_STEM+GregorianURITemplate.YEAR_PATTERN)
-public class YearId extends Id {
+@Path(BritishCalendarURITemplate.DAY_ID_STEM+BritishCalendarURITemplate.DAY_PATTERN)
+public class DayId extends Id {
+
 	@GET
-	public Response redirector(@PathParam(YEAR_TOKEN) int year) {
-		//Check that the date is in the "+CALENDAR_NAME+" Calendar
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+	public Response redirector(
+			@PathParam(YEAR_TOKEN)  int year, 
+			@PathParam(MONTH_TOKEN) int month,
+			@PathParam(DAY_TOKEN)   int day ) {
+		
+		//Check that the date is in the Calendar
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
-		cal.set(year, 0, 1);
+		cal.set(year, month-1, day);
 		try {
 			cal.getTimeInMillis();
 		} catch (IllegalArgumentException e) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		return redirector();
-	
 	}
 }

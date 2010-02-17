@@ -14,7 +14,7 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,9 +27,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.SKOS;
@@ -42,7 +42,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author skw
  *
  */
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.CALENDAR_STEM+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.CALENDAR_STEM+BritishCalendarURITemplate.SET_EXT_PATTERN)
 public class SetDoc extends Doc {
 	
 	@GET
@@ -149,8 +149,8 @@ public class SetDoc extends Doc {
 		model.add(r_set, VOID.exampleResource, HourDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23));
 		model.add(r_set, VOID.exampleResource, MinuteDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23, 59));
 		model.add(r_set, VOID.exampleResource, SecDoc.createResourceAndLabels(base, model, 1234, 4, 1, 22, 35, 41));
-		model.add(r_set, VOID.exampleResource, InstantDoc.createResource(base, model, new GregorianOnlyCalendar(1977, 10, 1, 12, 22, 45)));
-		model.add(r_set, VOID.exampleResource, IntervalDoc.createResourceAndLabels(base, model, new GregorianOnlyCalendar(1977, 10, 1, 12, 22, 45), new Duration("P2Y1MT1H6S") ));
+//		model.add(r_set, VOID.exampleResource, InstantDoc.createResource(base, model, new BritishCalendar(1977, 10, 1, 12, 22, 45)));
+//		model.add(r_set, VOID.exampleResource, IntervalDoc.createResourceAndLabels(base, model, new BritishCalendar(1977, 10, 1, 12, 22, 45), new Duration("P2Y1MT1H6S") ));
 		
 
 		addGregorianSourceRef(r_set);

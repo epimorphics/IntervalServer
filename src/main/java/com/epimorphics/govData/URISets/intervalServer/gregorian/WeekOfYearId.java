@@ -29,7 +29,7 @@ import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 
 
-@Path(URITemplate.WEEK_ID_STEM+URITemplate.WOY_PATTERN)
+@Path(GregorianURITemplate.WEEK_ID_STEM+GregorianURITemplate.WOY_PATTERN)
 public class WeekOfYearId extends Id {
 
 

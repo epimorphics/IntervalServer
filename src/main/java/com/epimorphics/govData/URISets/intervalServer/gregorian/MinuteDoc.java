@@ -52,7 +52,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(URITemplate.DOC_STEM+URITemplate.MINUTE_SEGMENT+URITemplate.SET_EXT_PATTERN)
+@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.MINUTE_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
 public class MinuteDoc extends Doc {
 	
 	protected void populateModel(int year, int month, int day, int hour, int min) {

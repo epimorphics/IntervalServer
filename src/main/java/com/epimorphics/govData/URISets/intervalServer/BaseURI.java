@@ -49,6 +49,20 @@ public class BaseURI {
 
 		visited = true;
 		String s_uri = null;
+
+		try {
+			Class.forName("javax.naming.InitialContext");
+		} catch (Exception e1) {
+			logger.warn("Unable to load \"Initial Context\" probably running on Google AppEngine");
+			logger.warn("Forcing hardbase to http://reference.data.gov.uk/");
+			try {
+				base = new URI("http://reference.data.gov.uk/");
+			} catch (URISyntaxException e) {
+				//do nothing.
+			}
+			return;
+		}
+		
 		InitialContext ctx;
 		try {
 			ctx = new InitialContext();
@@ -62,6 +76,14 @@ public class BaseURI {
 			}
 		} catch (NamingException e) {
 			logger.info("Config parameter \"hard-base-uri\" not set. Using Servlet root URI as base URI");
+		} catch (NoClassDefFoundError e){
+			logger.warn("Unable to access \"Initial Context\" probably running on Google AppEngine");
+//			logger.warn("Forcing hardbase to http://reference.data.gov.uk/");
+//			try {
+//				base = new URI("http://reference.data.gov.uk/");
+//			} catch (URISyntaxException e3) {
+//				//do nothing.
+//			}
 		}
 	}
 

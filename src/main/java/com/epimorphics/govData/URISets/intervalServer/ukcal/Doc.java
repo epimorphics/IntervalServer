@@ -15,7 +15,7 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,9 +38,10 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.govcalendar.Id;
+import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
@@ -66,7 +67,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-abstract public class Doc extends GregorianURITemplate {
+abstract public class Doc extends BritishCalendarURITemplate {
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
 
@@ -106,7 +107,7 @@ abstract public class Doc extends GregorianURITemplate {
 
 	
 	protected void setWeekOfYearAndMonth(int year, int month, int day) {
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, month-1, day, 0, 0, 0);
 		try {

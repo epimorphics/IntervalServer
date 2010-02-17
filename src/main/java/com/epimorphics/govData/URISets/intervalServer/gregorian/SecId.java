@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.SECOND_ID_STEM+URITemplate.SECOND_PATTERN)
+@Path(GregorianURITemplate.SECOND_ID_STEM+GregorianURITemplate.SECOND_PATTERN)
 public class SecId extends Id{
 
 	@GET

@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.INSTANT_ID_STEM+URITemplate.INSTANT_PATTERN)
+@Path(GregorianURITemplate.INSTANT_ID_STEM+GregorianURITemplate.INSTANT_PATTERN)
 public class InstantId extends Id{
 
 	@GET

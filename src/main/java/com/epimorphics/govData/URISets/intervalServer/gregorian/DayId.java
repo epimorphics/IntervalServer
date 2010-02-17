@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.DAY_ID_STEM+URITemplate.DAY_PATTERN)
+@Path(GregorianURITemplate.DAY_ID_STEM+GregorianURITemplate.DAY_PATTERN)
 public class DayId extends Id {
 
 	@GET

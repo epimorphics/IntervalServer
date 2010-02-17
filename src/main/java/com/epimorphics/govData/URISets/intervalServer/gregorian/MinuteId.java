@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.MINUTE_ID_STEM+URITemplate.MINUTE_PATTERN)
+@Path(GregorianURITemplate.MINUTE_ID_STEM+GregorianURITemplate.MINUTE_PATTERN)
 public class MinuteId extends Id{
 
 	@GET

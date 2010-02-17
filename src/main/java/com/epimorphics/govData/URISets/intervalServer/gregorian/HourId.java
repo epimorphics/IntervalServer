@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.HOUR_ID_STEM+URITemplate.HOUR_PATTERN)
+@Path(GregorianURITemplate.HOUR_ID_STEM+GregorianURITemplate.HOUR_PATTERN)
 public class HourId extends Id {
 
 	/**

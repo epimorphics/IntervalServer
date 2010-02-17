@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.QUARTER_ID_STEM+URITemplate.QUARTER_PATTERN)
+@Path(GregorianURITemplate.QUARTER_ID_STEM+GregorianURITemplate.QUARTER_PATTERN)
 public class QuarterId extends Id {
 
 	@GET

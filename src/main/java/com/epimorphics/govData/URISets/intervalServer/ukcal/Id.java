@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        SecId.java
+ * File:        Id.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -15,53 +15,36 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 
-@Path(URITemplate.SET_STEM)
-public class SetId extends URITemplate {
-@Context UriInfo ui;
 
-	final static String PATH_REGEX =
-		"("+CALENDAR_STEM+")|"+
-		"("+YEAR_SEGMENT+")|"+
-		"("+HALF_SEGMENT+")|"+
-		"("+QUARTER_SEGMENT+")|"+
-		"("+MONTH_SEGMENT+")|"+
-		"("+DAY_SEGMENT+")|"+
-		"("+WEEK_SEGMENT+")|"+
-		"("+HOUR_SEGMENT+")|"+
-		"("+MINUTE_SEGMENT+")|"+
-		"("+SECOND_SEGMENT+")|"+
-		"("+INSTANT_SEGMENT+")|"+
-		"("+INTERVAL_SEGMENT+")";
+public class Id extends BritishCalendarURITemplate{
+	protected @Context UriInfo ui;
 
-	@GET
-	@Path("{path:"+PATH_REGEX+"}" )
-	public Response redirector(
-			@PathParam("path")  String path){
-		String fullURI = ui.getAbsolutePath().toString();
-		fullURI = fullURI.replaceFirst(SET_STEM, DOC_STEM);
+	/**
+	 * id->doc 303 Redirections for URI of the form /id/yyyy-mm-ddThh:mm:ss
+	 */
+	public Response redirector() {
+		String base = (BaseURI.getBase()== null ? ui.getBaseUri() : BaseURI.getBase()).toString();
+		String path = ui.getPath().replaceFirst(ID_STEM, DOC_STEM);
 
 		ResponseBuilder resp = null;
 		try {
-			resp = Response.seeOther(new URI(fullURI));
+			resp = Response.seeOther(new URI(base+path));
 		} catch (URISyntaxException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		return resp.build();
-		
 	}
 }

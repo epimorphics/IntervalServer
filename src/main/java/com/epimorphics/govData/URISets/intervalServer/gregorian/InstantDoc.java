@@ -49,7 +49,7 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(URITemplate.DOC_STEM+URITemplate.INSTANT_SEGMENT+URITemplate.SET_EXT_PATTERN)
+@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.INSTANT_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
 
 public class InstantDoc extends Doc {
 	

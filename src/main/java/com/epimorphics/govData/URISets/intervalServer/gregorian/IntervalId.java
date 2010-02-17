@@ -27,8 +27,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.INTERVAL_ID_STEM+URITemplate.INTERVAL_PATTERN)
-//@Path(URITemplate.INTERVAL_ID_STEM+URITemplate.SECOND_PATTERN+"/{duration : P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?}")
+@Path(GregorianURITemplate.INTERVAL_ID_STEM+GregorianURITemplate.INTERVAL_PATTERN)
+//@Path(GregorianURITemplate.INTERVAL_ID_STEM+GregorianURITemplate.SECOND_PATTERN+"/{duration : P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?}")
 public class IntervalId extends Id{
 
 	@GET

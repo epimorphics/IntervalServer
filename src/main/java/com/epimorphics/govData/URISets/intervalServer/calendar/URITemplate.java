@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        URITemplate.java
+ * File:        GregorianURITemplate.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 

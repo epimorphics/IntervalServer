@@ -14,18 +14,12 @@
  * THE SOFTWARE.
  * $Id:  $
  *****************************************************************/
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
-
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -37,6 +31,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -51,7 +49,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.DAY_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.DAY_SEGMENT+BritishCalendarURITemplate.SET_EXT_PATTERN)
 public class DayDoc extends Doc {
 	
 	protected void populateModel(int year, int month, int day) {
@@ -63,7 +61,7 @@ public class DayDoc extends Doc {
 		this.quarter = ((month-1)/3)+1;
 		this.day = day;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
 		
@@ -165,7 +163,7 @@ public class DayDoc extends Doc {
 		m.add(r_day, SKOS.prefLabel, s_label, "en");
 		m.add(r_day, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.set(year, moy - 1, dom);
 	
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,Locale.UK);
@@ -179,7 +177,7 @@ public class DayDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int moy, int dom) {
 		Resource r_day = createResourceAndLabels(base, m, year, moy, dom);
 		m.add(r_day, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, moy-1, dom,0 , 0, 0);
 		cal.getTimeInMillis();
@@ -209,7 +207,7 @@ public class DayDoc extends Doc {
 
 	@Override
 	void addContainedIntervals() {
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		ArrayList<Resource> hours = new ArrayList<Resource>();
 		
 		cal.set(year, month-1, day);
@@ -247,13 +245,13 @@ public class DayDoc extends Doc {
 	@Override
 	void addNeighboringIntervals() {
 		Resource r_nextDay, r_prevDay;
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,1);
 			r_nextDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DAY_OF_MONTH,-1);
 			r_prevDay = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 		} catch (IllegalArgumentException e) {

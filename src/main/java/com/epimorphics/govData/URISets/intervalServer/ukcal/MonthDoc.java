@@ -15,18 +15,12 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
-
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -38,6 +32,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -52,7 +50,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.MONTH_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.MONTH_SEGMENT+BritishCalendarURITemplate.SET_EXT_PATTERN)
 //@Path(GregorianURITemplate.MONTH_DOC_STEM)
 public class MonthDoc extends Doc {
 
@@ -63,7 +61,7 @@ public class MonthDoc extends Doc {
 		this.half =((month-1)/6)+1;
 		this.quarter = ((month-1)/3)+1;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
 		
@@ -214,7 +212,7 @@ public class MonthDoc extends Doc {
 		m.add(r_month, SKOS.prefLabel, s_label, "en");
 		m.add(r_month, RDFS.label, s_label, "en");
 	
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.set(year, moy - 1, 01);
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
 				Locale.UK);
@@ -229,7 +227,7 @@ public class MonthDoc extends Doc {
 		Resource r_month = createResourceAndLabels(base, m, year, moy);
 		m.add(r_month, RDF.type, SCOVO.Dimension);
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, 1, 0, 0, 0);
+		BritishCalendar cal = new BritishCalendar(year, moy-1, 1, 0, 0, 0);
 		cal.setLenient(false);
 				
 		m.add(r_month, INTERVALS.hasXsdDurationDescription, oneMonth);
@@ -252,7 +250,7 @@ public class MonthDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		while(cal.get(Calendar.MONTH)==(month-1)) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
 			connectToContainingInterval(model, r_thisTemporalEntity, r_day);
@@ -277,14 +275,14 @@ public class MonthDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextMonth = null;
 		Resource r_prevMonth = null;
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,1);
 			r_nextMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-1);
 			r_prevMonth = createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
 		} catch (IllegalArgumentException e) {

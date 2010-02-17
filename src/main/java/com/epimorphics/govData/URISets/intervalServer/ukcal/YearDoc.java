@@ -15,17 +15,12 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Locale;
-
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,6 +31,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -50,13 +49,13 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.YEAR_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.YEAR_SEGMENT+BritishCalendarURITemplate.SET_EXT_PATTERN)
 public class YearDoc extends Doc {
 	
 	protected void populateModel(int year) {
 		reset();
 		this.year = year;
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
 		super.populateModel();
@@ -157,7 +156,7 @@ public class YearDoc extends Doc {
 	static protected Resource createResource(URI base, Model model, int year) {
 		Resource r_year = createResourceAndLabels(base, model, year);
 		model.add(r_year, RDF.type, SCOVO.Dimension);
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
+		BritishCalendar cal = new BritishCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
 		cal.setLenient(false);
 		
 		
@@ -223,11 +222,11 @@ public class YearDoc extends Doc {
 
 	@Override
 	protected void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		
 		cal.add(Calendar.YEAR, 1);
 		Resource r_nextYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
-		cal = (GregorianOnlyCalendar) startTime.clone();
+		cal = (BritishCalendar) startTime.clone();
 		cal.add(Calendar.YEAR, -1);
 		Resource r_prevYear = createResourceAndLabels(base, model, cal.get(Calendar.YEAR));
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextYear, r_prevYear);

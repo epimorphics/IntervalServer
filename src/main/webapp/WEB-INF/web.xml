@@ -16,6 +16,7 @@
 			<param-value>com.epimorphics.govData.URISets.intervalServer;
 				com.epimorphics.govData.URISets.intervalServer.calendar;
 				com.epimorphics.govData.URISets.intervalServer.gregorian;
+				com.epimorphics.govData.URISets.intervalServer.ukcal;
 				com.epimorphics.govData.URISets.intervalServer.govcalendar;
 		</param-value>
 		</init-param>
@@ -31,7 +32,6 @@
 	<env-entry>
 		<env-entry-name>hard-base-uri</env-entry-name>
 		<!-- <env-entry-value>http://reference.data.gov.uk/</env-entry-value> -->
-		<env-entry-value>http://reference.data.gov.uk/</env-entry-value>
 		<env-entry-type>java.lang.String</env-entry-type>
 	</env-entry>
 </web-app>

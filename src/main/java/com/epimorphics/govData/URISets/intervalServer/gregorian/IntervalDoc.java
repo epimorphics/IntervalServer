@@ -50,7 +50,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
-@Path(URITemplate.DOC_STEM+URITemplate.INTERVAL_SEGMENT+URITemplate.SET_EXT_PATTERN)
+@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.INTERVAL_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
 
 public class IntervalDoc extends Doc {
 	

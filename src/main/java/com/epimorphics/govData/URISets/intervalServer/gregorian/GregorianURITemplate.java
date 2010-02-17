@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        URITemplate.java
+ * File:        GregorianURITemplate.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -18,7 +18,7 @@
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 
-public class URITemplate {
+public class GregorianURITemplate {
 
 	protected static final String CALENDAR_STEM 		= "gregorian";
 	protected static final String CALENDAR_NAME			= "Gregorian";
@@ -69,8 +69,8 @@ public class URITemplate {
 	protected static final String DURATION_TOKEN		= "duration";
 
 	protected static final String ID_STEM 				= "id/";
-	protected static final String DOC_STEM 				= "doc/";
-	protected static final String SET_STEM				= "set/";
+	public static final String DOC_STEM 				= "doc/";
+	public static final String SET_STEM				= "set/";
 	protected static final String SET_DOC_STEM			= "doc/set/";
 	
 	
@@ -158,18 +158,19 @@ public class URITemplate {
 	protected static final String SUMMARY_PATTERN_PLAIN = "-[^/]+/.+";
 
 	protected static final String YEAR_PATTERN_PLAIN 	= "[1-9][0-9]*";
-	protected static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+HALF_PREFIX+"[1-2]";
-	protected static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+QUARTER_PREFIX+"[1-4]";
-	protected static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+MONTH_PREFIX+"[0-1][0-9]";
-	protected static final String WEEK_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+WEEK_PREFIX+"[0-5][0-9]";
-	protected static final String DAY_PATTERN_PLAIN  	= MONTH_PATTERN_PLAIN+DAY_PREFIX+"[0-3][0-9]";
-	protected static final String HOUR_PATTERN_PLAIN 	= DAY_PATTERN_PLAIN+HOUR_PREFIX+"[0-2][0-9]";
-	protected static final String MIN_PATTERN_PLAIN  	= HOUR_PATTERN_PLAIN+MINUTE_PREFIX+"[0-5][0-9]";
-	protected static final String SEC_PATTERN_PLAIN  	= MIN_PATTERN_PLAIN+SECOND_PREFIX+"[0-5][0-9]";
-	protected static final String INSTANT_PATTERN_PLAIN = SEC_PATTERN_PLAIN;
-	protected static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
+	public static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+HALF_PREFIX+"[1-2]";
+	public static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+QUARTER_PREFIX+"[1-4]";
+	public static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+MONTH_PREFIX+"[0-1][0-9]";
+	public static final String WEEK_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+WEEK_PREFIX+"[0-5][0-9]";
+	public static final String DAY_PATTERN_PLAIN  	= MONTH_PATTERN_PLAIN+DAY_PREFIX+"[0-3][0-9]";
+	public static final String HOUR_PATTERN_PLAIN 	= DAY_PATTERN_PLAIN+HOUR_PREFIX+"[0-2][0-9]";
+	public static final String MIN_PATTERN_PLAIN  	= HOUR_PATTERN_PLAIN+MINUTE_PREFIX+"[0-5][0-9]";
+	public static final String SEC_PATTERN_PLAIN  	= MIN_PATTERN_PLAIN+SECOND_PREFIX+"[0-5][0-9]";
+	public static final String INSTANT_PATTERN_PLAIN = SEC_PATTERN_PLAIN;
+	public static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
 
-	final static String PATH_REGEX =
+	public final static String PATH_REGEX =
+		"("+CALENDAR_STEM+")"+
 		"("+YEAR_SEGMENT+")|"+
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+
@@ -182,11 +183,11 @@ public class URITemplate {
 		"("+INSTANT_SEGMENT+")|"+
 		"("+INTERVAL_SEGMENT+")";
 
-	protected static final String EXT_RDF = "rdf";
-	protected static final String EXT_NT  = "nt";
-	protected static final String EXT_TTL = "ttl";
-	protected static final String EXT_JSON = "json";
-	protected static final String EXT_N3 = "n3";
-	protected static final String SET_EXT_PATTERN ="{"+EXT2_TOKEN+": (((\\."+EXT_RDF+")|(\\."+EXT_NT+")|(\\."+EXT_TTL+")|(\\."+EXT_N3+")||(\\."+EXT_JSON+"))$)?}";
-	protected static final String EXT_PATTERN =".{"+EXT_TOKEN+": (("+EXT_RDF+")|("+EXT_NT+")|("+EXT_TTL+")|("+EXT_N3+")||("+EXT_JSON+"))}";
+	public static final String EXT_RDF = "rdf";
+	public static final String EXT_NT  = "nt";
+	public static final String EXT_TTL = "ttl";
+	public static final String EXT_JSON = "json";
+	public static final String EXT_N3 = "n3";
+	public static final String SET_EXT_PATTERN ="{"+EXT2_TOKEN+": (((\\."+EXT_RDF+")|(\\."+EXT_NT+")|(\\."+EXT_TTL+")|(\\."+EXT_N3+")||(\\."+EXT_JSON+"))$)?}";
+	public static final String EXT_PATTERN =".{"+EXT_TOKEN+": (("+EXT_RDF+")|("+EXT_NT+")|("+EXT_TTL+")|("+EXT_N3+")||("+EXT_JSON+"))}";
 }

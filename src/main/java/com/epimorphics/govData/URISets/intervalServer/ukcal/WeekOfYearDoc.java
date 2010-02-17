@@ -15,17 +15,12 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
-
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -37,7 +32,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -52,12 +50,12 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.WEEK_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.WEEK_SEGMENT+BritishCalendarURITemplate.SET_EXT_PATTERN)
 public class WeekOfYearDoc extends Doc {
 
 	protected void populateModel(int year, int week) {
 		reset();
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		try {
 			CalendarUtils.setWeekOfYear(year, week, cal);	
 		} catch (IllegalArgumentException e) {
@@ -71,7 +69,7 @@ public class WeekOfYearDoc extends Doc {
 		this.month = cal.get(Calendar.MONTH) + 1 - Calendar.JANUARY;
 		this.day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
 		startTime.set(year, month-1, day, hour, min, sec);
 		
@@ -178,7 +176,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, RDF.type, SCOVO.Dimension);
 
 
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		CalendarUtils.setWeekOfYear(year, woy , cal);
 
 		m.add(r_week, INTERVALS.hasXsdDurationDescription, oneWeek);
@@ -200,7 +198,7 @@ public class WeekOfYearDoc extends Doc {
 	@Override
 	void addContainedIntervals() {
 		ArrayList<Resource> days = new ArrayList<Resource>();
-		GregorianOnlyCalendar cal = (GregorianOnlyCalendar) startTime.clone();
+		BritishCalendar cal = (BritishCalendar) startTime.clone();
 		int i_initial_woy = cal.get(Calendar.WEEK_OF_YEAR);
 		while(cal.get(Calendar.WEEK_OF_YEAR) == i_initial_woy) {
 			Resource r_day = DayDoc.createResourceAndLabels(base, model, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1,cal.get(Calendar.DAY_OF_MONTH));
@@ -219,14 +217,14 @@ public class WeekOfYearDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextWeek = null;
 		Resource r_prevWeek = null;
 		try {
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,7);
 			r_nextWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal),cal.get(Calendar.WEEK_OF_YEAR));
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,-7);
 			r_prevWeek = createResourceAndLabels(base, model, CalendarUtils.getWeekOfYearYear(cal) ,cal.get(Calendar.WEEK_OF_YEAR));
 		} catch (IllegalArgumentException e) {

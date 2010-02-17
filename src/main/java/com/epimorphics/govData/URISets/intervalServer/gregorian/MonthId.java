@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.MONTH_ID_STEM+URITemplate.MONTH_PATTERN)
+@Path(GregorianURITemplate.MONTH_ID_STEM+GregorianURITemplate.MONTH_PATTERN)
 public class MonthId extends Id {
 
 

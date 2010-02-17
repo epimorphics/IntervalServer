@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(URITemplate.HALF_ID_STEM+URITemplate.HALF_PATTERN)
+@Path(GregorianURITemplate.HALF_ID_STEM+GregorianURITemplate.HALF_PATTERN)
 public class HalfId extends Id {
 	
 	@GET

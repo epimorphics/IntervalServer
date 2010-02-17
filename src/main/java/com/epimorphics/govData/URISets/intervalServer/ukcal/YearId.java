@@ -15,9 +15,9 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import java.util.Locale;
 
 import javax.ws.rs.GET;
@@ -27,12 +27,12 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(GregorianURITemplate.YEAR_ID_STEM+GregorianURITemplate.YEAR_PATTERN)
+@Path(BritishCalendarURITemplate.YEAR_ID_STEM+BritishCalendarURITemplate.YEAR_PATTERN)
 public class YearId extends Id {
 	@GET
 	public Response redirector(@PathParam(YEAR_TOKEN) int year) {
 		//Check that the date is in the "+CALENDAR_NAME+" Calendar
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, 0, 1);
 		try {
