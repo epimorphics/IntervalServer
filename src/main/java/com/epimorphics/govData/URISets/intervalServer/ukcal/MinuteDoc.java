@@ -159,7 +159,7 @@ public class MinuteDoc extends Doc {
 	
 	
 	protected static Resource createResourceAndLabels(URI base, Model m, int year,	int moy, int dom, int hod, int moh) {
-		String relPart = year + MONTH_PREFIX + String.format("%02d", moy)
+		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy)
 				+ DAY_PREFIX + String.format("%02d", dom) + HOUR_PREFIX
 				+ String.format("%02d", hod) + MINUTE_PREFIX
 				+ String.format("%02d", moh);
@@ -186,7 +186,7 @@ public class MinuteDoc extends Doc {
 		// Calendar.LONG , Locale.UK);
 		m.add(r_min, RDFS.comment, "The " + (moh+1) + s_mohSuffix + " minute of " + (hod+1)
 				+ s_hodSuffix + " hour of " + s_dayOfWeek + " the " + dom
-				+ s_domSuffix + " " + s_month + " of the "+CALENDAR_NAME+" calendar year " + year, "en");
+				+ s_domSuffix + " " + s_month + " of the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 
 		return r_min;
 	}
@@ -203,7 +203,7 @@ public class MinuteDoc extends Doc {
 	
 		Resource r_instant = InstantDoc.createResource(base, m, cal);		
 		m.add(r_min, TIME.hasBeginning, r_instant);
-		m.add(r_min, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_min, SCOVO.min, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		
 		cal.add(Calendar.MINUTE, 1);
@@ -212,7 +212,7 @@ public class MinuteDoc extends Doc {
 		m.add(r_min, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_min, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_min, SCOVO.max, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		
 		return r_min;
@@ -301,7 +301,7 @@ public class MinuteDoc extends Doc {
 
 		model.add(r_set, VOID.exampleResource, MinuteDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23, 59));
 
-		addGregorianSourceRef(r_set);	
+		addCalendarActRef(r_set);
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		

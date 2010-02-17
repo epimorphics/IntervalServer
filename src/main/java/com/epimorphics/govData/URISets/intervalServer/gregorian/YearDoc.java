@@ -142,14 +142,14 @@ public class YearDoc extends Doc {
 	}
 
 	static protected Resource createResourceAndLabels(URI base, Model model, int year) {
-		String s_yearURI = base + YEAR_ID_STEM + year;
+		String s_yearURI = base + YEAR_ID_STEM + String.format("%04d",year) ;
 		Resource r_year = model.createResource(s_yearURI, INTERVALS.CalendarYear);
 
 		
-		String s_label = ""+CALENDAR_NAME+" Year:" + year;
+		String s_label = ""+CALENDAR_NAME+" Year:" + String.format("%04d",year) ;
 		model.add(r_year, SKOS.prefLabel, s_label, "en");
 		model.add(r_year, RDFS.label, s_label, "en");
-		model.add(r_year, RDFS.comment, "The "+CALENDAR_NAME+" calendar year of " + year, "en");
+		model.add(r_year, RDFS.comment, "The "+CALENDAR_NAME+" calendar year of " + String.format("%04d",year) , "en");
 
 		return r_year;
 	}
@@ -167,14 +167,14 @@ public class YearDoc extends Doc {
 		Resource r_instant = InstantDoc.createResource(base, model, cal);	
 		model.add(r_year, TIME.hasBeginning, r_instant);
 
-		model.add(r_year, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat, XSDDatatype.XSDdate));	
+		model.add(r_year, SCOVO.min, CalendarUtils.formatScvDateLiteral(cal));	
 		
 		cal.add(Calendar.YEAR, 1);
 		Resource r_EndInstant = InstantDoc.createResource(base, model, cal);	
 		model.add(r_year, TIME.hasEnd, r_EndInstant);
 
 		cal.add(Calendar.SECOND, -1);
-		model.add(r_year, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat, XSDDatatype.XSDdate));	
+		model.add(r_year, SCOVO.max, CalendarUtils.formatScvDateLiteral(cal));	
 
 		return r_year;
 	}

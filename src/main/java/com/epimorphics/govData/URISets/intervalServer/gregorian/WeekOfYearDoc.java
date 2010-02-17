@@ -159,7 +159,7 @@ public class WeekOfYearDoc extends Doc {
 	}
 		
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int woy) {
-		String relPart = year + WEEK_PREFIX + String.format("%02d", woy);
+		String relPart = String.format("%04d",year) + WEEK_PREFIX + String.format("%02d", woy);
 	
 		String s_weekURI = base + WEEK_ID_STEM + relPart;
 		Resource r_week = m.createResource(s_weekURI, INTERVALS.Iso8601Week);
@@ -168,7 +168,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, SKOS.prefLabel, s_label, "en");
 		m.add(r_week, RDFS.label, s_label, "en");
 	
-		m.add(r_week, RDFS.comment, "Week " + woy + " of the "+CALENDAR_NAME+" calendar year " + year);
+		m.add(r_week, RDFS.comment, "Week " + woy + " of the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) );
 			
 		return r_week;
 	}
@@ -183,7 +183,7 @@ public class WeekOfYearDoc extends Doc {
 
 		m.add(r_week, INTERVALS.hasXsdDurationDescription, oneWeek);
 		m.add(r_week, TIME.hasDurationDescription, INTERVALS.one_week );
-		m.add(r_week, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_week, SCOVO.min, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_week, TIME.hasBeginning, r_instant);
@@ -192,7 +192,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_week, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_week, SCOVO.max, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		return r_week;
 	}

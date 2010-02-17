@@ -72,5 +72,11 @@ public class BritishCalendar extends GregorianCalendar {
 	private void setGregorianChangeDate() {
 		this.setGregorianChange(changeDate.getTime());		
 	}
-
+	
+	public Object clone() {
+		BritishCalendar res  = (BritishCalendar) super.clone();
+		setGregorianChangeDate();
+		
+		return res;
+	}
 }

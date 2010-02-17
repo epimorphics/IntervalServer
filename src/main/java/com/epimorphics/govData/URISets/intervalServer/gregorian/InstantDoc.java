@@ -161,20 +161,21 @@ public class InstantDoc extends Doc {
 		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 
-
 	public static Resource createResource(URI base, Model model, Calendar cal) {
-		String s_relPart = CalendarUtils.toXsdDateTime(cal);
+		GregorianOnlyCalendar cal2 = new GregorianOnlyCalendar(Locale.UK);
+		cal2.setTimeInMillis(cal.getTimeInMillis());
+		String s_relPart = CalendarUtils.toXsdDateTime(cal2);
 
 		String s_instURI = base + INSTANT_ID_STEM + s_relPart;
 		Resource r_inst = model.createResource(s_instURI, INTERVALS.CalendarInstant);
 		Literal l_dateTime = ResourceFactory.createTypedLiteral(s_relPart, XSDDatatype.XSDdateTime);
 		
-		int year = cal.get(Calendar.YEAR);
-		int moy = cal.get(Calendar.MONTH);
-		int dom = cal.get(Calendar.DATE);
-		int hod = cal.get(Calendar.HOUR);
-		int moh = cal.get(Calendar.MINUTE);
-		int som = cal.get(Calendar.SECOND);
+		int year = cal2.get(Calendar.YEAR);
+		int moy  = cal2.get(Calendar.MONTH);
+		int dom  = cal2.get(Calendar.DATE);
+		int hod  = cal2.get(Calendar.HOUR);
+		int moh  = cal2.get(Calendar.MINUTE);
+		int som  = cal2.get(Calendar.SECOND);
 		
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
@@ -186,7 +187,7 @@ public class InstantDoc extends Doc {
 		model.add(r_inst, RDFS.comment, "The instant at start of the " + (som+1) + s_somSuffix + " second of " + (moh+1)
 				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " of the "+CALENDAR_NAME+" calendar year " + year, "en");
+				+ " of the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 				                    
 		model.add(r_inst, RDFS.label, ""+CALENDAR_NAME+" Instant:"+s_relPart, "en");
 		model.add(r_inst, SKOS.prefLabel, ""+CALENDAR_NAME+" Instant:"+s_relPart, "en");
@@ -218,7 +219,7 @@ public class InstantDoc extends Doc {
 //		addPlaceTimeInstantLink(model, startTime.getTime());
 //		
 //		// Link to www.placetime.com
-//		String s_placeTimeURI = "http://www.placetime.com/instant/gregorian/" + year + 
+//		String s_placeTimeURI = "http://www.placetime.com/instant/gregorian/" + String.format("%04d",year)  + 
 //								"-"+String.format("%02d", month)+
 //								"-"+String.format("%02d", day)+
 //								"T"+String.format("%02d", hour)+

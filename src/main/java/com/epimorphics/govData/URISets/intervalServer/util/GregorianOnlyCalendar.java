@@ -117,4 +117,10 @@ public class GregorianOnlyCalendar extends GregorianCalendar {
 		working.add(calendar_field, -1);
 		return --count;
 	}
+	
+	public Object clone() {
+		GregorianOnlyCalendar res  = (GregorianOnlyCalendar) super.clone();
+		setGregorianChangeDate();	
+		return res;
+	}
 }

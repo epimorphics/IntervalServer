@@ -142,9 +142,9 @@ public class GregorianURITemplate {
 	protected static int DURATION_MINUTES 	= 11;
 	protected static int DURATION_SECONDS 	= 13;
 	
-	protected static final String YEAR_PATTERN 		=                                     "{" + YEAR_TOKEN    + ":[1-9][0-9]*}";
-	protected static final String HALF_PATTERN 		= YEAR_PATTERN 	   + HALF_PREFIX    + "{" + HALF_TOKEN	  + ":[12]}";		// H1 or H2
-	protected static final String QUARTER_PATTERN	= YEAR_PATTERN 	   + QUARTER_PREFIX + "{" + QUARTER_TOKEN + ":[1234]}";     // Q1, Q2, Q3 or Q4 
+	public static final String YEAR_PATTERN 		=                                     "{" + YEAR_TOKEN    + ":([0-9]{4})|([1-9][0-9]{3,})}";
+	protected static final String HALF_PATTERN 		= YEAR_PATTERN 	   + HALF_PREFIX    + "{" + HALF_TOKEN	  + ":[1-2]}";		// H1 or H2
+	protected static final String QUARTER_PATTERN	= YEAR_PATTERN 	   + QUARTER_PREFIX + "{" + QUARTER_TOKEN + ":[1-4]}";     // Q1, Q2, Q3 or Q4 
 	protected static final String MONTH_PATTERN 	= YEAR_PATTERN 	   + MONTH_PREFIX   + "{" + MONTH_TOKEN	  + ":[0-1][0-9]}"; // Months 01 or 12 (well 19 but catch later)
 	protected static final String WOY_PATTERN 		= YEAR_PATTERN 	   + WEEK_PREFIX    + "{" + WEEK_TOKEN	  + ":[0-5][0-9]}"; // Week of year 01 to 53 (well 59 but catch later)
 	protected static final String WOM_PATTERN 		= YEAR_PATTERN 	   + MONTH_PREFIX   + "{" + MONTH_TOKEN   + ":[0-3][0-9]}" + WEEK_PREFIX    + "{" + WEEK_TOKEN	  + ":[1-5]}"; // Week of year 01 to 53 (well 59 but catch later)
@@ -157,7 +157,7 @@ public class GregorianURITemplate {
 	
 	protected static final String SUMMARY_PATTERN_PLAIN = "-[^/]+/.+";
 
-	protected static final String YEAR_PATTERN_PLAIN 	= "[1-9][0-9]*";
+	protected static final String YEAR_PATTERN_PLAIN 	= "([0-9]{4})|([1-9][0-9]{3,})";
 	public static final String HALF_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+HALF_PREFIX+"[1-2]";
 	public static final String QUARTER_PATTERN_PLAIN = YEAR_PATTERN_PLAIN+QUARTER_PREFIX+"[1-4]";
 	public static final String MONTH_PATTERN_PLAIN 	= YEAR_PATTERN_PLAIN+MONTH_PREFIX+"[0-1][0-9]";

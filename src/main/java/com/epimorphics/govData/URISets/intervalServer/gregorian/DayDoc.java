@@ -154,7 +154,7 @@ public class DayDoc extends Doc {
 	
 	
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int moy, int dom) {
-		String relPart = year + MONTH_PREFIX + String.format("%02d", moy)
+		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy)
 				+ DAY_PREFIX + String.format("%02d", dom);
 	
 		String s_dayURI = base + DAY_ID_STEM + relPart;
@@ -171,7 +171,7 @@ public class DayDoc extends Doc {
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);
-		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the "+CALENDAR_NAME+" calendar year " + year, "en");
+		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 	
 		return r_day;
 	}
@@ -187,7 +187,7 @@ public class DayDoc extends Doc {
 		
 		m.add(r_day, INTERVALS.hasXsdDurationDescription, oneDay);
 		m.add(r_day, TIME.hasDurationDescription, INTERVALS.one_day);
-		m.add(r_day, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat), XSDDatatype.XSDdateTime);
+		m.add(r_day, SCOVO.min, CalendarUtils.formatScvDateTime(cal), XSDDatatype.XSDdateTime);
 
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
@@ -201,7 +201,7 @@ public class DayDoc extends Doc {
 		m.add(r_day, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_day, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat), XSDDatatype.XSDdateTime);
+		m.add(r_day, SCOVO.max, CalendarUtils.formatScvDateTime(cal), XSDDatatype.XSDdateTime);
 
 
 		return r_day;

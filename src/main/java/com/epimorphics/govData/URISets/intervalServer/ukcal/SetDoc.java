@@ -153,7 +153,7 @@ public class SetDoc extends Doc {
 //		model.add(r_set, VOID.exampleResource, IntervalDoc.createResourceAndLabels(base, model, new BritishCalendar(1977, 10, 1, 12, 22, 45), new Duration("P2Y1MT1H6S") ));
 		
 
-		addGregorianSourceRef(r_set);
+		addCalendarActRef(r_set);
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		

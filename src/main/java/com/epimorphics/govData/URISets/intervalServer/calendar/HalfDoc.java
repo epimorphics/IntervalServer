@@ -112,7 +112,7 @@ public class HalfDoc extends Doc {
 	}
 
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int half) {
-		String relPart = year + HALF_PREFIX + half;
+		String relPart = String.format("%04d",year) + HALF_PREFIX + half;
 	
 		String s_halfURI = base + HALF_ID_STEM + relPart;
 		Resource r_half = m.createResource(s_halfURI, INTERVALS.CalendarHalf);
@@ -126,7 +126,7 @@ public class HalfDoc extends Doc {
 		m.add(r_half, SKOS.prefLabel, s_label, "en");
 		m.add(r_half, RDFS.label, s_label, "en");
 		m.add(r_half, RDFS.comment, "The " + ((half == 1) ? "first" : "second")
-				+ " half of the British calendar year " + year, "en");
+				+ " half of the British calendar year " + String.format("%04d",year) , "en");
 		return r_half;
 	}
 
@@ -148,14 +148,14 @@ public class HalfDoc extends Doc {
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_half, TIME.hasBeginning, r_instant);
-		m.add(r_half, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_half, SCOVO.min, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		cal.add(Calendar.MONTH, 6);
 		Resource r_EndInstant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_half, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_half, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_half, SCOVO.max, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		return r_half;
 	}

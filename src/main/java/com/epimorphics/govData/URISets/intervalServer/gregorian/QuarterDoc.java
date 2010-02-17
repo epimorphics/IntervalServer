@@ -150,7 +150,7 @@ public class QuarterDoc extends Doc {
 	}
 	
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int quarter) {
-		String relPart = year + QUARTER_PREFIX + quarter;
+		String relPart = String.format("%04d",year) + QUARTER_PREFIX + quarter;
 
 		String s_quarterURI = base + QUARTER_ID_STEM + relPart;
 		Resource r_quarter = m.createResource(s_quarterURI,	INTERVALS.CalendarQuarter);
@@ -169,7 +169,7 @@ public class QuarterDoc extends Doc {
 				+ ((quarter == 1) ? "first" 
 				 : (quarter == 2) ? "second"
 				 : (quarter == 3) ? "third" : "forth")
-				+ " quarter of the "+CALENDAR_NAME+" calendar year " + year, "en");
+				+ " quarter of the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 		return r_quarter;
 	}
 
@@ -194,14 +194,14 @@ public class QuarterDoc extends Doc {
 		
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_quarter, TIME.hasBeginning, r_instant);
-		m.add(r_quarter, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_quarter, SCOVO.min, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 		
 		cal.add(Calendar.MONTH, 3);
 		Resource r_EndInstant = InstantDoc.createResource(base, m, cal);
 		m.add(r_quarter, TIME.hasEnd, r_EndInstant);
 
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_quarter, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_quarter, SCOVO.max, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		return r_quarter;
 	}

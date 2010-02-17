@@ -126,7 +126,7 @@ public class HourDoc extends Doc {
 	}
 
 	protected static Resource createResourceAndLabels(URI base, Model m, int year, int moy, int dom, int hod) {
-		String relPart = year + MONTH_PREFIX + String.format("%02d", moy)
+		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy)
 				+ DAY_PREFIX + String.format("%02d", dom) + HOUR_PREFIX
 				+ String.format("%02d", hod);
 	
@@ -151,7 +151,7 @@ public class HourDoc extends Doc {
 		// Calendar.LONG , Locale.UK);
 		m.add(r_hour, RDFS.comment, "The "+ (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " of the British calendar year " + year, "en");
+				+ " of the British calendar year " + String.format("%04d",year) , "en");
 	
 		return r_hour;
 	}
@@ -167,14 +167,14 @@ public class HourDoc extends Doc {
 		
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_hour, TIME.hasBeginning, r_instant);
-		m.add(r_hour, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_hour, SCOVO.min, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		cal.add(Calendar.HOUR, 1);
 		Resource r_EndInstant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_hour, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_hour, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_hour, SCOVO.max, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		return r_hour;
 	}

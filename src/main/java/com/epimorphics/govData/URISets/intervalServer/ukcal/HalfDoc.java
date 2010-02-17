@@ -85,10 +85,10 @@ public class HalfDoc extends Doc {
 	@Path(HALF_PATTERN)
 	public Response getResponse2(
 			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(QUARTER_TOKEN) int half ) {
+			@PathParam(HALF_TOKEN) int half ) {
 		MediaType mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
 		ext = MediaTypeUtils.getExtOfMediaType(mt);
-		return respond(year, quarter, mt, true);
+		return respond(year, half, mt, true);
 	}
 
 	private Response respond(int year, int half, MediaType mt, boolean addExtent) {
@@ -146,7 +146,7 @@ public class HalfDoc extends Doc {
 		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int half) {
-		String relPart = year + HALF_PREFIX + half;
+		String relPart = String.format("%04d",year) + HALF_PREFIX + half;
 	
 		String s_halfURI = base + HALF_ID_STEM + relPart;
 		Resource r_half = m.createResource(s_halfURI, INTERVALS.CalendarHalf);
@@ -160,7 +160,7 @@ public class HalfDoc extends Doc {
 		m.add(r_half, SKOS.prefLabel, s_label, "en");
 		m.add(r_half, RDFS.label, s_label, "en");
 		m.add(r_half, RDFS.comment, "The " + ((half == 1) ? "first" : "second")
-				+ " half of "+CALENDAR_NAME+" calendar year " + year, "en");
+				+ " half of "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 		return r_half;
 	}
 
@@ -182,14 +182,14 @@ public class HalfDoc extends Doc {
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_half, TIME.hasBeginning, r_instant);
-		m.add(r_half, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_half, SCOVO.min, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		cal.add(Calendar.MONTH, 6);
 		Resource r_EndInstant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_half, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_half, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_half, SCOVO.max, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		return r_half;
 	}
@@ -272,7 +272,7 @@ public class HalfDoc extends Doc {
 		
 		model.add(r_set, VOID.exampleResource, HalfDoc.createResourceAndLabels(base, model, 2010, 1));
 		
-		addGregorianSourceRef(r_set);	
+		addCalendarActRef(r_set);	
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		

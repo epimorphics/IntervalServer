@@ -213,7 +213,7 @@ public class IntervalDoc extends Doc {
 				"beginning at the start of the " + (som+1) + s_somSuffix + " second of " + (moh+1)
 				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " " + year +" in the "+CALENDAR_NAME+" Calendar", "en");
+				+ " " + String.format("%04d",year)  +" in the "+CALENDAR_NAME+" Calendar", "en");
 	
 		return r_int;
 	}
@@ -234,7 +234,7 @@ public class IntervalDoc extends Doc {
 		
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_int, TIME.hasBeginning, r_instant);
-		m.add(r_int, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_int, SCOVO.min, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		duration.addToCalendar(cal);
 
@@ -242,7 +242,7 @@ public class IntervalDoc extends Doc {
 		m.add(r_int, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_int, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateTimeformat, XSDDatatype.XSDdateTime) );
+		m.add(r_int, SCOVO.max, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
 		return r_int;
 	}

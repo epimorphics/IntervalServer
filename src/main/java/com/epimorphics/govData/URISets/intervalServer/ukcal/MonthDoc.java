@@ -203,7 +203,7 @@ public class MonthDoc extends Doc {
 //	}
 		
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int moy) {
-		String relPart = year + MONTH_PREFIX + String.format("%02d", moy);
+		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy);
 	
 		String s_monthURI = base + MONTH_ID_STEM + relPart;
 		Resource r_month = m.createResource(s_monthURI, INTERVALS.CalendarMonth);
@@ -218,7 +218,7 @@ public class MonthDoc extends Doc {
 				Locale.UK);
 	
 		m.add(r_month, RDFS.comment, "The month of " + s_month
-				+ " in the "+CALENDAR_NAME+" calendar year " + year, "en");
+				+ " in the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 			
 		return r_month;
 	}
@@ -232,7 +232,7 @@ public class MonthDoc extends Doc {
 				
 		m.add(r_month, INTERVALS.hasXsdDurationDescription, oneMonth);
 		m.add(r_month, TIME.hasDurationDescription, INTERVALS.one_month );
-		m.add(r_month, SCOVO.min, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_month, SCOVO.min, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
@@ -242,7 +242,7 @@ public class MonthDoc extends Doc {
 		m.add(r_month, TIME.hasEnd, r_EndInstant);
 		
 		cal.add(Calendar.SECOND, -1);
-		m.add(r_month, SCOVO.max, CalendarUtils.formatScvDate(cal, CalendarUtils.iso8601dateformat), XSDDatatype.XSDdate);
+		m.add(r_month, SCOVO.max, CalendarUtils.formatScvDate(cal), XSDDatatype.XSDdate);
 
 		return r_month;
 	}
@@ -317,7 +317,7 @@ public class MonthDoc extends Doc {
 
 		model.add(r_set, VOID.exampleResource, MonthDoc.createResourceAndLabels(base, model, 1958, 11));
 	
-		addGregorianSourceRef(r_set);	
+		addCalendarActRef(r_set);	
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		

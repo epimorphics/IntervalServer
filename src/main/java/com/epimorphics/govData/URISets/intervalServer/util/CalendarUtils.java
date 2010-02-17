@@ -17,9 +17,7 @@
 
 package com.epimorphics.govData.URISets.intervalServer.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -31,16 +29,27 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 public class CalendarUtils {
 	
-	public static final SimpleDateFormat iso8601dateTimeformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	static final SimpleDateFormat iso8601gYearformat =    new SimpleDateFormat("yyyy");
-	static final SimpleDateFormat iso8601gYearMonthformat = new SimpleDateFormat("yyyy-MM");
-	public static final SimpleDateFormat iso8601dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//	public static final SimpleDateFormat iso8601dateTimeformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//	static final SimpleDateFormat iso8601gYearformat =    new SimpleDateFormat("yyyy");
+//	static final SimpleDateFormat iso8601gYearMonthformat = new SimpleDateFormat("yyyy-MM");
+//	public static final SimpleDateFormat iso8601dateformat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static String toXsdDateTime(Calendar cal2) {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
-		cal.setTime(cal2.getTime());
-		return CalendarUtils.iso8601dateTimeformat.format(cal.getTime());
+		cal.setTimeInMillis(cal2.getTimeInMillis());
+	
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
+		int day = cal.get(Calendar.DATE);
+		int hour = cal.get(Calendar.HOUR);
+		int min = cal.get(Calendar.MINUTE);
+		int sec = cal.get(Calendar.SECOND);
+//		String s2 = iso8601dateTimeformat.format(cal.getTimeInMillis());
+		
+		
+		return String.format("%04d-%02d-%02dT%02d:%02d:%02d",year,month,day,hour,min,sec);
+//		return iso8601dateTimeformat.format(cal.getTimeInMillis());
 	}
 	
 	/*
@@ -50,22 +59,58 @@ public class CalendarUtils {
 		return CalendarUtils.iso8601dateTimeformat.format(cal.getTime());
 	}
 	*/
-	public static Literal formatScvDate (Calendar cal2, SimpleDateFormat fmt, XSDDatatype type) {
+//	public static Literal formatScvDate (Calendar cal2, SimpleDateFormat fmt, XSDDatatype type) {
+//		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+//		cal.setLenient(false);
+//		cal.setTimeInMillis(cal2.getTimeInMillis());
+//		return ResourceFactory.createTypedLiteral(formatScvDate(cal, fmt), type);		
+//	}
+//
+//	public static String formatScvDate (Calendar cal2, SimpleDateFormat fmt) {		
+//		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
+//		cal.setLenient(false);
+//		cal.setTimeInMillis(cal2.getTimeInMillis());
+//		return fmt.format(cal.getTimeInMillis());		
+//	}
+
+	/**
+	 * @param cal
+	 * @return
+	 */
+	public static String formatScvDate(Calendar cal2) {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.setTimeInMillis(cal2.getTimeInMillis());
-		return ResourceFactory.createTypedLiteral(formatScvDate(cal, fmt), type);		
+		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
+		int day = cal.get(Calendar.DATE);
+		
+		return String.format("%04d-%02d-%02d", year, month, day);
+	}
+	/**
+	 * @param cal
+	 * @return
+	 */
+	public static Literal formatScvDateLiteral(Calendar cal) {
+		return ResourceFactory.createTypedLiteral(formatScvDate(cal), XSDDatatype.XSDdate);
 	}
 
-	public static String formatScvDate (Calendar cal2, SimpleDateFormat fmt) {		
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
-		cal.setLenient(false);
-		cal.setTimeInMillis(cal2.getTimeInMillis());
-		return fmt.format(cal.getTime());		
+	/**
+	 * @param cal
+	 * @return
+	 */
+	public static String formatScvDateTime(Calendar cal) {
+		return toXsdDateTime(cal);
 	}
-	
+	/**
+	 * @param cal
+	 * @return
+	 */
+	public static Literal formatScvDateTimeLiteral(Calendar cal) {
+		return ResourceFactory.createTypedLiteral(toXsdDateTime(cal), XSDDatatype.XSDdateTime);
+	}
 
-	
 	public static int getWeekOfYearYear(GregorianCalendar cal) {
 		int y = cal.get(Calendar.YEAR);
 		int m = cal.get(Calendar.MONTH)+1 - Calendar.JANUARY;
@@ -125,5 +170,8 @@ public class CalendarUtils {
 		}
 		cal.setLenient(l);
 	}
+
+
+
 
 }
