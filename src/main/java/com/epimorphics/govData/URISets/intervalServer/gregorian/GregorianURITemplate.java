@@ -168,7 +168,7 @@ public class GregorianURITemplate {
 	public static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
 
 	public final static String PATH_REGEX =
-		"("+CALENDAR_STEM+")"+
+		"("+CALENDAR_STEM+")|"+
 		"("+YEAR_SEGMENT+")|"+
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+
