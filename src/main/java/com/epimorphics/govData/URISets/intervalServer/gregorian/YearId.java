@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response;
 public class YearId extends Id {
 	@GET
 	public Response redirector(@PathParam(YEAR_TOKEN) int year) {
-		//Check that the date is in the Gregorian Calendar
+		//Check that the date is in the "+CALENDAR_NAME+" Calendar
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(Locale.UK);
 		cal.setLenient(false);
 		cal.set(year, 0, 1);

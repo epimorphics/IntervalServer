@@ -189,7 +189,7 @@ public class IntervalDoc extends Doc {
 		
 		Resource r_int = m.createResource(s_intURI, TIME.Interval);
 		
-		String s_label = "Gregorian Interval:" + relPart + "/" +durPart;
+		String s_label = ""+CALENDAR_NAME+" Interval:" + relPart + "/" +durPart;
 		m.add(r_int, SKOS.prefLabel, s_label, "en");
 		m.add(r_int, RDFS.label, s_label, "en");
 	
@@ -213,7 +213,7 @@ public class IntervalDoc extends Doc {
 				"beginning at the start of the " + (som+1) + s_somSuffix + " second of " + (moh+1)
 				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " " + year +" in the Gregorian Calendar", "en");
+				+ " " + year +" in the "+CALENDAR_NAME+" Calendar", "en");
 	
 		return r_int;
 	}
@@ -272,7 +272,7 @@ public class IntervalDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INTERVAL_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian general purpose time intervals of arbitary duration.","en");
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" general purpose time intervals of arbitary duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
@@ -299,48 +299,48 @@ public class IntervalDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_yearSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar year to generic interval links.",
-				"Links between Gregorian calendar years and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar year to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar years and their corresponding generic intervals.");
 
 		addLinkset(r_set, r_halfSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar half year to generic interval links.",
-				"Links between Gregorian calendar half years and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar half year to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar half years and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_quarterSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar quarter year to generic interval links.",
-				"Links between Gregorian calendar quarter years and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar quarter year to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar quarter years and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_monthSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar month to generic interval links.",
-				"Links between Gregorian calendar months and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar month to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar months and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_weekSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar week to generic interval links.",
-				"Links between ISO 8610 numbered Gregorian calendar weeks and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar week to generic interval links.",
+				"Links between ISO 8610 numbered "+CALENDAR_NAME+" calendar weeks and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_daySet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar day to generic interval links.",
-				"Links between Gregorian calendar days and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar day to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar days and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_hourSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar hour to generic interval links.",
-				"Links between Gregorian calendar hours and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar hour to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar hours and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_minSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar minute to generic interval links.",
-				"Links between Gregorian calendar minutes and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar minute to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar minutes and their corresponding generic intervals.");
 		
 		addLinkset(r_set, r_secSet, r_set, TIME.intervalEquals, 
-				"Gregorian calendar second to generic interval links.",
-				"Links between Gregorian calendar seconds and their corresponding generic intervals.");
+				""+CALENDAR_NAME+" calendar second to generic interval links.",
+				"Links between "+CALENDAR_NAME+" calendar seconds and their corresponding generic intervals.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian calendar generic interval to starting instant links",
-				"Links between Gregorian calendar generic intervals and their starting instant.");		
+				""+CALENDAR_NAME+" calendar generic interval to starting instant links",
+				"Links between "+CALENDAR_NAME+" calendar generic intervals and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian calendar generic interval to ending instant links",
-				"Links between Gregorian calendar generic intervals and their ending instant.");
+				""+CALENDAR_NAME+" calendar generic interval to ending instant links",
+				"Links between "+CALENDAR_NAME+" calendar generic intervals and their ending instant.");
 		
 	}	
 	

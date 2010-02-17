@@ -168,7 +168,7 @@ public class WeekOfYearDoc extends Doc {
 		m.add(r_week, SKOS.prefLabel, s_label, "en");
 		m.add(r_week, RDFS.label, s_label, "en");
 	
-		m.add(r_week, RDFS.comment, "Week " + woy + " of the Gregorian calendar year " + year);
+		m.add(r_week, RDFS.comment, "Week " + woy + " of the "+CALENDAR_NAME+" calendar year " + year);
 			
 		return r_week;
 	}
@@ -249,7 +249,7 @@ public class WeekOfYearDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, WEEK_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of ISO 8601 numbered Gregorian calendar aligned time intervals of one week duration" +
+		model.add(r_set, RDFS.comment, "A dataset of ISO 8601 numbered "+CALENDAR_NAME+" calendar aligned time intervals of one week duration" +
 									   " starting at midnight on the Monday of a given week.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
@@ -273,20 +273,20 @@ public class WeekOfYearDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_set, r_daySet, INTERVALS.intervalContainsDay, 
-				"Gregorian calendar week to calendar day interval containment links",
-				"Links between ISO 8601 numbered Gregorian calendar weeks and the calendar days they contain.");
+				""+CALENDAR_NAME+" calendar week to calendar day interval containment links",
+				"Links between ISO 8601 numbered "+CALENDAR_NAME+" calendar weeks and the calendar days they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian calendar week to starting instant links",
-				"Links between ISO 8601 numbered Gregorian calendar weeks and their starting instant.");		
+				""+CALENDAR_NAME+" calendar week to starting instant links",
+				"Links between ISO 8601 numbered "+CALENDAR_NAME+" calendar weeks and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian calendar week to ending instant links",
-				"Links between ISO 8601 numbered Gregorian calendar weeks and their ending instant.");
+				""+CALENDAR_NAME+" calendar week to ending instant links",
+				"Links between ISO 8601 numbered "+CALENDAR_NAME+" calendar weeks and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian calendar week to generic interval links",
-				"Links between ISO 8601 numbered Gregorian calendar weeks and their corresponding generic interval.");		
+				""+CALENDAR_NAME+" calendar week to generic interval links",
+				"Links between ISO 8601 numbered "+CALENDAR_NAME+" calendar weeks and their corresponding generic interval.");		
 	}
 
 }

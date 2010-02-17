@@ -210,7 +210,7 @@ public class MonthDoc extends Doc {
 		String s_monthURI = base + MONTH_ID_STEM + relPart;
 		Resource r_month = m.createResource(s_monthURI, INTERVALS.CalendarMonth);
 		
-		String s_label = "Gregorian Month:" + relPart;
+		String s_label = ""+CALENDAR_NAME+" Month:" + relPart;
 		m.add(r_month, SKOS.prefLabel, s_label, "en");
 		m.add(r_month, RDFS.label, s_label, "en");
 	
@@ -220,7 +220,7 @@ public class MonthDoc extends Doc {
 				Locale.UK);
 	
 		m.add(r_month, RDFS.comment, "The month of " + s_month
-				+ " in the Gregorian calendar year " + year, "en");
+				+ " in the "+CALENDAR_NAME+" calendar year " + year, "en");
 			
 		return r_month;
 	}
@@ -307,7 +307,7 @@ public class MonthDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, MONTH_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one calendar month duration" +
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one calendar month duration" +
 									   " starting at midnight on the 1st day of a given month.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
@@ -335,32 +335,32 @@ public class MonthDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
-				"Gregorian calendar month to calendar year interval containment links",
-				"Links between Gregorian calendar months and the calendar years in which they occur.");
+				""+CALENDAR_NAME+" calendar month to calendar year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar months and the calendar years in which they occur.");
 
 		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
-				"Gregorian calendar month to half year interval containment links",
-				"Links between Gregorian calendar months and the calendar aligned half years in which they occur.");
+				""+CALENDAR_NAME+" calendar month to half year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar months and the calendar aligned half years in which they occur.");
 
 		addLinkset(r_set, r_set, r_quarterSet, TIME.intervalDuring, 
-				"Gregorian calendar month to calendar quarter year interval containment links",
-				"Links between Gregorian calendar months and the calendar aligned quarter years in which they occur.");
+				""+CALENDAR_NAME+" calendar month to calendar quarter year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar months and the calendar aligned quarter years in which they occur.");
 
 		addLinkset(r_set, r_set, r_daySet, INTERVALS.intervalContainsDay, 
-				"Gregorian calendar month to calendar day interval containment links",
-				"Links between Gregorian calendar months and the calendar days they contain.");
+				""+CALENDAR_NAME+" calendar month to calendar day interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar months and the calendar days they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian calendar month to starting instant links",
-				"Links between Gregorian calendar months and their starting instant.");		
+				""+CALENDAR_NAME+" calendar month to starting instant links",
+				"Links between "+CALENDAR_NAME+" calendar months and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian calendar month to ending instant links",
-				"Links between Gregorian calendar months and their ending instant.");
+				""+CALENDAR_NAME+" calendar month to ending instant links",
+				"Links between "+CALENDAR_NAME+" calendar months and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian calendar month to generic interval links",
-				"Links between Gregorian calendar months and their corresponding generic interval.");		
+				""+CALENDAR_NAME+" calendar month to generic interval links",
+				"Links between "+CALENDAR_NAME+" calendar months and their corresponding generic interval.");		
 	}
 
 

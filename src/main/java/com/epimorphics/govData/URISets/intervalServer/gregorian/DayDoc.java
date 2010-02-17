@@ -161,7 +161,7 @@ public class DayDoc extends Doc {
 		Resource r_day = m.createResource(s_dayURI, INTERVALS.CalendarDay);
 
 		
-		String s_label = "Gregorian Day:" + relPart;
+		String s_label = ""+CALENDAR_NAME+" Day:" + relPart;
 		m.add(r_day, SKOS.prefLabel, s_label, "en");
 		m.add(r_day, RDFS.label, s_label, "en");
 	
@@ -171,7 +171,7 @@ public class DayDoc extends Doc {
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);
-		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the Gregorian calendar year " + year, "en");
+		m.add(r_day, RDFS.comment, s_dayOfWeek + " the " + dom + s_domSuffix + " of " + s_month + " in the "+CALENDAR_NAME+" calendar year " + year, "en");
 	
 		return r_day;
 	}
@@ -276,7 +276,7 @@ public class DayDoc extends Doc {
 		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, DAY_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one calendar day duration" +
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one calendar day duration" +
 									   " starting at midnight on a given day.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
@@ -304,36 +304,36 @@ public class DayDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
-				"Gregorian calendar day to calendar year interval containment links",
-				"Links between Gregorian calendar days and the calendar years in which they occur.");
+				""+CALENDAR_NAME+" calendar day to calendar year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar days and the calendar years in which they occur.");
 
 		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
-				"Gregorian calendar day to half year interval containment links",
-				"Links between Gregorian calendar days and the calendar aligned half years in which they occur.");
+				""+CALENDAR_NAME+" calendar day to half year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar days and the calendar aligned half years in which they occur.");
 
 		addLinkset(r_set, r_set, r_quarterSet, TIME.intervalDuring, 
-				"Gregorian calendar days to calendar quarter year interval containment links",
-				"Links between Gregorian calendar days and the calendar aligned quarter years in which they occur.");
+				""+CALENDAR_NAME+" calendar days to calendar quarter year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar days and the calendar aligned quarter years in which they occur.");
 
 		addLinkset(r_set, r_set, r_weekSet, TIME.intervalDuring, 
-				"Gregorian calendar days to calendar week interval containment links",
-				"Links between Gregorian calendar days and the ISO 8601 numbered week in which they occur.");
+				""+CALENDAR_NAME+" calendar days to calendar week interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar days and the ISO 8601 numbered week in which they occur.");
 
 		addLinkset(r_set, r_set, r_hourSet, INTERVALS.intervalContainsHour, 
-				"Gregorian calendar day to calendar aligned hour interval containment links",
-				"Links between Gregorian calendar days and the calendar aligned hours they contain.");
+				""+CALENDAR_NAME+" calendar day to calendar aligned hour interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar days and the calendar aligned hours they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian calendar day to starting instant links",
-				"Links between Gregorian calendar days and their starting instant.");		
+				""+CALENDAR_NAME+" calendar day to starting instant links",
+				"Links between "+CALENDAR_NAME+" calendar days and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian calendar days to ending instant links",
-				"Links between Gregorian calendar days and their ending instant.");
+				""+CALENDAR_NAME+" calendar days to ending instant links",
+				"Links between "+CALENDAR_NAME+" calendar days and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian calendar days to generic interval links",
-				"Links between Gregorian calendar days and their corresponding generic interval.");		
+				""+CALENDAR_NAME+" calendar days to generic interval links",
+				"Links between "+CALENDAR_NAME+" calendar days and their corresponding generic interval.");		
 	}
 	
 }

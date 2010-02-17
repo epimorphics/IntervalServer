@@ -463,7 +463,7 @@ abstract public class Doc extends URITemplate {
 	protected void addGregorianSourceRef(Resource r_set) {
 		Resource r_calendarAct;
 		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource("http://en.wikipedia.org/wiki/Gregorian_calendar"));
-		model.add(r_calendarAct, RDFS.label, "Wikipedia on Gregorian Calendar","en");
-		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on Gregorian Calendar","en");
+		model.add(r_calendarAct, RDFS.label, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
+		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
 	}
 }

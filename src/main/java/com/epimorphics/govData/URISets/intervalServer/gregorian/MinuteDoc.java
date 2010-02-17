@@ -169,7 +169,7 @@ public class MinuteDoc extends Doc {
 		String s_minURI = base + MINUTE_ID_STEM + relPart;
 		Resource r_min = m.createResource(s_minURI, INTERVALS.CalendarMinute);
 
-		String s_label = "Gregorian Minute:" + relPart;
+		String s_label = ""+CALENDAR_NAME+" Minute:" + relPart;
 
 		m.add(r_min, SKOS.prefLabel, s_label, "en");
 		m.add(r_min, RDFS.label, s_label, "en");
@@ -188,7 +188,7 @@ public class MinuteDoc extends Doc {
 		// Calendar.LONG , Locale.UK);
 		m.add(r_min, RDFS.comment, "The " + (moh+1) + s_mohSuffix + " minute of " + (hod+1)
 				+ s_hodSuffix + " hour of " + s_dayOfWeek + " the " + dom
-				+ s_domSuffix + " " + s_month + " of the Gregorian calendar year " + year, "en");
+				+ s_domSuffix + " " + s_month + " of the "+CALENDAR_NAME+" calendar year " + year, "en");
 
 		return r_min;
 	}
@@ -292,7 +292,7 @@ public class MinuteDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, MINUTE_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one minute duration.","en");
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one minute duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
@@ -319,44 +319,44 @@ public class MinuteDoc extends Doc {
 		model.add(r_set, VOID.subset, r_instantSet=createInstantSet());
 		
 		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
-				"Gregorian calendar minute to calendar year interval containment links",
-				"Links between Gregorian calendar minutes and the calendar years in which they occur.");
+				""+CALENDAR_NAME+" calendar minute to calendar year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the calendar years in which they occur.");
 
 		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
-				"Gregorian calendar minute to half year interval containment links",
-				"Links between Gregorian calendar minute and the calendar aligned half years in which they occur.");
+				""+CALENDAR_NAME+" calendar minute to half year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minute and the calendar aligned half years in which they occur.");
 
 		addLinkset(r_set, r_set, r_quarterSet, TIME.intervalDuring, 
-				"Gregorian calendar minute to calendar quarter year interval containment links",
-				"Links between Gregorian calendar minutes and the calendar aligned quarter years in which they occur.");
+				""+CALENDAR_NAME+" calendar minute to calendar quarter year interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the calendar aligned quarter years in which they occur.");
 
 		addLinkset(r_set, r_set, r_weekSet, TIME.intervalDuring, 
-				"Gregorian calendar minute to calendar week interval containment links",
-				"Links between Gregorian calendar minutes and the ISO 8601 numbered week in which they occur.");
+				""+CALENDAR_NAME+" calendar minute to calendar week interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the ISO 8601 numbered week in which they occur.");
 
 		addLinkset(r_set, r_set, r_daySet, TIME.intervalDuring, 
-				"Gregorian calendar minutes to calendar day interval containment links",
-				"Links between Gregorian calendar minutes and the calendar day in which they occur.");
+				""+CALENDAR_NAME+" calendar minutes to calendar day interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the calendar day in which they occur.");
 
 		addLinkset(r_set, r_set, r_hourSet, TIME.intervalDuring, 
-				"Gregorian calendar minutes to calendar hour interval containment links",
-				"Links between Gregorian calendar minutes and the calendar hour in which they occur.");
+				""+CALENDAR_NAME+" calendar minutes to calendar hour interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the calendar hour in which they occur.");
 
 		addLinkset(r_set, r_set, r_secSet, INTERVALS.intervalContainsSecond, 
-				"Gregorian calendar minute to calendar aligned second interval containment links",
-				"Links between Gregorian calendar minutes and the calendar aligned seconds they contain.");
+				""+CALENDAR_NAME+" calendar minute to calendar aligned second interval containment links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and the calendar aligned seconds they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian calendar minute to starting instant links",
-				"Links between Gregorian calendar minutes and their starting instant.");		
+				""+CALENDAR_NAME+" calendar minute to starting instant links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian calendar second to ending instant links",
-				"Links between Gregorian calendar minutes and their ending instant.");
+				""+CALENDAR_NAME+" calendar second to ending instant links",
+				"Links between "+CALENDAR_NAME+" calendar minutes and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian calendar minute to generic interval links",
-				"Links between Gregorian calendar minute and their corresponding generic interval.");
+				""+CALENDAR_NAME+" calendar minute to generic interval links",
+				"Links between "+CALENDAR_NAME+" calendar minute and their corresponding generic interval.");
 		
 	}
 }

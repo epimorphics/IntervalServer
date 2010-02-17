@@ -146,10 +146,10 @@ public class YearDoc extends Doc {
 		Resource r_year = model.createResource(s_yearURI, INTERVALS.CalendarYear);
 
 		
-		String s_label = "Gregorian Year:" + year;
+		String s_label = ""+CALENDAR_NAME+" Year:" + year;
 		model.add(r_year, SKOS.prefLabel, s_label, "en");
 		model.add(r_year, RDFS.label, s_label, "en");
-		model.add(r_year, RDFS.comment, "The Gregorian calendar year of " + year, "en");
+		model.add(r_year, RDFS.comment, "The "+CALENDAR_NAME+" calendar year of " + year, "en");
 
 		return r_year;
 	}
@@ -246,7 +246,7 @@ public class YearDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, YEAR_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one year duration" +
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one year duration" +
 									   " starting at midnight on the 1st of January of a given year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
@@ -274,28 +274,28 @@ public class YearDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_set, r_halfSet, INTERVALS.intervalContainsHalf, 
-				"Gregorian year to half year interval containment links",
-				"Links between Gregorian calandar aligned years and the half years they contain.");
+				""+CALENDAR_NAME+" year to half year interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and the half years they contain.");
 
 		addLinkset(r_set, r_set, r_quarterSet, INTERVALS.intervalContainsQuarter, 
-				"Gregorian year to quarter year interval containment links",
-				"Links between Gregorian calandar aligned years and the quarter years they contain.");
+				""+CALENDAR_NAME+" year to quarter year interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and the quarter years they contain.");
 
 		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
-				"Gregorian year to month interval containment links",
-				"Links between Gregorian calandar aligned years and the months they contain.");
+				""+CALENDAR_NAME+" year to month interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and the months they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian year to starting instant links",
-				"Links between Gregorian calandar aligned years and their starting instant.");		
+				""+CALENDAR_NAME+" year to starting instant links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian year to ending instant links",
-				"Links between Gregorian calandar aligned years and their ending instant.");
+				""+CALENDAR_NAME+" year to ending instant links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian year to generic interval links",
-				"Links between Gregorian calandar aligned years and their corresponding generic interval.");		
+				""+CALENDAR_NAME+" year to generic interval links",
+				"Links between "+CALENDAR_NAME+" calandar aligned years and their corresponding generic interval.");		
 
 	}
 

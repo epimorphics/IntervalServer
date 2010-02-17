@@ -162,14 +162,14 @@ public class QuarterDoc extends Doc {
 			r_quarter.addProperty(RDF.type, r_quarterType);
 		}
 		
-		String s_label = "Gregorian Quarter:" + relPart;
+		String s_label = ""+CALENDAR_NAME+" Quarter:" + relPart;
 		m.add(r_quarter, SKOS.prefLabel, s_label, "en");
 		m.add(r_quarter, RDFS.label, s_label, "en");
 		m.add(r_quarter, RDFS.comment, "The "
 				+ ((quarter == 1) ? "first" 
 				 : (quarter == 2) ? "second"
 				 : (quarter == 3) ? "third" : "forth")
-				+ " quarter of the Gregorian calendar year " + year, "en");
+				+ " quarter of the "+CALENDAR_NAME+" calendar year " + year, "en");
 		return r_quarter;
 	}
 
@@ -263,7 +263,7 @@ public class QuarterDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, QUARTER_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of Gregorian calendar aligned time intervals of one quarter year (3 calendar month) duration" +
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one quarter year (3 calendar month) duration" +
 									   " starting at midnight on the 1st day of a given quarter year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
@@ -291,27 +291,27 @@ public class QuarterDoc extends Doc {
 		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
-				"Gregorian quarter year to year interval containment links",
-				"Links between Gregorian calandar aligned half years and years in which they occur.");
+				""+CALENDAR_NAME+" quarter year to year interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned half years and years in which they occur.");
 
 		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
-				"Gregorian quarter year to half year interval containment links",
-				"Links between Gregorian calandar aligned quarter years and calendar aligned half years in which they occur.");
+				""+CALENDAR_NAME+" quarter year to half year interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and calendar aligned half years in which they occur.");
 
 		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
-				"Gregorian quarter year to month interval containment links",
-				"Links between Gregorian calandar aligned quarter years and the months they contain.");
+				""+CALENDAR_NAME+" quarter year to month interval containment links",
+				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and the months they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
-				"Gregorian quarter year to starting instant links",
-				"Links between Gregorian calandar aligned quarter years and their starting instant.");		
+				""+CALENDAR_NAME+" quarter year to starting instant links",
+				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
-				"Gregorian quarter year to ending instant links",
-				"Links between Gregorian calandar aligned quarter years and their ending instant.");
+				""+CALENDAR_NAME+" quarter year to ending instant links",
+				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
-				"Gregorian quarter year to generic interval links",
-				"Links between Gregorian calandar aligned quarter years and their corresponding generic interval.");		
+				""+CALENDAR_NAME+" quarter year to generic interval links",
+				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their corresponding generic interval.");		
 	}
 }

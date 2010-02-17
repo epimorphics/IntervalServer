@@ -186,10 +186,10 @@ public class InstantDoc extends Doc {
 		model.add(r_inst, RDFS.comment, "The instant at start of the " + (som+1) + s_somSuffix + " second of " + (moh+1)
 				+ s_mohSuffix + " minute of " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " of the Gregorian calendar year " + year, "en");
+				+ " of the "+CALENDAR_NAME+" calendar year " + year, "en");
 				                    
-		model.add(r_inst, RDFS.label, "Gregorian Instant:"+s_relPart, "en");
-		model.add(r_inst, SKOS.prefLabel, "Gregorian Instant:"+s_relPart, "en");
+		model.add(r_inst, RDFS.label, ""+CALENDAR_NAME+" Instant:"+s_relPart, "en");
+		model.add(r_inst, SKOS.prefLabel, ""+CALENDAR_NAME+" Instant:"+s_relPart, "en");
 		model.add(r_inst, TIME.inXSDDateTime, l_dateTime);
 		
 		return r_inst;
@@ -233,7 +233,7 @@ public class InstantDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INSTANT_SET_LABEL);
 		
-		model.add(r_set, RDFS.comment, "A dataset of time instant on the Gregorian time line.","en");
+		model.add(r_set, RDFS.comment, "A dataset of time instant on the "+CALENDAR_NAME+" time line.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
@@ -260,86 +260,86 @@ public class InstantDoc extends Doc {
 //		r_instantSet=createInstantSet();
 		
 		addLinkset(r_set, r_yearSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar year to starting instant links.",
-				"Links between Gregorian calendar years and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar year to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar years and their corresponding starting instants.");
 
 		addLinkset(r_set, r_halfSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar half year to starting instant links.",
-				"Links between Gregorian calendar half years and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar half year to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar half years and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_quarterSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar quarter year to starting instant links.",
-				"Links between Gregorian calendar quarter years and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar quarter year to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar quarter years and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_monthSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar month to starting instant links.",
-				"Links between Gregorian calendar months and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar month to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar months and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_weekSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar week to starting instant links.",
-				"Links between ISO 8610 numbered Gregorian calendar weeks and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar week to starting instant links.",
+				"Links between ISO 8610 numbered "+CALENDAR_NAME+" calendar weeks and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_daySet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar day to starting instant links.",
-				"Links between Gregorian calendar days and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar day to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar days and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_hourSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar hour to starting instant links.",
-				"Links between Gregorian calendar hours and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar hour to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar hours and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_minSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar minute to starting instant links.",
-				"Links between Gregorian calendar minutes and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar minute to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar minutes and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_secSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar second to starting instant links.",
-				"Links between Gregorian calendar seconds and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar second to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar seconds and their corresponding starting instants.");
 		
 		addLinkset(r_set, r_intervalSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar generic intervals to starting instant links.",
-				"Links between Gregorian calendar generic intervals and their corresponding starting instants.");
+				""+CALENDAR_NAME+" calendar generic intervals to starting instant links.",
+				"Links between "+CALENDAR_NAME+" calendar generic intervals and their corresponding starting instants.");
 		
 		// Now the hadEnd links
 
 		addLinkset(r_set, r_yearSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar year to ending instant links.",
-				"Links between Gregorian calendar years and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar year to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar years and their corresponding ending instants.");
 
 		addLinkset(r_set, r_halfSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar half year to ending instant links.",
-				"Links between Gregorian calendar half years and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar half year to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar half years and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_quarterSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar quarter year to ending instant links.",
-				"Links between Gregorian calendar quarter years and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar quarter year to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar quarter years and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_monthSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar month to ending instant links.",
-				"Links between Gregorian calendar months and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar month to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar months and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_weekSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar week to ending instant links.",
-				"Links between ISO 8610 numbered Gregorian calendar weeks and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar week to ending instant links.",
+				"Links between ISO 8610 numbered "+CALENDAR_NAME+" calendar weeks and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_daySet, r_set, TIME.hasEnd, 
-				"Gregorian calendar day to ending instant links.",
-				"Links between Gregorian calendar days and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar day to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar days and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_hourSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar hour to ending instant links.",
-				"Links between Gregorian calendar hours and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar hour to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar hours and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_minSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar minute to ending instant links.",
-				"Links between Gregorian calendar minutes and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar minute to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar minutes and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_secSet, r_set, TIME.hasEnd, 
-				"Gregorian calendar second to ending instant links.",
-				"Links between Gregorian calendar seconds and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar second to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar seconds and their corresponding ending instants.");
 		
 		addLinkset(r_set, r_intervalSet, r_set, TIME.hasBeginning, 
-				"Gregorian calendar generic intervals to ending instant links.",
-				"Links between Gregorian calendar generic intervals and their corresponding ending instants.");
+				""+CALENDAR_NAME+" calendar generic intervals to ending instant links.",
+				"Links between "+CALENDAR_NAME+" calendar generic intervals and their corresponding ending instants.");
 		
 	}	
 }
