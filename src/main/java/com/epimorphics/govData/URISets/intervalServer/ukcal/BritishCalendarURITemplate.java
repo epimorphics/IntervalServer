@@ -24,8 +24,6 @@ public class BritishCalendarURITemplate {
 	public static final String CALENDAR_SET			=	"uk-calendar";
 	public static final String CALENDAR_NAME			= "British";
 	
-	public static final String DEFAULT_BASE_URI		= "http://reference.data.gov.uk/";
-	
 	static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
 	static final String GREGORIAN_CALENDAR_REF ="http://en.wikipedia.org/wiki/Gregorian_calendar";
 	
