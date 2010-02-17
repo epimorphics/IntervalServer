@@ -20,6 +20,7 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.ref.Reference;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Locale;
@@ -45,6 +46,7 @@ import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
+import com.epimorphics.govData.vocabulary.PROVENANCE;
 import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
@@ -256,13 +258,14 @@ abstract public class Doc extends GregorianURITemplate {
 		.setNsPrefix("xsd", XSD.getURI())
 		.setNsPrefix("scv",SCOVO.NS)
 		.setNsPrefix("dcterms", DCTerms.NS)
+		.setNsPrefix("dgu", DGU.NS)
+		.setNsPrefix("prv", PROVENANCE.NS)
+		.setNsPrefix("void",VOID.NS)
 		;
 	}
 
 	protected void addGeneralIntervalTimeLink(Model model, Calendar d, Literal isoDuration) {
 		Resource r_interval = IntervalDoc.createResourceAndLabels(base, model , d , new Duration(isoDuration.getLexicalForm()));
-//		String s_intervalURI = base + INTERVAL_ID_STEM + s_isoDate +"/" + isoDuration.getLexicalForm();
-//		Resource r_interval = model.createResource(s_intervalURI,TIME.Interval);
 		model.add(r_thisTemporalEntity, TIME.intervalEquals, r_interval);
 	}
 

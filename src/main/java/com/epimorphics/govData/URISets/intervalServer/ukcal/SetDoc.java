@@ -42,7 +42,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author skw
  *
  */
-@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.CALENDAR_STEM+BritishCalendarURITemplate.SET_EXT_PATTERN)
+@Path(BritishCalendarURITemplate.DOC_STEM+BritishCalendarURITemplate.CALENDAR_SET+BritishCalendarURITemplate.SET_EXT_PATTERN)
 public class SetDoc extends Doc {
 	
 	@GET
@@ -58,13 +58,13 @@ public class SetDoc extends Doc {
 				loc = new URI(base + ui.getPath());
 				ext = ext2;
 				contentURI = new URI(loc.toString());
-				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+				setURI = new URI(base + SET_STEM + CALENDAR_SET);
 			} else {
 				mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
 				ext = MediaTypeUtils.getExtOfMediaType(mt);
 				loc = new URI(base + ui.getPath());
 				contentURI = new URI(loc.toString()+ "."+ ext);
-				setURI = new URI(base + SET_STEM + YEAR_SEGMENT);
+				setURI = new URI(base + SET_STEM + CALENDAR_SET);
 			}
 		} catch (URISyntaxException e) {
 			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);

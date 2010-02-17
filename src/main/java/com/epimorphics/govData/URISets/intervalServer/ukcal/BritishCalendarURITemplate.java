@@ -20,7 +20,8 @@ package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
 public class BritishCalendarURITemplate {
 
-	public static final String CALENDAR_STEM 		= "";
+	public static final String CALENDAR_STEM 		= 	"";
+	public static final String CALENDAR_SET			=	"uk-calendar";
 	public static final String CALENDAR_NAME			= "British";
 	
 	public static final String DEFAULT_BASE_URI		= "http://reference.data.gov.uk/";
@@ -170,7 +171,7 @@ public class BritishCalendarURITemplate {
 	public static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
 
 	public final static String PATH_REGEX =
-		"("+CALENDAR_STEM+")"+
+		"("+CALENDAR_SET+")"+
 		"("+YEAR_SEGMENT+")|"+
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+

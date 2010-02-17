@@ -47,6 +47,7 @@ import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
+import com.epimorphics.govData.vocabulary.PROVENANCE;
 import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
@@ -258,6 +259,9 @@ abstract public class Doc extends BritishCalendarURITemplate {
 		.setNsPrefix("xsd", XSD.getURI())
 		.setNsPrefix("scv",SCOVO.NS)
 		.setNsPrefix("dcterms", DCTerms.NS)
+		.setNsPrefix("dgu", DGU.NS)
+		.setNsPrefix("prv", PROVENANCE.NS)
+		.setNsPrefix("void",VOID.NS)
 		;
 	}
 
@@ -271,14 +275,16 @@ abstract public class Doc extends BritishCalendarURITemplate {
 		
 		dur.addToCalendar(calEnd);
 		dur.addToCalendar(gcEnd);
+		Resource r_interval;
 		
 		if(calEnd.getTimeInMillis()==gcEnd.getTimeInMillis()) {
 			// All is fine and dandy!
-			IntervalDoc.createResourceAndLabels(base, model , gcal, dur);
+			r_interval = IntervalDoc.createResourceAndLabels(base, model , gcal, dur);
 		} else  {
 			Duration dur2 = gcal.getDurationTo(calEnd);
-			IntervalDoc.createResourceAndLabels(base, model , gcal , dur2);
+			r_interval = IntervalDoc.createResourceAndLabels(base, model , gcal , dur2);
 		}	
+		r_thisTemporalEntity.addProperty(TIME.intervalEquals, r_interval);
 	}
 
 
