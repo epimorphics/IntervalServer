@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.Constants;
 import com.epimorphics.govData.URISets.intervalServer.govcalendar.Id;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
@@ -45,7 +46,9 @@ import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
+import com.epimorphics.govData.vocabulary.DOAP;
 import com.epimorphics.govData.vocabulary.FOAF;
+import com.epimorphics.govData.vocabulary.FRBR;
 import com.epimorphics.govData.vocabulary.INTERVALS;
 import com.epimorphics.govData.vocabulary.PROVENANCE;
 import com.epimorphics.govData.vocabulary.SCOVO;
@@ -69,7 +72,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-abstract public class Doc extends BritishCalendarURITemplate {
+abstract public class Doc extends BritishCalendarURITemplate implements Constants {
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
 
@@ -165,6 +168,9 @@ abstract public class Doc extends BritishCalendarURITemplate {
 		Statement s_comment = model.getProperty(r_thisTemporalEntity, RDFS.label);
 		String l = (s_comment!=null) ? s_comment.getString() : null;
 		addDocumentLabels(r_doc, l);
+		
+		r_doc.addProperty(RDF.type, PROVENANCE.DataItem);
+		addProvenanceMetadata(r_doc);
 	}
 	
 	protected ResponseBuilder doGet(final String lang) {
@@ -334,8 +340,53 @@ abstract public class Doc extends BritishCalendarURITemplate {
 		model.add(r_doc, FOAF.primaryTopic, r_set);
 		
 		addDocumentLabels(r_doc, docLabel);
+		addProvenanceMetadata(r_doc);
 	}
 
+	private void addProvenanceMetadata(Resource r_doc) {
+		// Attribute maintenance of the data providing service
+		Resource r_maintainer = model.createResource(FOAF.Person);
+		r_maintainer.addProperty(FOAF.name, MAINTAINER_NAME);
+		r_maintainer.addProperty(FOAF.mbox_sha1sum, MAINTAINER_MBOX_SHA1);
+		
+		// Identify the publisher as user of the sofware that provides the data providing service
+		Resource r_publisher = model.createResource(PROVENANCE.DataPublisher);
+		r_publisher.addProperty(RDF.type, FRBR.CorporateBody);
+		r_publisher.addProperty(FOAF.name, PUBLISHER_NAME, "en");
+		
+		Resource r_actor = model.createResource(PROVENANCE.DataProvidingService);
+		r_actor.addProperty(DOAP.name, SERVICE_NAME, "en");
+		r_actor.addProperty(PROVENANCE.operatedBy,r_publisher);
+
+		// Add some DCTERMS about the document
+		r_doc.addProperty(DCTERMS.publisher, r_publisher);
+		r_doc.addProperty(DCTERMS.license, model.createResource(LICENSE_URI));
+		r_doc.addLiteral(DCTERMS.dateCopyrighted, XSDDatatype.XSDdate.parse(RELEASE_DATE));
+		r_doc.addProperty(DCTERMS.rightsHolder, r_publisher);
+		r_doc.addProperty(DCTERMS.creator, r_actor);
+
+		// Attribute the document creation to a data providing service
+		Resource r_creation = model.createResource(PROVENANCE.DataCreation);
+		r_doc.addProperty(PROVENANCE.createdBy, r_creation);
+		r_creation.addProperty(PROVENANCE.performedBy, r_actor);
+		r_creation.addLiteral(PROVENANCE.performedAt,XSDDatatype.XSDdate.parse(RELEASE_DATE));
+
+
+		// Add some DOAP about the release of the data providing service software
+		Resource r_project = model.createResource(DOAP.Project);
+		r_project.addProperty(DOAP.name, PROJECT_NAME);
+		r_actor.addProperty(PROVENANCE.employedArtifact, r_project);
+		r_project.addProperty(DOAP.maintainer, r_maintainer);
+
+		// Add some information about this revision of the software.
+		Resource r_version = model.createResource(DOAP.Version);
+		r_version.addProperty(DOAP.name, RELEASE_NAME, "en");
+		r_version.addProperty(DOAP.created, RELEASE_DATE, XSDDatatype.XSDdate);
+		r_version.addProperty(DOAP.revision, RELEASE_REVISION);
+		r_project.addProperty(DOAP.release, r_version);
+		r_project.addProperty(PROVENANCE.usedBy, r_publisher);
+	}
+	
 	private void addDocumentLabels(Resource r_doc, String docLabel) {
 		if(loc.equals(contentURI)) {
 			String s_mediaType = 
