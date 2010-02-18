@@ -53,8 +53,8 @@ public class BritishCalendarURITemplate {
 	public static final String HOUR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one hour intervals."; 
 	public static final String MINUTE_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one minute intervals."; 
 	public static final String SECOND_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one second intervals."; 
-	public static final String INTERVAL_SET_LABEL 	= "Arbitary duration intervals on the "+CALENDAR_NAME+" timeline."; 
-	public static final String INSTANT_SET_LABEL 	= "Arbitary instants on the "+CALENDAR_NAME+" timeline."; 
+	public static final String INTERVAL_SET_LABEL 	= GregorianURITemplate.INTERVAL_SET_LABEL; 
+	public static final String INSTANT_SET_LABEL 	= GregorianURITemplate.INSTANT_SET_LABEL; 
 
 	public static final String YEAR_TOKEN 			= "year";
 	public static final String HALF_TOKEN 			= "half";

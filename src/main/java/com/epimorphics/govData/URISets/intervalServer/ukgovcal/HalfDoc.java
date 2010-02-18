@@ -15,17 +15,12 @@
  * $Id:  $
  *****************************************************************/
 
-package com.epimorphics.govData.URISets.intervalServer.gregorian;
+package com.epimorphics.govData.URISets.intervalServer.ukgovcal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Locale;
-
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,6 +31,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.InstantDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.MonthDoc;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -49,8 +49,7 @@ import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
-
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.HALF_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(UkGovCalURITemplate.DOC_STEM+UkGovCalURITemplate.HALF_SEGMENT+UkGovCalURITemplate.SET_EXT_PATTERN)
 public class HalfDoc extends Doc {
 
 	protected void populateModel(int year, int half) {
@@ -60,9 +59,11 @@ public class HalfDoc extends Doc {
 		this.month=((half-1)*6)+1;
 		this.quarter=((half-1)*2)+1;
 		
-		startTime = new GregorianOnlyCalendar(Locale.UK);
+		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
-		startTime.set(year, month-1, day, hour, min, sec);
+
+		startTime.set(year, Calendar.APRIL,1, 0, 0, 0);
+		startTime.add(Calendar.MONTH, month-1);
 
 		super.populateModel();
 	}
@@ -71,12 +72,14 @@ public class HalfDoc extends Doc {
 	@Path(HALF_PATTERN+EXT_PATTERN)
 	@Produces()
 	public Response getResponse(
-			@PathParam(YEAR_TOKEN) int year,
-			@PathParam(HALF_TOKEN) int half,
-			@PathParam(EXT_TOKEN)  String ext2 ) {
-		if(ext2.equals(""))
+			@PathParam(YEAR_TOKEN)  int year,
+			@PathParam(YEAR2_TOKEN) int year2,
+			@PathParam(HALF_TOKEN)  int half,
+			@PathParam(EXT_TOKEN)   String ext2 ) {
+		
+		if(ext2.equals("")||(year2-year!=1) )
 			throw new WebApplicationException(Status.NOT_FOUND);
-
+		
 		MediaType mt = MediaTypeUtils.extToMediaType(ext2);
 		
 		ext = ext2;
@@ -87,7 +90,12 @@ public class HalfDoc extends Doc {
 	@Path(HALF_PATTERN)
 	public Response getResponse2(
 			@PathParam(YEAR_TOKEN) int year,
+			@PathParam(YEAR2_TOKEN) int year2,
 			@PathParam(HALF_TOKEN) int half ) {
+
+		if((year2-year!=1) )
+			throw new WebApplicationException(Status.NOT_FOUND);
+		
 		MediaType mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
 		ext = MediaTypeUtils.getExtOfMediaType(mt);
 		return respond(year, half, mt, true);
@@ -148,21 +156,22 @@ public class HalfDoc extends Doc {
 		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 	static protected Resource createResourceAndLabels(URI base, Model m, int year, int half) {
-		String relPart = String.format("%04d",year) + HALF_PREFIX + half;
+		String relPart = String.format("%04d",year) + "-" +String.format("%04d",year+1) + HALF_PREFIX + half;
 	
 		String s_halfURI = base + HALF_ID_STEM + relPart;
-		Resource r_half = m.createResource(s_halfURI, INTERVALS.CalendarHalf);
+		Resource r_half = m.createResource(s_halfURI, INTERVALS.Half);
+		r_half.addProperty(RDF.type, INTERVALS.BusinessHalf);
 		
 		if(half>0 && half<=2) {
-			Resource r_halfType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
-			r_half.addProperty(RDF.type, r_halfType);
+			Resource r_quarterType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
+			r_half.addProperty(RDF.type, r_quarterType);
 		}
 	
-		String s_label = ""+CALENDAR_NAME+" Half:" + relPart;
+		String s_label = CALENDAR_NAME+" Half:" + relPart;
 		m.add(r_half, SKOS.prefLabel, s_label, "en");
 		m.add(r_half, RDFS.label, s_label, "en");
 		m.add(r_half, RDFS.comment, "The " + ((half == 1) ? "first" : "second")
-				+ " half of "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
+				+ " half of "+CALENDAR_NAME+" calendar year " + String.format("%04d",year)+"-" +String.format("%04d",year+1) , "en");
 		return r_half;
 	}
 
@@ -172,11 +181,13 @@ public class HalfDoc extends Doc {
 		//Add more rdf:type'ing
 		r_half.addProperty(RDF.type, SCOVO.Dimension);
 		r_half.addProperty(RDF.type, INTERVALS.Half);
+		r_half.addProperty(RDF.type, INTERVALS.BusinessHalf);
 		if(half>0 && half<=2 ) {
 			r_half.addProperty(RDF.type, (half==1 ? INTERVALS.H1 : INTERVALS.H2 ));
 		}
-
-		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, (half-1)*6, 1, 0, 0, 0);
+		
+		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0);
+		cal.add(Calendar.MONTH, (half-1)*6);
 		cal.setLenient(false);
 		
 		m.add(r_half, INTERVALS.hasXsdDurationDescription, oneSecond);
@@ -212,12 +223,17 @@ public class HalfDoc extends Doc {
 		model.add(r_thisTemporalEntity, INTERVALS.intervalContainsQuarters, r_quarters);
 
 		// Add the Months
+		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0);
+		cal.add(Calendar.MONTH, ((half - 1) * 6));
 		for (int month = 0; month < 6; month++) {
-			int i_moy = ((half - 1) * 6) + month + 1;
-			Resource r_month = MonthDoc.createResourceAndLabels(base, model, year, i_moy);	
+			int ukCalYear  = cal.get(Calendar.YEAR);
+			int ukCalMonth = cal.get(Calendar.MONTH);
+			Resource r_month = MonthDoc.createResourceAndLabels(base, model, ukCalYear, ukCalMonth+1);
 			connectToContainingInterval(model, r_thisTemporalEntity, r_month);
 			months[month] = r_month;
+			cal.add(Calendar.MONTH, 1);
 		}
+
 		RDFList r_months = model.createList(months);
 		model.add(r_thisTemporalEntity, INTERVALS.intervalContainsMonths, r_months);
 	}
@@ -230,17 +246,17 @@ public class HalfDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextHalf;
 		Resource r_prevHalf;
 
 		try{
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.getTimeInMillis();
 			cal.add(Calendar.MONTH,6);
 			r_nextHalf = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);
 			
-			cal = (GregorianOnlyCalendar) startTime.clone();
+			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.MONTH,-6);
 			r_prevHalf = createResourceAndLabels(base ,model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);	
 			
@@ -274,14 +290,14 @@ public class HalfDoc extends Doc {
 		
 		model.add(r_set, VOID.exampleResource, HalfDoc.createResourceAndLabels(base, model, 2010, 1));
 		
-		addGregorianSourceRef(r_set);	
+		addCalendarActRef(r_set);	
 		
 		Resource r_yearSet, r_halfSet, r_quarterSet, r_monthSet, r_weekSet, r_daySet, r_hourSet, r_minSet, r_secSet, r_intervalSet, r_instantSet;
 		
 		r_yearSet=createYearSet();
 //		r_halfSet=createHalfSet();
 		r_quarterSet=createQuarterSet();
-		r_monthSet=createMonthSet();
+//		r_monthSet=createMonthSet();
 //		r_weekSet=createWeekSet();
 //		r_daySet=createDaySet();
 //		r_hourSet=createHourSet();
@@ -297,10 +313,6 @@ public class HalfDoc extends Doc {
 		addLinkset(r_set, r_set, r_quarterSet, INTERVALS.intervalContainsQuarter, 
 				""+CALENDAR_NAME+" half year to quarter year interval containment links",
 				"Links between "+CALENDAR_NAME+" calandar aligned half years and the quarter years they contain.");
-
-		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
-				""+CALENDAR_NAME+" half year to month interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned half years and the months they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
 				""+CALENDAR_NAME+" half year to starting instant links",

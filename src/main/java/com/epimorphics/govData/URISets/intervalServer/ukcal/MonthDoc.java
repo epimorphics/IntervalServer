@@ -202,7 +202,7 @@ public class MonthDoc extends Doc {
 //		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
 //	}
 		
-	static protected Resource createResourceAndLabels(URI base, Model m, int year, int moy) {
+	public static Resource createResourceAndLabels(URI base, Model m, int year, int moy) {
 		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy);
 	
 		String s_monthURI = base + MONTH_ID_STEM + relPart;

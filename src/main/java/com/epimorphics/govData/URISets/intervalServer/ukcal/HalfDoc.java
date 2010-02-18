@@ -151,9 +151,9 @@ public class HalfDoc extends Doc {
 		String s_halfURI = base + HALF_ID_STEM + relPart;
 		Resource r_half = m.createResource(s_halfURI, INTERVALS.CalendarHalf);
 		
-		if(half>0 && half<=4) {
-			Resource r_quarterType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
-			r_half.addProperty(RDF.type, r_quarterType);
+		if(half>0 && half<=2) {
+			Resource r_halfType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
+			r_half.addProperty(RDF.type, r_halfType);
 		}
 	
 		String s_label = ""+CALENDAR_NAME+" Half:" + relPart;

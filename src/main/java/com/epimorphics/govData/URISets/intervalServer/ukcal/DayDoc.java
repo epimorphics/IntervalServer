@@ -151,7 +151,7 @@ public class DayDoc extends Doc {
 	}
 	
 	
-	static protected Resource createResourceAndLabels(URI base, Model m, int year, int moy, int dom) {
+	public static Resource createResourceAndLabels(URI base, Model m, int year, int moy, int dom) {
 		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy)
 				+ DAY_PREFIX + String.format("%02d", dom);
 	

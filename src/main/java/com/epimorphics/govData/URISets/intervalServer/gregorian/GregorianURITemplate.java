@@ -50,8 +50,8 @@ public class GregorianURITemplate {
 	protected static final String HOUR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one hour intervals."; 
 	protected static final String MINUTE_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one minute intervals."; 
 	protected static final String SECOND_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one second intervals."; 
-	protected static final String INTERVAL_SET_LABEL 	= "Arbitary duration intervals on the "+CALENDAR_NAME+" timeline."; 
-	protected static final String INSTANT_SET_LABEL 	= "Arbitary instants on the "+CALENDAR_NAME+" timeline."; 
+	public static final String INTERVAL_SET_LABEL 	= "Arbitary duration intervals on the "+CALENDAR_NAME+" timeline."; 
+	public static final String INSTANT_SET_LABEL 	= "Arbitary instants on the "+CALENDAR_NAME+" timeline."; 
 
 	protected static final String YEAR_TOKEN 			= "year";
 	protected static final String HALF_TOKEN 			= "half";
