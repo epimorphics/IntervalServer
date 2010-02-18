@@ -25,13 +25,12 @@ import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.epimorphics.govData.URISets.intervalServer.govcalendar.Id;
 /**
  * @author skw
  *
  */
 public class BaseURI {
-	static private Logger logger = LoggerFactory.getLogger(Id.class);
+	static private Logger logger = LoggerFactory.getLogger(BaseURI.class);
 	
 	private static URI base=null;
 	private static boolean visited = false;

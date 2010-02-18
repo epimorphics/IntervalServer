@@ -166,8 +166,8 @@ public class SetDoc extends Doc {
 		model.add(r_set, VOID.subset, r_hourSet=createHourSet());
 		model.add(r_set, VOID.subset, r_minSet=createMinSet());
 		model.add(r_set, VOID.subset, r_secSet=createSecSet());
-		model.add(r_set, VOID.subset, r_intervalSet=createIntervalSet());
-		model.add(r_set, VOID.subset, r_instantSet=createInstantSet());
+//		model.add(r_set, VOID.subset, r_intervalSet=createIntervalSet());
+//		model.add(r_set, VOID.subset, r_instantSet=createInstantSet());
 			
 	}
 }

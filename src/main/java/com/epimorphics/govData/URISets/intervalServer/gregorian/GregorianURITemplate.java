@@ -82,8 +82,8 @@ public class GregorianURITemplate {
 	protected static final String HOUR_SEGMENT 		= CALENDAR_STEM + "-hour";
 	protected static final String MINUTE_SEGMENT 	= CALENDAR_STEM + "-minute";
 	protected static final String SECOND_SEGMENT	= CALENDAR_STEM + "-second";
-	protected static final String INSTANT_SEGMENT	= CALENDAR_STEM + "-instant";
-	protected static final String INTERVAL_SEGMENT	= CALENDAR_STEM + "-interval";
+	public static final String INSTANT_SEGMENT	= CALENDAR_STEM + "-instant";
+	public static final String INTERVAL_SEGMENT	= CALENDAR_STEM + "-interval";
 	
 	protected static final String YEAR_ID_STEM 			= ID_STEM + YEAR_SEGMENT +"/";
 	protected static final String HALF_ID_STEM 			= ID_STEM + HALF_SEGMENT + "/";

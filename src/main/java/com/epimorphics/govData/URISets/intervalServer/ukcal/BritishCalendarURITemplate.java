@@ -17,6 +17,8 @@
 
 package com.epimorphics.govData.URISets.intervalServer.ukcal;
 
+import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianURITemplate;
+
 
 public class BritishCalendarURITemplate {
 
@@ -119,8 +121,8 @@ public class BritishCalendarURITemplate {
 	public static final String HOUR_SET_RELURI 		= SET_STEM + HOUR_SEGMENT;
 	public static final String MINUTE_SET_RELURI 	= SET_STEM + MINUTE_SEGMENT;
 	public static final String SECOND_SET_RELURI		= SET_STEM + SECOND_SEGMENT;
-	public static final String INSTANT_SET_RELURI	= SET_STEM + INSTANT_SEGMENT;
-	public static final String INTERVAL_SET_RELURI	= SET_STEM + INTERVAL_SEGMENT;
+	public static final String INSTANT_SET_RELURI	= SET_STEM + GregorianURITemplate.INSTANT_SEGMENT;
+	public static final String INTERVAL_SET_RELURI	= SET_STEM + GregorianURITemplate.INTERVAL_SEGMENT;
 	
 	public static final String HALF_PREFIX			= "-H";
 	public static final String QUARTER_PREFIX		= "-Q";
@@ -170,6 +172,8 @@ public class BritishCalendarURITemplate {
 
 	public final static String PATH_REGEX =
 		"("+CALENDAR_SET+")|"+
+//		"("+INSTANT_SEGMENT+")|"+
+//		"("+INTERVAL_SEGMENT+")|" +
 		"("+YEAR_SEGMENT+")|"+
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+
@@ -178,9 +182,7 @@ public class BritishCalendarURITemplate {
 		"("+WEEK_SEGMENT+")|"+
 		"("+HOUR_SEGMENT+")|"+
 		"("+MINUTE_SEGMENT+")|"+
-		"("+SECOND_SEGMENT+")|"+
-		"("+INSTANT_SEGMENT+")|"+
-		"("+INTERVAL_SEGMENT+")";
+		"("+SECOND_SEGMENT+")";
 
 	public static final String EXT_RDF = "rdf";
 	public static final String EXT_NT  = "nt";

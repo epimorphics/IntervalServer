@@ -20,7 +20,6 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.ref.Reference;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Locale;
@@ -39,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.Constants;
-import com.epimorphics.govData.URISets.intervalServer.govcalendar.Id;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
@@ -158,7 +156,7 @@ abstract public class Doc extends GregorianURITemplate implements Constants {
 	
 
 	protected void addDocInfo() {
-		String documentStem = r_thisTemporalEntity.getURI().replaceFirst(ID_STEM, DOC_STEM);
+//		String documentStem = r_thisTemporalEntity.getURI().replaceFirst(ID_STEM, DOC_STEM);
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		
 		model.add(r_thisTemporalEntity, FOAF.isPrimaryTopicOf, r_doc);
