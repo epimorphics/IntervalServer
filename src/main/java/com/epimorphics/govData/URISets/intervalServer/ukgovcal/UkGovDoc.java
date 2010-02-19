@@ -170,7 +170,7 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		addDocumentLabels(r_doc, l);
 		
 		r_doc.addProperty(RDF.type, PROVENANCE.DataItem);
-		addProvenanceMetadata(r_doc);
+		addProvenanceMetadata(r_doc, false);
 	}
 	
 	protected ResponseBuilder doGet(final String lang) {
@@ -363,15 +363,10 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		model.add(r_doc, FOAF.primaryTopic, r_set);
 		
 		addDocumentLabels(r_doc, docLabel);
-		addProvenanceMetadata(r_doc);
+		addProvenanceMetadata(r_doc, true);
 	}
 
-	private void addProvenanceMetadata(Resource r_doc) {
-		// Attribute maintenance of the data providing service
-		Resource r_maintainer = model.createResource(FOAF.Person);
-		r_maintainer.addProperty(FOAF.name, MAINTAINER_NAME);
-		r_maintainer.addProperty(FOAF.mbox_sha1sum, MAINTAINER_MBOX_SHA1);
-		
+	private void addProvenanceMetadata(Resource r_doc, boolean includeMaintainer) {
 		// Identify the publisher as user of the sofware that provides the data providing service
 		Resource r_publisher = model.createResource(PROVENANCE.DataPublisher);
 		r_publisher.addProperty(RDF.type, FRBR.CorporateBody);
@@ -399,7 +394,6 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		Resource r_project = model.createResource(DOAP.Project);
 		r_project.addProperty(DOAP.name, PROJECT_NAME);
 		r_actor.addProperty(PROVENANCE.employedArtifact, r_project);
-		r_project.addProperty(DOAP.maintainer, r_maintainer);
 
 		// Add some information about this revision of the software.
 		Resource r_version = model.createResource(DOAP.Version);
@@ -408,6 +402,14 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		r_version.addProperty(DOAP.revision, RELEASE_REVISION);
 		r_project.addProperty(DOAP.release, r_version);
 		r_project.addProperty(PROVENANCE.usedBy, r_publisher);
+		
+		if(includeMaintainer) {
+			// Attribute maintenance of the data providing service
+			Resource r_maintainer = model.createResource(FOAF.Person);
+			r_maintainer.addProperty(FOAF.name, MAINTAINER_NAME);
+			r_maintainer.addProperty(FOAF.mbox_sha1sum, MAINTAINER_MBOX_SHA1);
+			r_project.addProperty(DOAP.maintainer, r_maintainer);
+		}
 	}
 	
 	private void addDocumentLabels(Resource r_doc, String docLabel) {
