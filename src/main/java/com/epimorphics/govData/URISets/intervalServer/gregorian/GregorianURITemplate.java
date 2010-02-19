@@ -20,7 +20,7 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 public class GregorianURITemplate {
 
-	protected static final String CALENDAR_STEM 		= "gregorian";
+	public static final String CALENDAR_STEM 		= "gregorian";
 	protected static final String CALENDAR_NAME			= "Gregorian";
 	
 	static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";

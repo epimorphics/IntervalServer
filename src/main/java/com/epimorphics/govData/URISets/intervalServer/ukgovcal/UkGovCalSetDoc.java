@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        SetDoc.java
+ * File:        UkCalSetDoc.java
  * Created by:  skw
  * Created on:  16 Feb 2010
  * 
@@ -34,6 +34,7 @@ import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.VOID;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
@@ -43,7 +44,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  *
  */
 @Path(UkGovCalURITemplate.DOC_STEM+UkGovCalURITemplate.CALENDAR_SET+UkGovCalURITemplate.SET_EXT_PATTERN)
-public class SetDoc extends Doc {
+public class UkGovCalSetDoc extends Doc {
 	
 	@GET
 	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
@@ -112,19 +113,10 @@ public class SetDoc extends Doc {
 	}
 	
 	private void populateCalSet() {
-		Resource r_set = model.createResource(setURI.toString(),VOID.Dataset);
+		Resource r_set = createCalSet(model, setURI.toString());
+
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, CALENDAR_SET_LABEL);
-		
-		model.add(r_set, RDFS.label, CALENDAR_SET_LABEL, "en");
-		model.add(r_set, SKOS.prefLabel, CALENDAR_SET_LABEL,"en");
-		
-		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" buinsess calendar aligned time intervals formed from the union" +
-				                     " of datasets that contain calendar aligned intervals one year, one half year," +
-				                     " one quarter, one month, one day, one hour, one minute or one second. "+CALENDAR_NAME+
-				                     " years begin on the 1st of April", "en");
-		model.add(r_set, RDF.type, VOID.Dataset);
-
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		
@@ -170,5 +162,17 @@ public class SetDoc extends Doc {
 //		model.add(r_set, VOID.subset, r_intervalSet=createIntervalSet());
 //		model.add(r_set, VOID.subset, r_instantSet=createInstantSet());
 			
+	}
+	public static Resource createCalSet(Model model, String setURI) {
+		Resource r_set = model.createResource(setURI.toString(),VOID.Dataset);
+		model.add(r_set, RDFS.label, CALENDAR_SET_LABEL, "en");
+		model.add(r_set, SKOS.prefLabel, CALENDAR_SET_LABEL,"en");
+		
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" buinsess calendar aligned time intervals formed from the union" +
+				                     " of datasets that contain calendar aligned intervals one year, one half year," +
+				                     " one quarter, one month, one day, one hour, one minute or one second. "+CALENDAR_NAME+
+				                     " years begin on the 1st of April", "en");
+		model.add(r_set, RDF.type, VOID.Dataset);
+		return r_set;
 	}
 }

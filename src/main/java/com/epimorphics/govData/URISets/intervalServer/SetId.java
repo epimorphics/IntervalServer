@@ -30,6 +30,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.interval.SetDoc;
 import com.epimorphics.govData.URISets.intervalServer.ukcal.BritishCalendarURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
 
@@ -39,7 +40,8 @@ import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITempla
 public class SetId {
 @Context UriInfo ui;
 
-	final static String PATH_REGEX = GregorianURITemplate.PATH_REGEX +"|" + 
+	final static String PATH_REGEX = SetDoc.PATH_REGEX + "|"+
+									 GregorianURITemplate.PATH_REGEX +"|" + 
 	                                 BritishCalendarURITemplate.PATH_REGEX + "|"+
 	                                 UkGovCalURITemplate.PATH_REGEX;
 	
