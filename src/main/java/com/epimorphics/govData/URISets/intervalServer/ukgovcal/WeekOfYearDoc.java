@@ -251,7 +251,8 @@ public class WeekOfYearDoc extends Doc {
 			cal = (BritishCalendar) startTime.clone();
 			cal.add(Calendar.DATE,7);
 			
-			if(cal.getTimeInMillis()>=nextYear.getTimeInMillis()) {
+			//Add a 10000 (10sec)to force us over the line when close.
+			if((cal.getTimeInMillis()+10000)>=nextYear.getTimeInMillis()) {
 				y++; w=1;
 			} else {
 				w++;
