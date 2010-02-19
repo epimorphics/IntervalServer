@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        MonthId.java
+ * File:        UkMonthId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(GregorianURITemplate.MONTH_ID_STEM+GregorianURITemplate.MONTH_PATTERN)
+@Path(GregorianCalURITemplate.MONTH_ID_STEM+GregorianCalURITemplate.MONTH_PATTERN)
 public class MonthId extends Id {
 
 

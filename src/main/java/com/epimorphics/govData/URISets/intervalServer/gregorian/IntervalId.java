@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -27,8 +27,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(GregorianURITemplate.INTERVAL_ID_STEM+GregorianURITemplate.INTERVAL_PATTERN)
-//@Path(GregorianURITemplate.INTERVAL_ID_STEM+GregorianURITemplate.SECOND_PATTERN+"/{duration : P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?}")
+@Path(GregorianCalURITemplate.INTERVAL_ID_STEM+GregorianCalURITemplate.INTERVAL_PATTERN)
+//@Path(GregorianCalURITemplate.INTERVAL_ID_STEM+GregorianCalURITemplate.SECOND_PATTERN+"/{duration : P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?}")
 public class IntervalId extends Id{
 
 	@GET

@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        Id.java
+ * File:        UkId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -29,7 +29,7 @@ import javax.ws.rs.core.Response.Status;
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 
 
-public class Id extends GregorianURITemplate{
+public class Id extends GregorianCalURITemplate{
 	protected @Context UriInfo ui;
 
 	/**

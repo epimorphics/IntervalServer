@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        Doc.java
+ * File:        UkDoc.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -69,7 +69,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-abstract public class Doc extends GregorianURITemplate implements Constants {
+abstract public class Doc extends GregorianCalURITemplate implements Constants {
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
 
@@ -267,7 +267,7 @@ abstract public class Doc extends GregorianURITemplate implements Constants {
 				container.addProperty(typedContainerProperty, contained);
 		
 		container.addProperty(TIME.intervalContains, contained);
-		container.addProperty(TIME.intervalDuring, container);
+		contained.addProperty(TIME.intervalDuring, container);
 	}
 
 

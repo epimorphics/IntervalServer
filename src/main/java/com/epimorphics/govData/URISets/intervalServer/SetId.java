@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        SecId.java
+ * File:        UkSecId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer;
@@ -29,20 +29,20 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.interval.SetDoc;
-import com.epimorphics.govData.URISets.intervalServer.ukcal.BritishCalendarURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
 
 
 
-@Path(GregorianURITemplate.SET_STEM)
+@Path(GregorianCalURITemplate.SET_STEM)
 public class SetId {
 @Context UriInfo ui;
 
 	final static String PATH_REGEX = SetDoc.PATH_REGEX + "|"+
-									 GregorianURITemplate.PATH_REGEX +"|" + 
-	                                 BritishCalendarURITemplate.PATH_REGEX + "|"+
+									 GregorianCalURITemplate.PATH_REGEX +"|" + 
+	                                 UkCalURITemplate.PATH_REGEX + "|"+
 	                                 UkGovCalURITemplate.PATH_REGEX;
 	
 	@GET
@@ -50,7 +50,7 @@ public class SetId {
 	public Response redirector(
 			@PathParam("path")  String path){
 		String fullURI = ui.getAbsolutePath().toString();
-		fullURI = fullURI.replaceFirst(GregorianURITemplate.SET_STEM, GregorianURITemplate.DOC_STEM);
+		fullURI = fullURI.replaceFirst(GregorianCalURITemplate.SET_STEM, GregorianCalURITemplate.DOC_STEM);
 
 		ResponseBuilder resp = null;
 		try {

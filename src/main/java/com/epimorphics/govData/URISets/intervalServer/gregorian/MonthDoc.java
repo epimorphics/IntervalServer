@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        MonthDoc.java
+ * File:        UkMonthDoc.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -52,8 +52,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.MONTH_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
-//@Path(GregorianURITemplate.MONTH_DOC_STEM)
+@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.MONTH_SEGMENT+GregorianCalURITemplate.SET_EXT_PATTERN)
+//@Path(GregorianCalURITemplate.MONTH_DOC_STEM)
 public class MonthDoc extends Doc {
 
 	protected void populateModel(int year, int month) {

@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        Doc.java
+ * File:        UkDoc.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.interval;
@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.Constants;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
-import com.epimorphics.govData.URISets.intervalServer.ukcal.BritishCalendarURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
@@ -312,14 +312,14 @@ abstract public class Doc extends UkGovCalURITemplate implements Constants {
 	}
 	
 	protected Resource createDaySet() {
-		return createSet(base+BritishCalendarURITemplate.DAY_SET_RELURI, BritishCalendarURITemplate.DAY_SET_LABEL);
+		return createSet(base+UkCalURITemplate.DAY_SET_RELURI, UkCalURITemplate.DAY_SET_LABEL);
 	}
 
 	protected Resource createWeekSet() {
 		return createSet(base+WEEK_SET_RELURI, WEEK_SET_LABEL);
 	}
 	protected Resource createMonthSet() {
-		return createSet(base+BritishCalendarURITemplate.MONTH_SET_RELURI, BritishCalendarURITemplate.MONTH_SET_LABEL);
+		return createSet(base+UkCalURITemplate.MONTH_SET_RELURI, UkCalURITemplate.MONTH_SET_LABEL);
 	}
 	
 	protected Resource createQuarterSet() {

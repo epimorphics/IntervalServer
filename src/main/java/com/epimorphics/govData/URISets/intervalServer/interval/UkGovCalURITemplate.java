@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        GregorianURITemplate.java
+ * File:        GregorianCalURITemplate.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,12 +12,12 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.interval;
 
-import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalURITemplate;
 
 
 public class UkGovCalURITemplate {
@@ -44,8 +44,8 @@ public class UkGovCalURITemplate {
 	public static final String HALF_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned one half year intervals."; 
 	public static final String QUARTER_SET_LABEL 	= CALENDAR_NAME+" business calendar aligned one quarter year intervals."; 
 	public static final String WEEK_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned ISO8601 numbered week long intervals."; 
-	public static final String INTERVAL_SET_LABEL 	= GregorianURITemplate.INTERVAL_SET_LABEL; 
-	public static final String INSTANT_SET_LABEL 	= GregorianURITemplate.INSTANT_SET_LABEL; 
+	public static final String INTERVAL_SET_LABEL 	= GregorianCalURITemplate.INTERVAL_SET_LABEL; 
+	public static final String INSTANT_SET_LABEL 	= GregorianCalURITemplate.INSTANT_SET_LABEL; 
 	
 	public static final String YEAR_TOKEN 			= "year";
 	public static final String YEAR2_TOKEN 			= "year2";
@@ -88,8 +88,8 @@ public class UkGovCalURITemplate {
 	public static final String HALF_SET_RELURI 		= SET_STEM + HALF_SEGMENT;
 	public static final String QUARTER_SET_RELURI 	= SET_STEM + QUARTER_SEGMENT;
 	public static final String WEEK_SET_RELURI 		= SET_STEM + WEEK_SEGMENT;
-	public static final String INSTANT_SET_RELURI	= SET_STEM + GregorianURITemplate.INSTANT_SEGMENT;
-	public static final String INTERVAL_SET_RELURI	= SET_STEM + GregorianURITemplate.INTERVAL_SEGMENT;
+	public static final String INSTANT_SET_RELURI	= SET_STEM + GregorianCalURITemplate.INSTANT_SEGMENT;
+	public static final String INTERVAL_SET_RELURI	= SET_STEM + GregorianCalURITemplate.INTERVAL_SEGMENT;
 	
 	public static final String HALF_PREFIX			= "/H";
 	public static final String QUARTER_PREFIX		= "/Q";

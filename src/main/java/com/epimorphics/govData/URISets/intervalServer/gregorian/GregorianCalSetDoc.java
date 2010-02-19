@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
@@ -43,7 +43,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author skw
  *
  */
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.CALENDAR_STEM+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.CALENDAR_STEM+GregorianCalURITemplate.SET_EXT_PATTERN)
 public class GregorianCalSetDoc extends Doc {
 	
 	@GET

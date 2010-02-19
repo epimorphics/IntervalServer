@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -50,7 +50,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.INTERVAL_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.INTERVAL_SEGMENT+GregorianCalURITemplate.SET_EXT_PATTERN)
 
 public class IntervalDoc extends Doc {
 	

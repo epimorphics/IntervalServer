@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        HalfId.java
+ * File:        UkHalfId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -27,7 +27,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 
-@Path(GregorianURITemplate.HALF_ID_STEM+GregorianURITemplate.HALF_PATTERN)
+@Path(GregorianCalURITemplate.HALF_ID_STEM+GregorianCalURITemplate.HALF_PATTERN)
 public class HalfId extends Id {
 	
 	@GET

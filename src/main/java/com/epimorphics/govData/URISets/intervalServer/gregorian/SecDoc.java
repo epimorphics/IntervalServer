@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        SecDoc.java
+ * File:        UkSecDoc.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -22,6 +22,18 @@ import java.net.URISyntaxException;
 import java.util.Calendar;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkDayDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkHalfDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkHourDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkMinuteDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkMonthDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkQuarterDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkWeekOfYearDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkYearDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovHalfDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovQuarterDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovWeekOfYearDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovYearDoc;
 import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
@@ -51,7 +63,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-@Path(GregorianURITemplate.DOC_STEM+GregorianURITemplate.SECOND_SEGMENT+GregorianURITemplate.SET_EXT_PATTERN)
+@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.SECOND_SEGMENT+GregorianCalURITemplate.SET_EXT_PATTERN)
 public class SecDoc extends Doc {
 	
 	protected void populateModel(int year, int month, int day, int hour, int min, int sec) {
@@ -228,7 +240,6 @@ public class SecDoc extends Doc {
 	@Override
 	void addContainingIntervals() {
 		Resource r_thisYear = YearDoc.createResourceAndLabels(base, model,year);
-		// Create resources for this quarter and its neighbours.
 		Resource r_thisQuarter = QuarterDoc.createResourceAndLabels(base, model,year,((month-1)/3)+1);
 		Resource r_thisHalf    = HalfDoc.createResourceAndLabels(base, model, year, ((month-1)/6)+1);
 		Resource r_thisMonth   = MonthDoc.createResourceAndLabels(base, model, year, month);
@@ -247,18 +258,51 @@ public class SecDoc extends Doc {
 		connectToContainingInterval(model, r_thisMin, r_thisTemporalEntity);	
 		connectToContainingInterval(model, r_thisWeek, r_thisTemporalEntity);
 
-		BritishCalendar cal = new BritishCalendar(Locale.UK);
-		cal.setTimeInMillis(startTime.getTimeInMillis());
-		int y, mo, d, h, mi, s;
-		y = cal.get(Calendar.YEAR);
-		mo = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
-		d = cal.get(Calendar.YEAR);
-		h = cal.get(Calendar.YEAR);
-		mi= cal.get(Calendar.YEAR);
-		s = cal.get(Calendar.YEAR);
-		
-		
-		
+//		BritishCalendar cal = new BritishCalendar(Locale.UK);
+//		cal.setTimeInMillis(startTime.getTimeInMillis());
+//		int y, mo, d, h, mi, s, w, wy;
+//		y  = cal.get(Calendar.YEAR);
+//		mo = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
+//		d  = cal.get(Calendar.DATE);
+//		h  = cal.get(Calendar.HOUR);
+//		mi = cal.get(Calendar.MINUTE);
+//		s  = cal.get(Calendar.SECOND);
+//		w  = cal.get(Calendar.WEEK_OF_YEAR);
+//		wy = CalendarUtils.getWeekOfYearYear(cal);
+//		
+//		Resource r_ukYear 	 = UkYearDoc.createResourceAndLabels(base, model,y);
+//		Resource r_ukQuarter = UkQuarterDoc.createResourceAndLabels(base, model,y,((mo-1)/3)+1);
+//		Resource r_ukHalf    = UkHalfDoc.createResourceAndLabels(base, model, y, ((mo-1)/6)+1);
+//		Resource r_ukMonth   = UkMonthDoc.createResourceAndLabels(base, model, y, mo);
+//		Resource r_ukDay     = UkDayDoc.createResourceAndLabels(base, model, y, mo, d);
+//		Resource r_ukHour    = UkHourDoc.createResourceAndLabels(base, model, y, mo, d, h);
+//		Resource r_ukMin     = UkMinuteDoc.createResourceAndLabels(base, model, y, mo, d, h, mi);
+//		Resource r_ukWeek    = UkWeekOfYearDoc.createResource(base, model, wy, w);
+//		
+//		// Link second to its containing year, half, quarter, month, day, hour and minute.
+//		connectToContainingInterval(model, r_ukYear, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukHalf, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukQuarter, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukMonth, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukDay, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukHour, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukMin, r_thisTemporalEntity);	
+//		connectToContainingInterval(model, r_ukWeek, r_thisTemporalEntity);
+//		
+//		mo = mo - 3;
+//		if (mo<1){
+//			mo = mo+12;
+//			y = y-1;
+//		}
+//		
+//		Resource r_ukGovYear 	= UkGovYearDoc.createResourceAndLabels(base, model,y);
+//		Resource r_ukGovQuarter = UkGovQuarterDoc.createResourceAndLabels(base, model,y,((mo-1)/3)+1);
+//		Resource r_ukGovHalf    = UkGovHalfDoc.createResourceAndLabels(base, model, y, ((mo-1)/6)+1);
+//
+//		connectToContainingInterval(model, r_ukGovYear, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukGovHalf, r_thisTemporalEntity);
+//		connectToContainingInterval(model, r_ukGovQuarter, r_thisTemporalEntity);
+	
 	}
 
 	@Override

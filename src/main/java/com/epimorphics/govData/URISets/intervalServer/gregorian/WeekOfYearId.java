@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        WeekOfYearId.java
+ * File:        UkWeekOfYearId.java
  * Created by:  Stuart Williams
  * Created on:  13 Feb 2010
  * 
@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 
 package com.epimorphics.govData.URISets.intervalServer.gregorian;
@@ -29,7 +29,7 @@ import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 
 
-@Path(GregorianURITemplate.WEEK_ID_STEM+GregorianURITemplate.WOY_PATTERN)
+@Path(GregorianCalURITemplate.WEEK_ID_STEM+GregorianCalURITemplate.WOY_PATTERN)
 public class WeekOfYearId extends Id {
 
 

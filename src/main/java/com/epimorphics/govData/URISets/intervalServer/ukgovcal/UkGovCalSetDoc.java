@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 package com.epimorphics.govData.URISets.intervalServer.ukgovcal;
 
@@ -44,7 +44,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  *
  */
 @Path(UkGovCalURITemplate.DOC_STEM+UkGovCalURITemplate.CALENDAR_SET+UkGovCalURITemplate.SET_EXT_PATTERN)
-public class UkGovCalSetDoc extends Doc {
+public class UkGovCalSetDoc extends UkGovDoc {
 	
 	@GET
 	public Response getSetResponse(@PathParam(EXT2_TOKEN) String ext2) {
@@ -133,15 +133,15 @@ public class UkGovCalSetDoc extends Doc {
 		
 		model.add(r_set, VOID.uriRegexPattern, base_reg+ID_STEM+CALENDAR_STEM+SUMMARY_PATTERN_PLAIN);
 		
-		model.add(r_set, VOID.exampleResource, YearDoc.createResourceAndLabels(base, model, 1752));
-		model.add(r_set, VOID.exampleResource, HalfDoc.createResourceAndLabels(base, model, 2010, 1));
-		model.add(r_set, VOID.exampleResource, QuarterDoc.createResourceAndLabels(base, model, 1644, 3));
-//		model.add(r_set, VOID.exampleResource, MonthDoc.createResourceAndLabels(base, model, 1958, 11));
-		model.add(r_set, VOID.exampleResource, WeekOfYearDoc.createResourceAndLabels(base, model, 2009, 52 ));
-//		model.add(r_set, VOID.exampleResource, DayDoc.createResourceAndLabels(base, model, 1960, 3, 12));
-//		model.add(r_set, VOID.exampleResource, HourDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23));
-//		model.add(r_set, VOID.exampleResource, MinuteDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23, 59));
-//		model.add(r_set, VOID.exampleResource, SecDoc.createResourceAndLabels(base, model, 1234, 4, 1, 22, 35, 41));
+		model.add(r_set, VOID.exampleResource, UkGovYearDoc.createResourceAndLabels(base, model, 1752));
+		model.add(r_set, VOID.exampleResource, UkGovHalfDoc.createResourceAndLabels(base, model, 2010, 1));
+		model.add(r_set, VOID.exampleResource, UkGovQuarterDoc.createResourceAndLabels(base, model, 1644, 3));
+//		model.add(r_set, VOID.exampleResource, UkMonthDoc.createResourceAndLabels(base, model, 1958, 11));
+		model.add(r_set, VOID.exampleResource, UkGovWeekOfYearDoc.createResourceAndLabels(base, model, 2009, 52 ));
+//		model.add(r_set, VOID.exampleResource, UkDayDoc.createResourceAndLabels(base, model, 1960, 3, 12));
+//		model.add(r_set, VOID.exampleResource, UkHourDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23));
+//		model.add(r_set, VOID.exampleResource, UkMinuteDoc.createResourceAndLabels(base, model, 1752, 9, 2, 23, 59));
+//		model.add(r_set, VOID.exampleResource, UkSecDoc.createResourceAndLabels(base, model, 1234, 4, 1, 22, 35, 41));
 //		model.add(r_set, VOID.exampleResource, InstantDoc.createResource(base, model, new BritishCalendar(1977, 10, 1, 12, 22, 45)));
 //		model.add(r_set, VOID.exampleResource, IntervalDoc.createResourceAndLabels(base, model, new BritishCalendar(1977, 10, 1, 12, 22, 45), new Duration("P2Y1MT1H6S") ));
 		

@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * $Id:  $
+ * $UkId:  $
  *****************************************************************/
 package com.epimorphics.govData.URISets.intervalServer.interval;
 
@@ -28,8 +28,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalSetDoc;
-import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianURITemplate;
-import com.epimorphics.govData.URISets.intervalServer.ukcal.BritishCalendarURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalSetDoc;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalSetDoc;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
@@ -103,8 +103,8 @@ public class SetDoc extends Doc {
 
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 								
-		model.add(r_set, VOID.subset,        UkCalSetDoc.createCalSet(model, base+BritishCalendarURITemplate.CALENDAR_SET));
-		model.add(r_set, VOID.subset,     UkGovCalSetDoc.createCalSet(model, base+UkGovCalURITemplate.CALENDAR_SET));
-		model.add(r_set, VOID.subset, GregorianCalSetDoc.createCalSet(model, base+GregorianURITemplate.CALENDAR_STEM));
+		model.add(r_set, VOID.subset,        UkCalSetDoc.createCalSet(model, base+SET_STEM+UkCalURITemplate.CALENDAR_SET));
+		model.add(r_set, VOID.subset,     UkGovCalSetDoc.createCalSet(model, base+SET_STEM+UkGovCalURITemplate.CALENDAR_SET));
+		model.add(r_set, VOID.subset, GregorianCalSetDoc.createCalSet(model, base+SET_STEM+GregorianCalURITemplate.CALENDAR_STEM));
 	}
 }

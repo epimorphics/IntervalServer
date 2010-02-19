@@ -1,4 +1,4 @@
-/* CVS $Id: $ */
+/* CVS $UkId: $ */
 package com.epimorphics.govData.vocabulary; 
 import com.hp.hpl.jena.rdf.model.*;
  
