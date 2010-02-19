@@ -159,12 +159,12 @@ public class HalfDoc extends Doc {
 		String relPart = String.format("%04d",year) + "-" +String.format("%04d",year+1) + HALF_PREFIX + half;
 	
 		String s_halfURI = base + HALF_ID_STEM + relPart;
-		Resource r_half = m.createResource(s_halfURI, INTERVALS.Half);
-		r_half.addProperty(RDF.type, INTERVALS.BusinessHalf);
+		Resource r_half = m.createResource(s_halfURI, INTERVALS.BusinessHalf);
+		r_half.addProperty(RDF.type, INTERVALS.Half);
 		
 		if(half>0 && half<=2) {
-			Resource r_quarterType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
-			r_half.addProperty(RDF.type, r_quarterType);
+			Resource r_halfType = half == 1 ? INTERVALS.H1 : INTERVALS.H2;
+			r_half.addProperty(RDF.type, r_halfType);
 		}
 	
 		String s_label = CALENDAR_NAME+" Half:" + relPart;
@@ -177,14 +177,7 @@ public class HalfDoc extends Doc {
 
 	static protected Resource createResource(URI base, Model m, int year, int half) {
 		Resource r_half = createResourceAndLabels(base, m, year, half);
-
-		//Add more rdf:type'ing
 		r_half.addProperty(RDF.type, SCOVO.Dimension);
-		r_half.addProperty(RDF.type, INTERVALS.Half);
-		r_half.addProperty(RDF.type, INTERVALS.BusinessHalf);
-		if(half>0 && half<=2 ) {
-			r_half.addProperty(RDF.type, (half==1 ? INTERVALS.H1 : INTERVALS.H2 ));
-		}
 		
 		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0);
 		cal.add(Calendar.MONTH, (half-1)*6);
@@ -246,23 +239,20 @@ public class HalfDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		BritishCalendar cal;
 		Resource r_nextHalf;
 		Resource r_prevHalf;
 
-		try{
-			cal = (BritishCalendar) startTime.clone();
-			cal.getTimeInMillis();
-			cal.add(Calendar.MONTH,6);
-			r_nextHalf = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);
-			
-			cal = (BritishCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,-6);
-			r_prevHalf = createResourceAndLabels(base ,model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/6)+1);	
-			
-		} catch (IllegalArgumentException e){
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
+		int y, h;
+
+		h = half >= 2 ? 1 : half + 1;
+		y = half >= 2 ? year + 1 : year;
+		r_nextHalf = createResourceAndLabels(base, model, y, h);
+
+		h = half <= 1 ? 2 : half - 1;
+		y = half <= 1 ? year - 1 : year;
+
+		r_prevHalf = createResourceAndLabels(base, model, y, h);
+
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextHalf, r_prevHalf);
 	}
 

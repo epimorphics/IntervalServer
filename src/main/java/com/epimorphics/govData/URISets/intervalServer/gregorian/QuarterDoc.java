@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
@@ -154,6 +155,7 @@ public class QuarterDoc extends Doc {
 
 		String s_quarterURI = base + QUARTER_ID_STEM + relPart;
 		Resource r_quarter = m.createResource(s_quarterURI,	INTERVALS.CalendarQuarter);
+		r_quarter.addProperty(RDF.type, INTERVALS.Quarter );
 		
 		if(quarter>0 && quarter<=4) {
 			Resource r_quarterType = quarter == 1 ? INTERVALS.Q1 :
@@ -177,20 +179,12 @@ public class QuarterDoc extends Doc {
 		Resource r_quarter = createResourceAndLabels(base, m,  year, quarter);
 		r_quarter.addProperty(RDF.type, SCOVO.Dimension);
 		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
-		
-		if(quarter>0 && quarter<=4 ) {
-			r_quarter.addProperty(RDF.type, (quarter==1 ? INTERVALS.Q1 :
-											 quarter==2 ? INTERVALS.Q2 :
-											 quarter==3 ? INTERVALS.Q3 :
-											 			  INTERVALS.Q4));
-		}
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
 		cal.setLenient(false);
 
 		m.add(r_quarter, INTERVALS.hasXsdDurationDescription, oneQuarter);
-		m.add(r_quarter, TIME.hasDurationDescription, INTERVALS.one_quarter);
-		
+		m.add(r_quarter, TIME.hasDurationDescription, INTERVALS.one_quarter);	
 		
 		Resource r_instant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_quarter, TIME.hasBeginning, r_instant);
@@ -232,21 +226,19 @@ public class QuarterDoc extends Doc {
 
 	@Override
 	void addNeighboringIntervals() {
-		GregorianOnlyCalendar cal;
+		BritishCalendar cal;
 		Resource r_nextQuarter;
 		Resource r_prevQuarter;
+		int y,q;
 		
-		try{
-			cal = (GregorianOnlyCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,3);
-			r_nextQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);
-			cal = (GregorianOnlyCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,-3);
-			r_prevQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);	
-		} catch (IllegalArgumentException e){
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
-		
+		q = quarter>=4? 1: quarter+1;
+		y = quarter>=4? year+1 : year;
+		r_nextQuarter = createResourceAndLabels(base, model, y, q);
+
+		q = quarter<=1? 4: quarter-1;
+		y = quarter<=1? year-1 : year;
+		r_prevQuarter = createResourceAndLabels(base ,model, y, q);	
+
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextQuarter, r_prevQuarter);
 	}
 

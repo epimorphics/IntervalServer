@@ -173,6 +173,7 @@ public class SecDoc extends Doc {
 			
 		String s_secURI = base + SECOND_ID_STEM + relPart;
 		Resource r_sec = m.createResource(s_secURI, INTERVALS.CalendarSecond);
+		r_sec.addProperty(RDF.type, INTERVALS.Second);
 		
 		String s_label = ""+CALENDAR_NAME+" Second:" + relPart;
 		m.add(r_sec, SKOS.prefLabel, s_label, "en");

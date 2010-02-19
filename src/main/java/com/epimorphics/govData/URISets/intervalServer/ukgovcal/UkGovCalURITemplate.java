@@ -39,11 +39,11 @@ public class UkGovCalURITemplate {
 	public static final String DBPEDIA_SUBJECT_INTERVAL 			= "http://dbpedia.org/resources/Interval_(time)";
 	
 	
-	public static final String CALENDAR_SET_LABEL 	= CALENDAR_NAME+" calendar aligned intervals."; 
-	public static final String YEAR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one year intervals."; 
-	public static final String HALF_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one half year intervals."; 
-	public static final String QUARTER_SET_LABEL 	= CALENDAR_NAME+" calendar aligned one quarter year intervals."; 
-	public static final String WEEK_SET_LABEL 		= CALENDAR_NAME+" calendar aligned ISO8601 numbered week long intervals."; 
+	public static final String CALENDAR_SET_LABEL 	= CALENDAR_NAME+" business calendar aligned intervals."; 
+	public static final String YEAR_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned one year intervals."; 
+	public static final String HALF_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned one half year intervals."; 
+	public static final String QUARTER_SET_LABEL 	= CALENDAR_NAME+" business calendar aligned one quarter year intervals."; 
+	public static final String WEEK_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned ISO8601 numbered week long intervals."; 
 	public static final String INTERVAL_SET_LABEL 	= GregorianURITemplate.INTERVAL_SET_LABEL; 
 	public static final String INSTANT_SET_LABEL 	= GregorianURITemplate.INSTANT_SET_LABEL; 
 	

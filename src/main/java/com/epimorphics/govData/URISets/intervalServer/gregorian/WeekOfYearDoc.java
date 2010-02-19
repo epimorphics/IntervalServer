@@ -163,6 +163,7 @@ public class WeekOfYearDoc extends Doc {
 	
 		String s_weekURI = base + WEEK_ID_STEM + relPart;
 		Resource r_week = m.createResource(s_weekURI, INTERVALS.Iso8601Week);
+		r_week.addProperty(RDF.type,INTERVALS.Week);
 		
 		String s_label = "Iso8601 Week:" + relPart;
 		m.add(r_week, SKOS.prefLabel, s_label, "en");

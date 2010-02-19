@@ -144,6 +144,7 @@ public class YearDoc extends Doc {
 	static protected Resource createResourceAndLabels(URI base, Model model, int year) {
 		String s_yearURI = base + YEAR_ID_STEM + String.format("%04d",year) ;
 		Resource r_year = model.createResource(s_yearURI, INTERVALS.CalendarYear);
+		r_year.addProperty(RDF.type, INTERVALS.Year);
 
 		
 		String s_label = ""+CALENDAR_NAME+" Year:" + String.format("%04d",year) ;
@@ -159,7 +160,6 @@ public class YearDoc extends Doc {
 		model.add(r_year, RDF.type, SCOVO.Dimension);
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
 		cal.setLenient(false);
-		
 		
 		model.add(r_year, INTERVALS.hasXsdDurationDescription, oneYear);
 		model.add(r_year, TIME.hasDurationDescription, INTERVALS.one_year);

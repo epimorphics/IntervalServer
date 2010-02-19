@@ -119,9 +119,10 @@ public class SetDoc extends Doc {
 		model.add(r_set, RDFS.label, CALENDAR_SET_LABEL, "en");
 		model.add(r_set, SKOS.prefLabel, CALENDAR_SET_LABEL,"en");
 		
-		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" Calendar aligned time intervals formed from the union" +
+		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" buinsess calendar aligned time intervals formed from the union" +
 				                     " of datasets that contain calendar aligned intervals one year, one half year," +
-				                     " one quarter, one month, one day, one hour, one minute or one second.", "en");
+				                     " one quarter, one month, one day, one hour, one minute or one second. "+CALENDAR_NAME+
+				                     " years begin on the 1st of April", "en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 
 		

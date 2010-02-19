@@ -159,6 +159,7 @@ public class DayDoc extends Doc {
 	
 		String s_dayURI = base + DAY_ID_STEM + relPart;
 		Resource r_day = m.createResource(s_dayURI, INTERVALS.CalendarDay);
+		r_day.addProperty(RDF.type, INTERVALS.Day);
 
 		
 		String s_label = ""+CALENDAR_NAME+" Day:" + relPart;

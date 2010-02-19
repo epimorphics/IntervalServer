@@ -153,6 +153,7 @@ public class QuarterDoc extends Doc {
 
 		String s_quarterURI = base + QUARTER_ID_STEM + relPart;
 		Resource r_quarter = m.createResource(s_quarterURI,	INTERVALS.CalendarQuarter);
+		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
 		
 		if(quarter>0 && quarter<=4) {
 			Resource r_quarterType = quarter == 1 ? INTERVALS.Q1 :
@@ -234,18 +235,16 @@ public class QuarterDoc extends Doc {
 		BritishCalendar cal;
 		Resource r_nextQuarter;
 		Resource r_prevQuarter;
+		int y,q;
 		
-		try{
-			cal = (BritishCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,3);
-			r_nextQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);
-			cal = (BritishCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,-3);
-			r_prevQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);	
-		} catch (IllegalArgumentException e){
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
-		
+		q = quarter>=4? 1: quarter+1;
+		y = quarter>=4? year+1 : year;
+		r_nextQuarter = createResourceAndLabels(base, model, y, q);
+
+		q = quarter<=1? 4: quarter-1;
+		y = quarter<=1? year-1 : year;
+		r_prevQuarter = createResourceAndLabels(base ,model, y, q);	
+
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextQuarter, r_prevQuarter);
 	}
 

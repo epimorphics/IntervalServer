@@ -183,6 +183,7 @@ public class WeekOfYearDoc extends Doc {
 	
 		String s_weekURI = base + WEEK_ID_STEM + relPart;
 		Resource r_week = m.createResource(s_weekURI, INTERVALS.Iso8601Week);
+		r_week.addProperty(RDF.type,INTERVALS.Week);
 		
 		String s_label = "Iso8601 Week:" + relPart;
 		m.add(r_week, SKOS.prefLabel, s_label, "en");
@@ -263,7 +264,9 @@ public class WeekOfYearDoc extends Doc {
 			
 			if(cal.getTimeInMillis()<thisYear.getTimeInMillis()) {
 				y--;
-				w=(int)((thisYear.getTimeInMillis()-lastYear.getTimeInMillis()+500)/(1000*60*60*24*7))-1;
+				// Millsec between year starts + 1 day(for leap second and other rounding errors) 
+				// divided by milliseconds on a week
+				w=(int)(((thisYear.getTimeInMillis()-lastYear.getTimeInMillis())+(1000*60*60+24))/(1000*60*60*24*7));
 			} else {
 				w--;
 			}

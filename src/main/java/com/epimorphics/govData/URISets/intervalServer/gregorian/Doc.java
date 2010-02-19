@@ -219,34 +219,57 @@ abstract public class Doc extends GregorianURITemplate implements Constants {
 		model.add(after, TIME.intervalMetBy, before);
 	}
 
-	protected void connectToContainingInterval(Model model, Resource container,
-			Resource contained) {
+	protected void connectToContainingInterval(Model model, Resource container, Resource contained) {
 		Property typedContainerProperty;
 
-		if (model.contains(contained, RDF.type, INTERVALS.CalendarHalf)) {
+		if (contained.hasProperty(RDF.type,INTERVALS.Half) ||
+			contained.hasProperty(RDF.type,INTERVALS.CalendarHalf) ||
+			contained.hasProperty(RDF.type,INTERVALS.BusinessHalf)) {
+		
 			typedContainerProperty = INTERVALS.intervalContainsHalf;
-		} else if (model.contains(contained, RDF.type,
-				INTERVALS.CalendarQuarter)) {
+				
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Quarter) ||
+				   contained.hasProperty(RDF.type,INTERVALS.CalendarQuarter) ||
+				   contained.hasProperty(RDF.type,INTERVALS.BusinessQuarter)) {
+			
 			typedContainerProperty = INTERVALS.intervalContainsQuarter;
-		} else if (model.contains(contained, RDF.type, INTERVALS.CalendarMonth)) {
+		
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Month) ||
+					contained.hasProperty(RDF.type,INTERVALS.CalendarMonth)){ 
+					
 			typedContainerProperty = INTERVALS.intervalContainsMonth;
-		} else if (model.contains(contained, RDF.type, INTERVALS.CalendarDay)) {
+						
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Day) ||
+				   contained.hasProperty(RDF.type,INTERVALS.CalendarDay) ) {
+		
 			typedContainerProperty = INTERVALS.intervalContainsDay;
-		} else if (model.contains(contained, RDF.type, INTERVALS.CalendarHour)) {
+			
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Hour) ||
+		      	   contained.hasProperty(RDF.type,INTERVALS.CalendarHour)) {
+			
 			typedContainerProperty = INTERVALS.intervalContainsHour;
-		} else if (model.contains(contained, RDF.type, INTERVALS.CalendarMinute)) {
+								
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Minute) ||
+		      	   contained.hasProperty(RDF.type,INTERVALS.CalendarMinute)) {
+			
 			typedContainerProperty = INTERVALS.intervalContainsMinute;
-		} else if (model.contains(contained, RDF.type, INTERVALS.CalendarSecond)) {
+								
+		} else if (contained.hasProperty(RDF.type,INTERVALS.Second) ||
+		      	   contained.hasProperty(RDF.type,INTERVALS.CalendarSecond)) {
+			
 			typedContainerProperty = INTERVALS.intervalContainsSecond;
+								
 		} else {
-			throw new WebApplicationException(
-					Response.Status.INTERNAL_SERVER_ERROR);
+			typedContainerProperty = null;
 		}
 
-		model.add(container, typedContainerProperty, contained);
-		model.add(container, TIME.intervalContains, contained);
-		model.add(contained, TIME.intervalDuring, container);
+		if(typedContainerProperty!=null)
+				container.addProperty(typedContainerProperty, contained);
+		
+		container.addProperty(TIME.intervalContains, contained);
+		container.addProperty(TIME.intervalDuring, container);
 	}
+
 
 	protected void setNamespaces() {
 		model

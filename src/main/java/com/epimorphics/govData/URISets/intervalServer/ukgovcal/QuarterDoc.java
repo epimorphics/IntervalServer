@@ -163,8 +163,8 @@ public class QuarterDoc extends Doc {
 		String relPart = String.format("%04d",year) + "-" + String.format("%04d",year+1) + QUARTER_PREFIX + quarter;
 
 		String s_quarterURI = base + QUARTER_ID_STEM + relPart;
-		Resource r_quarter = m.createResource(s_quarterURI,	INTERVALS.Quarter);
-		r_quarter.addProperty(RDF.type,INTERVALS.BusinessQuarter);
+		Resource r_quarter = m.createResource(s_quarterURI,	INTERVALS.BusinessQuarter);
+		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
 		
 		if(quarter>0 && quarter<=4) {
 			Resource r_quarterType = quarter == 1 ? INTERVALS.Q1 :
@@ -187,17 +187,9 @@ public class QuarterDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int quarter) {
 		Resource r_quarter = createResourceAndLabels(base, m,  year, quarter);
 		r_quarter.addProperty(RDF.type, SCOVO.Dimension);
-		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
-		r_quarter.addProperty(RDF.type, INTERVALS.BusinessQuarter);
 		
-		if(quarter>0 && quarter<=4 ) {
-			r_quarter.addProperty(RDF.type, (quarter==1 ? INTERVALS.Q1 :
-											 quarter==2 ? INTERVALS.Q2 :
-											 quarter==3 ? INTERVALS.Q3 :
-											 			  INTERVALS.Q4));
-		}
-
 		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0); 
+		
 		cal.add(Calendar.MONTH, ((quarter-1)*3));
 		cal.setLenient(false);
 
@@ -254,18 +246,16 @@ public class QuarterDoc extends Doc {
 		BritishCalendar cal;
 		Resource r_nextQuarter;
 		Resource r_prevQuarter;
+		int y,q;
 		
-		try{
-			cal = (BritishCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,3);
-			r_nextQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);
-			cal = (BritishCalendar) startTime.clone();
-			cal.add(Calendar.MONTH,-3);
-			r_prevQuarter = createResourceAndLabels(base, model, cal.get(Calendar.YEAR), (cal.get(Calendar.MONTH)/3)+1);	
-		} catch (IllegalArgumentException e){
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
-		
+		q = quarter>=4? 1: quarter+1;
+		y = quarter>=4? year+1 : year;
+		r_nextQuarter = createResourceAndLabels(base, model, y, q);
+
+		q = quarter<=1? 4: quarter-1;
+		y = quarter<=1? year-1 : year;
+		r_prevQuarter = createResourceAndLabels(base ,model, y, q);	
+
 		connectToNeigbours(model, r_thisTemporalEntity, r_nextQuarter, r_prevQuarter);
 	}
 

@@ -167,7 +167,7 @@ public class InstantDoc extends Doc {
 		String s_relPart = CalendarUtils.toXsdDateTime(cal2);
 
 		String s_instURI = base + INSTANT_ID_STEM + s_relPart;
-		Resource r_inst = model.createResource(s_instURI, INTERVALS.CalendarInstant);
+		Resource r_inst = model.createResource(s_instURI, TIME.Instant);
 		Literal l_dateTime = ResourceFactory.createTypedLiteral(s_relPart, XSDDatatype.XSDdateTime);
 		
 		int year = cal2.get(Calendar.YEAR);
