@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 import java.util.Calendar;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
+import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
@@ -235,7 +236,7 @@ public class SecDoc extends Doc {
 		Resource r_thisHour    = HourDoc.createResourceAndLabels(base, model, year, month, day, hour);
 		Resource r_thisMin     = MinuteDoc.createResourceAndLabels(base, model, year, month, day, hour, min);
 		Resource r_thisWeek    = WeekOfYearDoc.createResource(base, model, woy_year, woy_week);
-
+		
 		// Link second to its containing year, half, quarter, month, day, hour and minute.
 		connectToContainingInterval(model, r_thisYear, r_thisTemporalEntity);
 		connectToContainingInterval(model, r_thisHalf, r_thisTemporalEntity);
@@ -245,6 +246,19 @@ public class SecDoc extends Doc {
 		connectToContainingInterval(model, r_thisHour, r_thisTemporalEntity);
 		connectToContainingInterval(model, r_thisMin, r_thisTemporalEntity);	
 		connectToContainingInterval(model, r_thisWeek, r_thisTemporalEntity);
+
+		BritishCalendar cal = new BritishCalendar(Locale.UK);
+		cal.setTimeInMillis(startTime.getTimeInMillis());
+		int y, mo, d, h, mi, s;
+		y = cal.get(Calendar.YEAR);
+		mo = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
+		d = cal.get(Calendar.YEAR);
+		h = cal.get(Calendar.YEAR);
+		mi= cal.get(Calendar.YEAR);
+		s = cal.get(Calendar.YEAR);
+		
+		
+		
 	}
 
 	@Override
