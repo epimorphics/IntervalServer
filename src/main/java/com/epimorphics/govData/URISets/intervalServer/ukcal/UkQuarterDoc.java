@@ -291,26 +291,26 @@ public class UkQuarterDoc extends UkDoc {
 		
 		addLinkset(r_set, r_set, r_yearSet, TIME.intervalDuring, 
 				""+CALENDAR_NAME+" quarter year to year interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned half years and years in which they occur.");
+				"Links between "+CALENDAR_NAME+" calendar aligned half years and years in which they occur.");
 
 		addLinkset(r_set, r_set, r_halfSet, TIME.intervalDuring, 
 				""+CALENDAR_NAME+" quarter year to half year interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and calendar aligned half years in which they occur.");
+				"Links between "+CALENDAR_NAME+" calendar aligned quarter years and calendar aligned half years in which they occur.");
 
 		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
 				""+CALENDAR_NAME+" quarter year to month interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and the months they contain.");
+				"Links between "+CALENDAR_NAME+" calendar aligned quarter years and the months they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
 				""+CALENDAR_NAME+" quarter year to starting instant links",
-				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their starting instant.");		
+				"Links between "+CALENDAR_NAME+" calendar aligned quarter years and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
 				""+CALENDAR_NAME+" quarter year to ending instant links",
-				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their ending instant.");
+				"Links between "+CALENDAR_NAME+" calendar aligned quarter years and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
 				""+CALENDAR_NAME+" quarter year to generic interval links",
-				"Links between "+CALENDAR_NAME+" calandar aligned quarter years and their corresponding generic interval.");		
+				"Links between "+CALENDAR_NAME+" calendar aligned quarter years and their corresponding generic interval.");		
 	}
 }

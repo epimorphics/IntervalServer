@@ -291,27 +291,27 @@ public class UkGovYearDoc extends UkGovDoc {
 		
 		addLinkset(r_set, r_set, r_halfSet, INTERVALS.intervalContainsHalf, 
 				""+CALENDAR_NAME+" year to half year interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and the half years they contain.");
+				"Links between "+CALENDAR_NAME+" calendar aligned years and the half years they contain.");
 
 		addLinkset(r_set, r_set, r_quarterSet, INTERVALS.intervalContainsQuarter, 
 				""+CALENDAR_NAME+" year to quarter year interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and the quarter years they contain.");
+				"Links between "+CALENDAR_NAME+" calendar aligned years and the quarter years they contain.");
 
 		addLinkset(r_set, r_set, r_monthSet, INTERVALS.intervalContainsMonth, 
 				""+CALENDAR_NAME+" year to month interval containment links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and the months they contain.");
+				"Links between "+CALENDAR_NAME+" calendar aligned years and the months they contain.");
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasBeginning, 
 				""+CALENDAR_NAME+" year to starting instant links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and their starting instant.");		
+				"Links between "+CALENDAR_NAME+" calendar aligned years and their starting instant.");		
 
 		addLinkset(r_set, r_set, r_instantSet, TIME.hasEnd, 
 				""+CALENDAR_NAME+" year to ending instant links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and their ending instant.");
+				"Links between "+CALENDAR_NAME+" calendar aligned years and their ending instant.");
 		
 		addLinkset(r_set, r_set, r_intervalSet, TIME.intervalEquals, 
 				""+CALENDAR_NAME+" year to generic interval links",
-				"Links between "+CALENDAR_NAME+" calandar aligned years and their corresponding generic interval.");		
+				"Links between "+CALENDAR_NAME+" calendar aligned years and their corresponding generic interval.");		
 
 	}
 
