@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.util.Calendar;
-import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -31,20 +29,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.Constants;
-import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
-import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
-import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
-import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.Duration;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.URITemplate;
 import com.epimorphics.govData.vocabulary.DCTERMS;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.DOAP;
@@ -58,13 +49,9 @@ import com.epimorphics.govData.vocabulary.TIME;
 import com.epimorphics.govData.vocabulary.VOID;
 import com.epimorphics.jsonrdf.Encoder;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.DCTypes;
 import com.hp.hpl.jena.vocabulary.DC_11;
@@ -73,7 +60,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-abstract public class Doc extends UkGovCalURITemplate implements Constants {
+abstract public class Doc extends URITemplate implements Constants {
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
 
@@ -88,8 +75,6 @@ abstract public class Doc extends UkGovCalURITemplate implements Constants {
 	
 	protected Model model = ModelFactory.createDefaultModel();
 
-	
-	
 	
 	protected URI getBaseUri() {
 		return BaseURI.getBase() == null ? ui.getBaseUri() : BaseURI.getBase();
@@ -306,48 +291,5 @@ abstract public class Doc extends UkGovCalURITemplate implements Constants {
 		r_set.addProperty(SKOS.prefLabel, label, "en");
 		return r_set;
 	}
-
-	protected Resource createIntervalSet() {
-		return createSet(base+INTERVAL_SET_RELURI, INTERVAL_SET_LABEL);
-	}
-	protected Resource createInstantSet() {
-		return createSet(base+INSTANT_SET_RELURI, INSTANT_SET_LABEL);
-	}
 	
-	protected Resource createDaySet() {
-		return createSet(base+UkCalURITemplate.DAY_SET_RELURI, UkCalURITemplate.DAY_SET_LABEL);
-	}
-
-	protected Resource createWeekSet() {
-		return createSet(base+WEEK_SET_RELURI, WEEK_SET_LABEL);
-	}
-	protected Resource createMonthSet() {
-		return createSet(base+UkCalURITemplate.MONTH_SET_RELURI, UkCalURITemplate.MONTH_SET_LABEL);
-	}
-	
-	protected Resource createQuarterSet() {
-		return createSet(base+QUARTER_SET_RELURI, QUARTER_SET_LABEL);
-	}
-
-	protected Resource createHalfSet() {
-		return createSet(base+HALF_SET_RELURI, HALF_SET_LABEL);
-	}
-
-	protected Resource createYearSet() {
-		return createSet(base+YEAR_SET_RELURI, YEAR_SET_LABEL);
-	}
-
-	protected void addCalendarActRef(Resource r_set) {
-		Resource r_calendarAct;
-		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource(CALENDAR_ACT_URI));
-		model.add(r_calendarAct, RDFS.label, "Calendar (New Style) Act 1750.","en");
-		model.add(r_calendarAct, SKOS.prefLabel, "Calendar (New Style) Act 1750.","en");
-	}	
-	
-	protected void addGregorianSourceRef(Resource r_set) {
-		Resource r_calendarAct;
-		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource("http://en.wikipedia.org/wiki/Gregorian_calendar"));
-		model.add(r_calendarAct, RDFS.label, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
-		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
-	}
 }

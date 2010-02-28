@@ -17,27 +17,14 @@
 
 package com.epimorphics.govData.URISets.intervalServer.ukgovcal;
 
+import com.epimorphics.govData.URISets.intervalServer.URITemplate;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalURITemplate;
 
-
-public class UkGovCalURITemplate {
+public class UkGovCalURITemplate extends URITemplate {
 
 	public static final String CALENDAR_STEM 		= 	"government";
 	public static final String CALENDAR_SET			=	"government-calendar";
 	public static final String CALENDAR_NAME			= "Modern HMG";
-	
-	protected static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
-	static final String GREGORIAN_CALENDAR_REF ="http://en.wikipedia.org/wiki/Gregorian_calendar";
-	
-	public static final String DBPEDIA_SUBJECT_GREGORIAN_CALENDAR 	= "http://dbpedia.org/resources/Gregorian_calendar";
-	public static final String DBPEDIA_SUBJECT_YEAR 				= "http://dbpedia.org/resources/Year";
-	public static final String DBPEDIA_SUBJECT_MONTH 				= "http://dbpedia.org/resources/Month";
-	public static final String DBPEDIA_SUBJECT_QUARTER 				= "http://dbpedia.org/resource/Fiscal_quarter";
-//	public static final String DBPEDIA_SUBJECT_HALF 				= "http://dbpedia.org/resources/Year";
-	public static final String DBPEDIA_SUBJECT_WEEK 				= "http://dbpedia.org/resources/Week";
-//	public static final String DBPEDIA_SUBJECT_INSTANT 				= "http://dbpedia.org/resources/Year";
-	public static final String DBPEDIA_SUBJECT_INTERVAL 			= "http://dbpedia.org/resources/Interval_(time)";
-	
 	
 	public static final String CALENDAR_SET_LABEL 	= CALENDAR_NAME+" business calendar aligned intervals."; 
 	public static final String YEAR_SET_LABEL 		= CALENDAR_NAME+" business calendar aligned one year intervals."; 
@@ -95,15 +82,6 @@ public class UkGovCalURITemplate {
 	public static final String QUARTER_PREFIX		= "/Q";
 	public static final String WEEK_PREFIX			= "/W";
 	public static final String DURATION_PREFIX		= "/";
-	public static final String DURATION_REGEX 		= "P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?";
-	                                                      // ^2          ^4           ^6        ^7 ^9          ^11         ^13
-	
-	public static int DURATION_YEARS 	= 2;
-	public static int DURATION_MONTHS 	= 4;
-	public static int DURATION_DAYS	 	= 6;
-	public static int DURATION_HOURS 	= 9;
-	public static int DURATION_MINUTES 	= 11;
-	public static int DURATION_SECONDS 	= 13;
 
 	public static final String SINGLE_YEAR_PATTERN 	= "([0-9]{4})|([1-9][0-9]{3,})*";
 	
@@ -127,12 +105,4 @@ public class UkGovCalURITemplate {
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+
 		"("+WEEK_SEGMENT+")";
-
-	public static final String EXT_RDF = "rdf";
-	public static final String EXT_NT  = "nt";
-	public static final String EXT_TTL = "ttl";
-	public static final String EXT_JSON = "json";
-	public static final String EXT_N3 = "n3";
-	public static final String SET_EXT_PATTERN ="{"+EXT2_TOKEN+": (((\\."+EXT_RDF+")|(\\."+EXT_NT+")|(\\."+EXT_TTL+")|(\\."+EXT_N3+")||(\\."+EXT_JSON+"))$)?}";
-	public static final String EXT_PATTERN =".{"+EXT_TOKEN+": (("+EXT_RDF+")|("+EXT_NT+")|("+EXT_TTL+")|("+EXT_N3+")||("+EXT_JSON+"))}";
 }

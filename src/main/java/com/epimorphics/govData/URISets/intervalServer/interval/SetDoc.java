@@ -27,10 +27,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.URITemplate;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalSetDoc;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.GregorianCalURITemplate;
-import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalSetDoc;
+import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalSetDoc;
 import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
@@ -45,7 +46,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author skw
  *
  */
-@Path(UkGovCalURITemplate.DOC_STEM+SetDoc.INTERVAL_SET+UkGovCalURITemplate.SET_EXT_PATTERN)
+@Path(URITemplate.DOC_STEM+SetDoc.INTERVAL_SET+URITemplate.SET_EXT_PATTERN)
 public class SetDoc extends Doc {
 		public static final String INTERVAL_SET = "interval";
 		public static final String PATH_REGEX = "("+INTERVAL_SET+")";
