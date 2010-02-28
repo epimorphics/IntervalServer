@@ -36,39 +36,53 @@ public class GregorianOnlyCalendar extends GregorianCalendar {
 	public GregorianOnlyCalendar() {
 		super();
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 	
 	public GregorianOnlyCalendar(Locale locale) {
 		super(locale);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public GregorianOnlyCalendar(TimeZone zone) {
 		super(zone);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public GregorianOnlyCalendar(TimeZone zone, Locale locale) {
 		super(zone, locale);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public GregorianOnlyCalendar(int year, int month, int dayOfMonth) {
 		super();
 		setGregorianChangeDate();
 		set(year, month, dayOfMonth);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public GregorianOnlyCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
 		super();
 		setGregorianChangeDate();
-		set(year, month, dayOfMonth, hourOfDay, minute);
+		set(year, month, dayOfMonth, hourOfDay, minute, 0);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public GregorianOnlyCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second) {
 		super();
 		setGregorianChangeDate();
 		set(year, month, dayOfMonth, hourOfDay, minute, second);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 	
 	private void setGregorianChangeDate() {

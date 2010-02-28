@@ -26,7 +26,7 @@ public class UkGovCalURITemplate {
 	public static final String CALENDAR_SET			=	"government-calendar";
 	public static final String CALENDAR_NAME			= "Modern HMG";
 	
-	static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
+	protected static final String CALENDAR_ACT_URI="http://www.legislation.gov.uk/id/apgb/Geo2/24/23";
 	static final String GREGORIAN_CALENDAR_REF ="http://en.wikipedia.org/wiki/Gregorian_calendar";
 	
 	public static final String DBPEDIA_SUBJECT_GREGORIAN_CALENDAR 	= "http://dbpedia.org/resources/Gregorian_calendar";
@@ -58,8 +58,8 @@ public class UkGovCalURITemplate {
 
 	public static final String ID_STEM 				= "id/";
 	public static final String DOC_STEM 			= "doc/";
-	public static final String SET_STEM				= "set/";
-	public static final String SET_DOC_STEM			= "doc/set/";
+	public static final String SET_STEM				= "id/";
+//	public static final String SET_DOC_STEM			= "doc/set/";
 	
 	
 	public static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;

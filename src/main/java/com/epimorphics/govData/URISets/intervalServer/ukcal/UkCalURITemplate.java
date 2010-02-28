@@ -70,9 +70,9 @@ public class UkCalURITemplate {
 	public static final String DURATION_TOKEN		= "duration";
 
 	public static final String ID_STEM 				= "id/";
-	public static final String DOC_STEM 				= "doc/";
-	public static final String SET_STEM				= "set/";
-	public static final String SET_DOC_STEM			= "doc/set/";
+	public static final String DOC_STEM 			= "doc/";
+	public static final String SET_STEM				= "id/";
+//	public static final String SET_DOC_STEM			= "doc/set/";
 	
 	
 	public static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;

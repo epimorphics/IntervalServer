@@ -66,10 +66,10 @@ public class GregorianCalURITemplate {
 	protected static final String EXT2_TOKEN 			= "ext2";
 	protected static final String DURATION_TOKEN		= "duration";
 
-	protected static final String ID_STEM 				= "id/";
-	public static final String DOC_STEM 				= "doc/";
-	public static final String SET_STEM				= "set/";
-	protected static final String SET_DOC_STEM			= "doc/set/";
+	public static final String ID_STEM 				= "id/";
+	public static final String DOC_STEM 			= "doc/";
+	public static final String SET_STEM				= "id/";
+//	protected static final String SET_DOC_STEM		= "doc/set/";
 	
 	
 	protected static final String CALENDAR_SEGMENT 	= CALENDAR_STEM;

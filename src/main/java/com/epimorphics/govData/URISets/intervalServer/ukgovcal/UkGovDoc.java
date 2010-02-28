@@ -291,6 +291,8 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		.setNsPrefix("dgu", DGU.NS)
 		.setNsPrefix("prv", PROVENANCE.NS)
 		.setNsPrefix("void",VOID.NS)
+		.setNsPrefix("doap", DOAP.NS)
+		.setNsPrefix("frbr", FRBR.NS)
 		;
 	}
 

@@ -40,6 +40,7 @@ import com.epimorphics.govData.URISets.intervalServer.BaseURI;
 import com.epimorphics.govData.URISets.intervalServer.Constants;
 import com.epimorphics.govData.URISets.intervalServer.gregorian.IntervalDoc;
 import com.epimorphics.govData.URISets.intervalServer.ukcal.UkCalURITemplate;
+import com.epimorphics.govData.URISets.intervalServer.ukgovcal.UkGovCalURITemplate;
 import com.epimorphics.govData.URISets.intervalServer.util.BritishCalendar;
 import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
 import com.epimorphics.govData.URISets.intervalServer.util.Duration;
@@ -153,6 +154,8 @@ abstract public class Doc extends UkGovCalURITemplate implements Constants {
 		.setNsPrefix("dgu", DGU.NS)
 		.setNsPrefix("prv", PROVENANCE.NS)
 		.setNsPrefix("void",VOID.NS)
+		.setNsPrefix("doap", DOAP.NS)
+		.setNsPrefix("frbr", FRBR.NS)
 		;
 	}
 	

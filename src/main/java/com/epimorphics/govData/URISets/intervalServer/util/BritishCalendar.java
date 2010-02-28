@@ -34,39 +34,57 @@ public class BritishCalendar extends GregorianCalendar {
 	public BritishCalendar() {
 		super();
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
+
 	}
 	
 	public BritishCalendar(Locale locale) {
 		super(locale);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
+
 	}
 
 	public BritishCalendar(TimeZone zone) {
 		super(zone);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
+
 	}
 
 	public BritishCalendar(TimeZone zone, Locale locale) {
 		super(zone, locale);
 		setGregorianChangeDate();
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public BritishCalendar(int year, int month, int dayOfMonth) {
 		super();
 		setGregorianChangeDate();
 		set(year, month, dayOfMonth);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
+
 	}
 
 	public BritishCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
 		super();
 		setGregorianChangeDate();
 		set(year, month, dayOfMonth, hourOfDay, minute);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 
 	public BritishCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second) {
 		super();
 		setGregorianChangeDate();
 		set(year, month, dayOfMonth, hourOfDay, minute, second);
+		//Zero the milliseconds as well.
+		set(Calendar.MILLISECOND, 0);
 	}
 	
 	private void setGregorianChangeDate() {
@@ -76,7 +94,7 @@ public class BritishCalendar extends GregorianCalendar {
 	public Object clone() {
 		BritishCalendar res  = (BritishCalendar) super.clone();
 		setGregorianChangeDate();
-		
+			
 		return res;
 	}
 }
