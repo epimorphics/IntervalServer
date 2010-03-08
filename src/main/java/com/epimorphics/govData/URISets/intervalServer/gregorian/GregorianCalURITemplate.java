@@ -22,8 +22,9 @@ import com.epimorphics.govData.URISets.intervalServer.URITemplate;
 
 public class GregorianCalURITemplate extends URITemplate {
 
-	public static final String CALENDAR_STEM 		    = "gregorian";
+	public static final    String CALENDAR_STEM 		    = "gregorian";
 	protected static final String CALENDAR_NAME			= "Gregorian";
+	public static final String CALENDAR_SET		    = "gregorian-calendar";
 	
 	protected static final String CALENDAR_SET_LABEL 	= CALENDAR_NAME+" calendar aligned intervals."; 
 	protected static final String YEAR_SET_LABEL 		= CALENDAR_NAME+" calendar aligned one year intervals."; 
@@ -134,7 +135,7 @@ public class GregorianCalURITemplate extends URITemplate {
 	public static final String INTERVAL_PATTERN_PLAIN = INSTANT_PATTERN_PLAIN+DURATION_PREFIX+DURATION_REGEX;
 
 	public final static String PATH_REGEX =
-		"("+CALENDAR_STEM+")|"+
+		"("+CALENDAR_SET+")|"+
 		"("+YEAR_SEGMENT+")|"+
 		"("+HALF_SEGMENT+")|"+
 		"("+QUARTER_SEGMENT+")|"+

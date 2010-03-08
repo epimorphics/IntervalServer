@@ -106,6 +106,6 @@ public class SetDoc extends Doc {
 								
 		model.add(r_set, VOID.subset,        UkCalSetDoc.createCalSet(model, base+SET_STEM+UkCalURITemplate.CALENDAR_SET));
 		model.add(r_set, VOID.subset,     UkGovCalSetDoc.createCalSet(model, base+SET_STEM+UkGovCalURITemplate.CALENDAR_SET));
-		model.add(r_set, VOID.subset, GregorianCalSetDoc.createCalSet(model, base+SET_STEM+GregorianCalURITemplate.CALENDAR_STEM));
+		model.add(r_set, VOID.subset, GregorianCalSetDoc.createCalSet(model, base+SET_STEM+GregorianCalURITemplate.CALENDAR_SET));
 	}
 }

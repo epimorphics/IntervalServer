@@ -43,7 +43,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author skw
  *
  */
-@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.CALENDAR_STEM+GregorianCalURITemplate.SET_EXT_PATTERN)
+@Path(GregorianCalURITemplate.DOC_STEM+GregorianCalURITemplate.CALENDAR_SET+GregorianCalURITemplate.SET_EXT_PATTERN)
 public class GregorianCalSetDoc extends Doc {
 	
 	@GET
@@ -59,13 +59,13 @@ public class GregorianCalSetDoc extends Doc {
 				loc = new URI(base + ui.getPath());
 				ext = ext2;
 				contentURI = new URI(loc.toString());
-				setURI = new URI(base + SET_STEM + CALENDAR_STEM);
+				setURI = new URI(base + SET_STEM + CALENDAR_SET);
 			} else {
 				mt = MediaTypeUtils.pickMediaType(hdrs.getAcceptableMediaTypes());
 				ext = MediaTypeUtils.getExtOfMediaType(mt);
 				loc = new URI(base + ui.getPath());
 				contentURI = new URI(loc.toString()+ "."+ ext);
-				setURI = new URI(base + SET_STEM + CALENDAR_STEM);
+				setURI = new URI(base + SET_STEM + CALENDAR_SET);
 			}
 		} catch (URISyntaxException e) {
 			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
