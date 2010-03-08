@@ -1,4 +1,4 @@
-# Saved by TopBraid on Mon Mar 08 12:49:53 GMT 2010
+# Saved by TopBraid on Mon Mar 08 15:51:09 GMT 2010
 # baseURI: http://reference.data.gov.uk/def/intervals/
 # imports: http://purl.org/dc/dcam/
 # imports: http://purl.org/NET/scovo
@@ -86,6 +86,11 @@
       rdfs:subClassOf :CalendarInterval , :Half ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
+                owl:cardinality 6 ;
+                owl:onProperty :intervalContainsMonth
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarHalf ;
                 owl:onProperty :nextInterval
               ] ;
@@ -93,11 +98,6 @@
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarHalf ;
                 owl:onProperty :previousInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:cardinality 6 ;
-                owl:onProperty :intervalContainsMonth
               ] ;
       skos:prefLabel "CalendarHalf (class)"@en .
 
@@ -139,28 +139,8 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarMinute ;
-                owl:onProperty :intervalContainsMinute
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarMonth ;
-                owl:onProperty :intervalContainsMonth
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarDay ;
                 owl:onProperty :intervalContainsDay
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarQuarter ;
-                owl:onProperty :intervalContainsQuarter
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarHour ;
-                owl:onProperty :intervalContainsHour
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -169,8 +149,28 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :CalendarHour ;
+                owl:onProperty :intervalContainsHour
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarHalf ;
                 owl:onProperty :intervalContainsHalf
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :CalendarQuarter ;
+                owl:onProperty :intervalContainsQuarter
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :CalendarMonth ;
+                owl:onProperty :intervalContainsMonth
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :CalendarMinute ;
+                owl:onProperty :intervalContainsMinute
               ] ;
       skos:prefLabel "CalendarInterval (class)"@en .
 
@@ -182,12 +182,12 @@
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarMinute ;
-                owl:onProperty :nextInterval
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarMinute ;
-                owl:onProperty :previousInterval
+                owl:onProperty :nextInterval
               ] ;
       skos:prefLabel "Calendar Minute"@en .
 
@@ -199,21 +199,21 @@
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarMonth ;
-                owl:onProperty :previousInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarMonth ;
                 owl:onProperty :nextInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:minCardinality 28 ;
-                owl:onProperty :intervalContainsDay
+                owl:allValuesFrom :CalendarMonth ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:maxCardinality 31 ;
+                owl:onProperty :intervalContainsDay
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:minCardinality 28 ;
                 owl:onProperty :intervalContainsDay
               ] ;
       skos:prefLabel "Calendar Month"@en .
@@ -259,23 +259,23 @@
       rdfs:subClassOf :CalendarInterval , :Year ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:minCardinality 365 ;
-                owl:onProperty :intervalContainsDay
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:maxCardinality 366 ;
                 owl:onProperty :intervalContainsDay
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :CalendarYear ;
-                owl:onProperty :previousInterval
+                owl:minCardinality 365 ;
+                owl:onProperty :intervalContainsDay
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :CalendarYear ;
                 owl:onProperty :nextInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :CalendarYear ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -372,13 +372,8 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue :one-half ;
-                owl:onProperty time:hasDurationDescription
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Half ;
-                owl:onProperty :previousInterval
+                owl:onProperty :nextInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -387,13 +382,18 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:cardinality 2 ;
-                owl:onProperty :intervalContainsQuarter
+                owl:allValuesFrom :Half ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Half ;
-                owl:onProperty :nextInterval
+                owl:hasValue :one-half ;
+                owl:onProperty time:hasDurationDescription
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality 2 ;
+                owl:onProperty :intervalContainsQuarter
               ] ;
       skos:prefLabel "Generic Half (Class)"@en .
 
@@ -404,13 +404,8 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:maxCardinality 3601 ;
+                owl:minCardinality 3599 ;
                 owl:onProperty :intervalContainsSecond
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:cardinality 60 ;
-                owl:onProperty :intervalContainsMinute
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -424,13 +419,18 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:minCardinality 3599 ;
+                owl:maxCardinality 3601 ;
                 owl:onProperty :intervalContainsSecond
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Hour ;
                 owl:onProperty :nextInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality 60 ;
+                owl:onProperty :intervalContainsMinute
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -448,16 +448,16 @@
       rdfs:subClassOf rdf:List , rdfs:Resource ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Interval ;
-                owl:onProperty rdf:first
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom
                         [ rdf:type owl:Class ;
                           owl:unionOf (:Interval ())
                         ] ;
                 owl:onProperty rdf:rest
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :Interval ;
+                owl:onProperty rdf:first
               ] .
 
 :IrregularInterval
@@ -474,13 +474,13 @@
       rdfs:subClassOf :CalendarInterval , :Week ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Iso8601Week ;
-                owl:onProperty :previousInterval
+                owl:cardinality 7 ;
+                owl:onProperty :intervalContainsDay
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:cardinality 7 ;
-                owl:onProperty :intervalContainsDay
+                owl:allValuesFrom :Iso8601Week ;
+                owl:onProperty :nextInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -490,7 +490,7 @@
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Iso8601Week ;
-                owl:onProperty :nextInterval
+                owl:onProperty :previousInterval
               ] ;
       skos:prefLabel "ISO 8601 Week"@en .
 
@@ -530,16 +530,6 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue "PT1M"^^xsd:duration ;
-                owl:onProperty :hasXsdDurationDescription
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:minCardinality 59 ;
-                owl:onProperty :intervalContainsSecond
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:maxCardinality 61 ;
                 owl:onProperty :intervalContainsSecond
               ] ;
@@ -550,13 +540,23 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue :one-minute ;
-                owl:onProperty time:hasDurationDescription
+                owl:minCardinality 59 ;
+                owl:onProperty :intervalContainsSecond
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:hasValue "PT1M"^^xsd:duration ;
+                owl:onProperty :hasXsdDurationDescription
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Minute ;
                 owl:onProperty :previousInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:hasValue :one-minute ;
+                owl:onProperty time:hasDurationDescription
               ] ;
       skos:prefLabel "Generic Minute (Class)"@en .
 
@@ -567,8 +567,13 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
+                owl:hasValue :one-month ;
+                owl:onProperty time:hasDurationDescription
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Month ;
-                owl:onProperty :nextInterval
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -578,12 +583,7 @@
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Month ;
-                owl:onProperty :previousInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:hasValue :one-month ;
-                owl:onProperty time:hasDurationDescription
+                owl:onProperty :nextInterval
               ] ;
       skos:prefLabel "Generic Month (Class)"@en .
 
@@ -627,16 +627,16 @@
       rdfs:subClassOf :Quarter ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Q1 ;
-                owl:onProperty :previousInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom
                         [ rdf:type owl:Class ;
                           owl:unionOf (:Q1 :Q3)
                         ] ;
                 owl:onProperty :nextInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :Q1 ;
+                owl:onProperty :previousInterval
               ] ;
       skos:prefLabel "Q2 Interval"@en .
 
@@ -646,16 +646,16 @@
       rdfs:subClassOf :Quarter ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :Q2 ;
+                owl:onProperty :previousInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom
                         [ rdf:type owl:Class ;
                           owl:unionOf (:Q1 :Q4)
                         ] ;
                 owl:onProperty :nextInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Q2 ;
-                owl:onProperty :previousInterval
               ] ;
       skos:prefLabel "Q3 Interval"@en .
 
@@ -684,16 +684,16 @@
       rdfs:subClassOf :Quarter ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Q4 ;
-                owl:onProperty :previousInterval
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
                 owl:allValuesFrom
                         [ rdf:type owl:Class ;
                           owl:unionOf (:Q1 :Q6)
                         ] ;
                 owl:onProperty :nextInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:allValuesFrom :Q4 ;
+                owl:onProperty :previousInterval
               ] ;
       skos:prefLabel "Q5 Interval"@en .
 
@@ -703,13 +703,13 @@
       rdfs:subClassOf :Quarter ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Q1 ;
-                owl:onProperty :nextInterval
+                owl:allValuesFrom :Q5 ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Q5 ;
-                owl:onProperty :previousInterval
+                owl:allValuesFrom :Q1 ;
+                owl:onProperty :nextInterval
               ] ;
       skos:prefLabel "Q6 Interval"@en .
 
@@ -731,12 +731,12 @@
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Quarter ;
-                owl:onProperty :previousInterval
+                owl:onProperty :nextInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
                 owl:allValuesFrom :Quarter ;
-                owl:onProperty :nextInterval
+                owl:onProperty :previousInterval
               ] ;
       skos:prefLabel "Generic Quarter (Class)"@en .
 
@@ -747,13 +747,8 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue "PT1S"^^xsd:duration ;
-                owl:onProperty :hasXsdDurationDescription
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Second ;
-                owl:onProperty :previousInterval
+                owl:hasValue :one-second ;
+                owl:onProperty time:hasDurationDescription
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -762,8 +757,13 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue :one-second ;
-                owl:onProperty time:hasDurationDescription
+                owl:allValuesFrom :Second ;
+                owl:onProperty :previousInterval
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:hasValue "PT1S"^^xsd:duration ;
+                owl:onProperty :hasXsdDurationDescription
               ] ;
       skos:prefLabel "Generic Second (Class)"@en .
 
@@ -790,8 +790,8 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:hasValue :one-week ;
-                owl:onProperty time:hasDurationDescription
+                owl:allValuesFrom :Week ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -800,8 +800,8 @@
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Week ;
-                owl:onProperty :previousInterval
+                owl:hasValue :one-week ;
+                owl:onProperty time:hasDurationDescription
               ] ;
       skos:prefLabel "Generice Week (Class)"@en .
 
@@ -812,8 +812,8 @@
       rdfs:subClassOf :Interval ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
-                owl:cardinality 2 ;
-                owl:onProperty :intervalContainsHalf
+                owl:allValuesFrom :Year ;
+                owl:onProperty :previousInterval
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -824,6 +824,16 @@
               [ rdf:type owl:Restriction ;
                 owl:cardinality 4 ;
                 owl:onProperty :intervalContainsQuarter
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality 2 ;
+                owl:onProperty :intervalContainsHalf
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:hasValue :one-year ;
+                owl:onProperty time:hasDurationDescription
               ] ;
       rdfs:subClassOf
               [ rdf:type owl:Restriction ;
@@ -839,16 +849,6 @@
               [ rdf:type owl:Restriction ;
                 owl:maxCardinality 380 ;
                 owl:onProperty :intervalContainsDay
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:hasValue :one-year ;
-                owl:onProperty time:hasDurationDescription
-              ] ;
-      rdfs:subClassOf
-              [ rdf:type owl:Restriction ;
-                owl:allValuesFrom :Year ;
-                owl:onProperty :previousInterval
               ] .
 
 :dayOfWeek
@@ -1156,7 +1156,7 @@
 
 :ordinalWeekOfYearYear
       rdf:type owl:DatatypeProperty ;
-      rdfs:comment "The ordinal number of the week of year year in which an instant or interval (of duration one year or less) occurs. The first year of the AD era has ordinal number 1.  The Week Of Year is the year to which a week of year pertains, which is usually the same as the calendar year except aorund the end of year where some days of the week may be deemed to be in the yearr following or the year previous depending on the alignment of the year boundary with the weekly cycle."@en ;
+      rdfs:comment "The ordinal number of the week of year year in which an instant or interval (of duration one week or less) occurs. The first year of the AD era has ordinal number 1.  The Week Of Year is the year to which a week of year pertains, which is usually the same as the calendar year except aorund the end of year where some days of the week may be deemed to be in the yearr following or the year previous depending on the alignment of the year boundary with the weekly cycle."@en ;
       rdfs:domain
               [ rdf:type owl:Class ;
                 owl:unionOf (:Day :Hour :Minute :Second :Week time:Instant)
