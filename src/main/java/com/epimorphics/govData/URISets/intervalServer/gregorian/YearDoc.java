@@ -161,6 +161,8 @@ public class YearDoc extends Doc {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, Calendar.JANUARY, 1, 0, 0, 0);	
 		cal.setLenient(false);
 		
+		addCalendarOrdinals(r_year, year);
+		
 		model.add(r_year, INTERVALS.hasXsdDurationDescription, oneYear);
 		model.add(r_year, TIME.hasDurationDescription, INTERVALS.one_year);
 		

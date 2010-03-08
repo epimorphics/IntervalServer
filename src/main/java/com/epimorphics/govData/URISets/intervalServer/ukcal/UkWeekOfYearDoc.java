@@ -175,10 +175,13 @@ public class UkWeekOfYearDoc extends UkDoc {
 	public static Resource createResource(URI base, Model m, int year, int woy) {
 		Resource r_week = createResourceAndLabels(base, m, year, woy);
 		m.add(r_week, RDF.type, SCOVO.Dimension);
-
+		
+		addCalendarWoyOrdinals(r_week, year, woy);
 
 		BritishCalendar cal = new BritishCalendar(Locale.UK);
 		CalendarUtils.setWeekOfYear(year, woy , cal);
+
+//		addCalendarOrdinals(r_week, cal.get(Calendar.YEAR));
 
 		m.add(r_week, INTERVALS.hasXsdDurationDescription, oneWeek);
 		m.add(r_week, TIME.hasDurationDescription, INTERVALS.one_week );

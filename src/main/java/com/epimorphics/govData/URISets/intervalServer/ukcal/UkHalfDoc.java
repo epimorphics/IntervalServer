@@ -168,9 +168,10 @@ public class UkHalfDoc extends UkDoc {
 	static protected Resource createResource(URI base, Model m, int year, int half) {
 		Resource r_half = createResourceAndLabels(base, m, year, half);
 		r_half.addProperty(RDF.type, SCOVO.Dimension);
-
 		BritishCalendar cal = new BritishCalendar(year, (half-1)*6, 1, 0, 0, 0);
 		cal.setLenient(false);
+		
+		addCalendarHoyOrdinals(r_half, year, half);
 		
 		m.add(r_half, INTERVALS.hasXsdDurationDescription, oneSecond);
 		m.add(r_half, TIME.hasDurationDescription, INTERVALS.one_half);

@@ -179,6 +179,8 @@ public class QuarterDoc extends Doc {
 		Resource r_quarter = createResourceAndLabels(base, m,  year, quarter);
 		r_quarter.addProperty(RDF.type, SCOVO.Dimension);
 		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
+		
+		addCalendarQoyOrdinals(r_quarter, year, quarter);
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar( year, ((quarter-1)*3), 1, 0, 0, 0);
 		cal.setLenient(false);

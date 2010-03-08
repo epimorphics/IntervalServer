@@ -197,6 +197,8 @@ public class UkSecDoc extends UkDoc {
 		m.add(r_sec, RDF.type, SCOVO.Dimension);
 		BritishCalendar cal = new BritishCalendar(year, moy-1 , dom, hod, moh, som);
 		cal.setLenient(false);
+		
+		addCalendarOrdinals(r_sec, year, moy, dom, hod, moh, som);
 
 		m.add(r_sec, INTERVALS.hasXsdDurationDescription, oneSecond);
 		m.add(r_sec, TIME.hasDurationDescription, INTERVALS.one_second);

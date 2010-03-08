@@ -178,6 +178,8 @@ public class MonthDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int moy) {
 		Resource r_month = createResourceAndLabels(base, m, year, moy);
 		m.add(r_month, RDF.type, SCOVO.Dimension);
+		
+		addCalendarOrdinals(r_month, year, moy);
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, 1, 0, 0, 0);
 		cal.setLenient(false);

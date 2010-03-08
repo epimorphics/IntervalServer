@@ -67,7 +67,7 @@ public class UkGovWeekOfYearDoc extends UkGovDoc {
 		//Advance to the start of the requested Gov Week
 		startTime.add(Calendar.DATE, 7*(week-1));
 		
-		//We haven't gone into the folling year
+		//We haven't gone into the following year
 		if(startTime.getTimeInMillis()>=nextYear.getTimeInMillis())
 			throw new WebApplicationException(Status.NOT_FOUND);
 		
@@ -197,6 +197,8 @@ public class UkGovWeekOfYearDoc extends UkGovDoc {
 	public static Resource createResource(URI base, Model m, int year, int woy) {
 		Resource r_week = createResourceAndLabels(base, m, year, woy);
 		m.add(r_week, RDF.type, SCOVO.Dimension);
+		
+		addCalendarWoyOrdinals(r_week, year, woy);
 
 		BritishCalendar cal = getBritishCalAtGovWeekOne(year);
 		cal.add(Calendar.DATE, (woy-1)*7);

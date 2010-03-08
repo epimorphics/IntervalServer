@@ -188,6 +188,8 @@ public class UkGovQuarterDoc extends UkGovDoc {
 		Resource r_quarter = createResourceAndLabels(base, m,  year, quarter);
 		r_quarter.addProperty(RDF.type, SCOVO.Dimension);
 		
+		addCalendarQoyOrdinals(r_quarter, year, quarter);
+
 		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0); 
 		
 		cal.add(Calendar.MONTH, ((quarter-1)*3));

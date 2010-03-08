@@ -184,7 +184,7 @@ public class HourDoc extends Doc {
 		// Calendar.LONG , Locale.UK);
 		m.add(r_hour, RDFS.comment, "The " + (hod+1) + s_hodSuffix + " hour of "
 				+ s_dayOfWeek + " the " + dom + s_domSuffix + " " + s_month
-				+ " in the "+CALENDAR_NAME+" calendar year" + String.format("%04d",year) , "en");
+				+ " in the "+CALENDAR_NAME+" calendar year " + String.format("%04d",year) , "en");
 	
 		return r_hour;
 	}
@@ -194,6 +194,8 @@ public class HourDoc extends Doc {
 		m.add(r_hour, RDF.type, SCOVO.Dimension);
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, dom, hod, 0, 0);
 		cal.setLenient(false);
+		
+		addCalendarOrdinals(r_hour, year, moy, dom, hod);
 
 		m.add(r_hour, INTERVALS.hasXsdDurationDescription, oneHour);
 		m.add(r_hour, TIME.hasDurationDescription, INTERVALS.one_hour);
@@ -202,7 +204,7 @@ public class HourDoc extends Doc {
 		m.add(r_hour, TIME.hasBeginning, r_instant);
 		m.add(r_hour, SCOVO.min, CalendarUtils.formatScvDateTimeLiteral(cal) );
 
-		cal.add(Calendar.HOUR, 1);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
 		Resource r_EndInstant = InstantDoc.createResource(base, m, cal);	
 		m.add(r_hour, TIME.hasEnd, r_EndInstant);
 		

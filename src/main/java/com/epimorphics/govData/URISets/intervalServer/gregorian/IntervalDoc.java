@@ -181,7 +181,7 @@ public class IntervalDoc extends Doc {
 		int year  = cal.get(Calendar.YEAR);
 		int moy   = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
 		int dom   = cal.get(Calendar.DATE);
-		int hod   = cal.get(Calendar.HOUR);
+		int hod   = cal.get(Calendar.HOUR_OF_DAY);
 		int moh   = cal.get(Calendar.MINUTE);
 		int som   = cal.get(Calendar.SECOND);
 			

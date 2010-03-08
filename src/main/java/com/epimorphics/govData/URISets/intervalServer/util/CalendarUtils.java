@@ -21,8 +21,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import com.epimorphics.govData.vocabulary.INTERVALS;
+import com.epimorphics.govData.vocabulary.TIME;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 
@@ -42,7 +45,7 @@ public class CalendarUtils {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH)+1-Calendar.JANUARY;
 		int day = cal.get(Calendar.DATE);
-		int hour = cal.get(Calendar.HOUR);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int min = cal.get(Calendar.MINUTE);
 		int sec = cal.get(Calendar.SECOND);
 //		String s2 = iso8601dateTimeformat.format(cal.getTimeInMillis());
@@ -171,7 +174,61 @@ public class CalendarUtils {
 		cal.setLenient(l);
 	}
 
+	
+	public static int calendarDayToOrdinalDay(int dow) {
+		return dow==Calendar.MONDAY ? 1 :
+			   dow==Calendar.TUESDAY ? 2 :
+			   dow==Calendar.WEDNESDAY ? 3 :
+			   dow==Calendar.THURSDAY ? 4 :
+		       dow==Calendar.FRIDAY ? 5 :
+		       dow==Calendar.SATURDAY ? 6 : 7;
+	}
 
+	/**
+	 * @param dow
+	 * @return
+	 */
+	private static final Resource days[] = 
+	{
+		TIME.Monday,
+		TIME.Tuesday,
+		TIME.Wednesday,
+		TIME.Thursday,
+		TIME.Friday,
+		TIME.Saturday,
+		TIME.Sunday		
+	};
+	public static Resource ordinalDayOfWeekToDayOfWeek(int dow) {
+		if(1<=dow && dow<=7) {
+			return days[dow-1];
+		}
+		return null;
+	}
 
+	/**
+	 * @param moy
+	 * @return
+	 */
+	private static final Resource months[] = 
+	{ INTERVALS.January, 
+	  INTERVALS.February,
+	  INTERVALS.March,
+	  INTERVALS.April,
+	  INTERVALS.May,
+	  INTERVALS.June,
+	  INTERVALS.July,
+	  INTERVALS.August,
+	  INTERVALS.September,
+	  INTERVALS.October,
+	  INTERVALS.November,
+	  INTERVALS.December
+	};
+	
+	public static Resource ordinalMonthOfYearToMonthOfYear(int moy) {
+		if(1<=moy && moy<=12) {
+			return months[moy-1];
+		}
+		return null;
+	}
 
 }

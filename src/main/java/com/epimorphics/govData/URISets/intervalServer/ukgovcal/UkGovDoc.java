@@ -76,7 +76,7 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 	@Context UriInfo ui;
 	@Context HttpHeaders hdrs;
 
-	static private Logger logger = LoggerFactory.getLogger(UkGovId.class);
+	static private Logger logger = LoggerFactory.getLogger(UkGovDoc.class);
 	
 	protected URI loc;
 	protected URI base;
@@ -103,8 +103,6 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 	static final protected Literal oneQuarter = ResourceFactory.createTypedLiteral("P3M", XSDDatatype.XSDduration);
 	static final protected Literal oneHalf 	= ResourceFactory.createTypedLiteral("P6M", XSDDatatype.XSDduration);
 	static final protected Literal oneYear 	= ResourceFactory.createTypedLiteral("P1Y", XSDDatatype.XSDduration);
-	
-	
 	
 	protected URI getBaseUri() {
 		return BaseURI.getBase() == null ? ui.getBaseUri() : BaseURI.getBase();
@@ -547,5 +545,70 @@ abstract public class UkGovDoc extends UkGovCalURITemplate implements Constants 
 		model.add(r_set, DCTERMS.source, r_calendarAct=model.createResource("http://en.wikipedia.org/wiki/Gregorian_calendar"));
 		model.add(r_calendarAct, RDFS.label, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
 		model.add(r_calendarAct, SKOS.prefLabel, "Wikipedia on "+CALENDAR_NAME+" Calendar","en");
+	}
+	/**
+	 * Add Ordinal fields to the current temporal entity.
+	 * 
+	 */
+//	protected static void addCalendarOrdinals(Resource res, int year, int moy, int dom, int hod, int moh, int som ) {
+//		res.addProperty(INTERVALS.ordinalSecondOfMinute, Integer.toString(som), XSDDatatype.XSDinteger);
+//		addCalendarOrdinals(res, year, moy, dom, hod, moh );
+//	}
+//	
+//	protected static void addCalendarOrdinals(Resource res, int year, int moy, int dom, int hod, int moh) {
+//		res.addProperty(INTERVALS.ordinalMinuteOfHour,   Integer.toString(moh), XSDDatatype.XSDinteger);
+//		addCalendarOrdinals(res, year, moy, dom, hod );
+//	}
+//
+//	protected static void addCalendarOrdinals(Resource res, int year, int moy, int dom, int hod) {
+//		res.addProperty(INTERVALS.ordinalHourOfDay,   Integer.toString(hod), XSDDatatype.XSDinteger);
+//		addCalendarOrdinals(res, year, moy, dom);
+//	}
+	
+	protected static void addCalendarWoyOrdinals(Resource res, int year, int woy) {
+		res.addProperty(INTERVALS.ordinalWeekOfYear,     Integer.toString(woy), XSDDatatype.XSDinteger);
+		res.addProperty(INTERVALS.ordinalWeekOfYearYear, Integer.toString(year),  XSDDatatype.XSDinteger);
+	}
+	
+//	protected static void addCalendarOrdinals(Resource res, int year, int moy, int dom) {
+//		res.addProperty(INTERVALS.ordinalDayOfMonth, 	  Integer.toString(dom), XSDDatatype.XSDinteger);
+//
+//		BritishCalendar cal = new BritishCalendar(Locale.UK);
+//		cal.set(year, moy-1,dom);
+//		int woy = cal.get(Calendar.WEEK_OF_YEAR);
+//		int dow = CalendarUtils.calendarDayToOrdinalDay(cal.get(Calendar.DAY_OF_WEEK));
+//		int doy =  cal.get(Calendar.DAY_OF_YEAR);
+//		int woy_year = CalendarUtils.getWeekOfYearYear(cal);
+//
+//		addCalendarWoyOrdinals(res, woy_year, woy);
+//
+//		res.addProperty(INTERVALS.ordinalDayOfWeek,      Integer.toString(dow), XSDDatatype.XSDinteger);
+//		res.addProperty(INTERVALS.dayOfWeek,     		  CalendarUtils.ordinalDayOfWeekToDayOfWeek(dow));
+//		res.addProperty(INTERVALS.ordinalDayOfYear,      Integer.toString(doy), XSDDatatype.XSDinteger);
+//
+//		addCalendarOrdinals(res, year, moy);
+//	}
+
+//	protected static void addCalendarOrdinals(Resource res, int year, int moy) {
+//		int hoy = ((moy-1)/6)+1;
+//		int qoy = ((moy-1)/3)+1;
+//		res.addProperty(INTERVALS.ordinalMonthOfYear,	  Integer.toString(moy), XSDDatatype.XSDinteger);
+//		res.addProperty(INTERVALS.monthOfYear,	  		  CalendarUtils.ordinalMonthOfYearToMonthOfYear(moy));
+//		
+//		addCalendarQoyOrdinals(res, year, qoy);
+//	}
+
+	protected static void addCalendarQoyOrdinals(Resource res, int year, int qoy) {
+		res.addProperty(INTERVALS.ordinalQuarterOfYear,     Integer.toString(qoy), XSDDatatype.XSDinteger);
+		addCalendarHoyOrdinals(res, year, ((qoy-1)/2)+1);
+	}	
+	
+	protected static void addCalendarHoyOrdinals(Resource res, int year, int hoy) {
+		res.addProperty(INTERVALS.ordinalHalfOfYear,     Integer.toString(hoy), XSDDatatype.XSDinteger);
+		addCalendarOrdinals(res, year);
+	}
+	
+	protected static void addCalendarOrdinals(Resource res, int year) {
+		res.addProperty(INTERVALS.ordinalYear, Integer.toString(year), XSDDatatype.XSDinteger);
 	}
 }

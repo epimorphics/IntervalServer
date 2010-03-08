@@ -178,6 +178,8 @@ public class UkQuarterDoc extends UkDoc {
 		r_quarter.addProperty(RDF.type, SCOVO.Dimension);
 		r_quarter.addProperty(RDF.type, INTERVALS.Quarter);
 		
+		addCalendarQoyOrdinals(r_quarter, year, quarter);
+		
 		if(quarter>0 && quarter<=4 ) {
 			r_quarter.addProperty(RDF.type, (quarter==1 ? INTERVALS.Q1 :
 											 quarter==2 ? INTERVALS.Q2 :

@@ -179,6 +179,8 @@ public class UkGovHalfDoc extends UkGovDoc {
 		Resource r_half = createResourceAndLabels(base, m, year, half);
 		r_half.addProperty(RDF.type, SCOVO.Dimension);
 		
+		addCalendarHoyOrdinals(r_half, year, half);
+		
 		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0);
 		cal.add(Calendar.MONTH, (half-1)*6);
 		cal.setLenient(false);

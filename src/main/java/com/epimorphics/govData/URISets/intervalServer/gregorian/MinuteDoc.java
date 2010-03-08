@@ -197,6 +197,8 @@ public class MinuteDoc extends Doc {
 	protected static Resource createResource(URI base, Model m, int year, int moy, int dom, int hod, int moh) {
 		Resource r_min = createResourceAndLabels(base, m, year, moy, dom, hod, moh);
 		m.add(r_min, RDF.type, SCOVO.Dimension);
+		
+		addCalendarOrdinals(r_min, year, moy, dom, hod, moh);
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1, dom, hod, moh, 0);
 		cal.setLenient(false);

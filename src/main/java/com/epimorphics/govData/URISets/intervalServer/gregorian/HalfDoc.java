@@ -170,6 +170,8 @@ public class HalfDoc extends Doc {
 	static protected Resource createResource(URI base, Model m, int year, int half) {
 		Resource r_half = createResourceAndLabels(base, m, year, half);
 		r_half.addProperty(RDF.type, SCOVO.Dimension);
+		
+		addCalendarHoyOrdinals(r_half, year, half);
 
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, (half-1)*6, 1, 0, 0, 0);
 		cal.setLenient(false);

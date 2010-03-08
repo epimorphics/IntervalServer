@@ -134,7 +134,7 @@ public class Duration {
 			cal.add(Calendar.DATE, days);
 		
 		if(hours>0)
-			cal.add(Calendar.HOUR, hours);
+			cal.add(Calendar.HOUR_OF_DAY, hours);
 		
 		if(mins>0)
 			cal.add(Calendar.MINUTE, mins);

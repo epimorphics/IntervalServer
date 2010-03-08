@@ -215,6 +215,8 @@ public class SecDoc extends Doc {
 		GregorianOnlyCalendar cal = new GregorianOnlyCalendar(year, moy-1 , dom, hod, moh, som);
 		cal.setLenient(false);
 
+		addCalendarOrdinals(r_sec, year, moy, dom, hod, moh, som );
+		
 		m.add(r_sec, INTERVALS.hasXsdDurationDescription, oneSecond);
 		m.add(r_sec, TIME.hasDurationDescription, INTERVALS.one_second);
 		

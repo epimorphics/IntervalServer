@@ -150,57 +150,6 @@ public class UkMonthDoc extends UkDoc {
 		return doGet(lang).type(mt).contentLocation(contentURI).build();
 	}
 
-//	@GET
-//	@Path(MONTH_PATTERN+EXT_PATTERN)
-//	@Produces()
-//	public Response getResponse(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month,
-//			@PathParam(EXT_TOKEN)  String ext ) {
-//		populateModel(year, month);
-//		this.ext   = ext;
-//		return doGet();
-//	}
-//	
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("text/plain")
-//	public Response getNTriple(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetNTriple().contentLocation(URI.create(ui.getPath()+"."+EXT_NT)).build();
-//	}
-//
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("application/rdf+xml")
-//	public Response getRDF(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetRDF().contentLocation(URI.create(ui.getPath()+"."+EXT_RDF)).build();
-//	}
-//
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces("application/json")
-//	public Response getJson(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetJson().contentLocation(URI.create(ui.getPath()+"."+EXT_JSON)).build();
-//	}
-//	
-//	@GET
-//	@Path(MONTH_PATTERN)
-//	@Produces({ "text/turtle", "application/x-turtle", "text/n3" })
-//	public Response getTurtle(
-//			@PathParam(YEAR_TOKEN) int year,
-//			@PathParam(MONTH_TOKEN) int month) {
-//		populateModel(year, month);
-//		return doGetTurtle().contentLocation(URI.create(ui.getPath()+"."+EXT_TTL)).build();
-//	}
 		
 	public static Resource createResourceAndLabels(URI base, Model m, int year, int moy) {
 		String relPart = String.format("%04d",year) + MONTH_PREFIX + String.format("%02d", moy);
@@ -226,9 +175,10 @@ public class UkMonthDoc extends UkDoc {
 	static protected Resource createResource(URI base, Model m, int year, int moy) {
 		Resource r_month = createResourceAndLabels(base, m, year, moy);
 		m.add(r_month, RDF.type, SCOVO.Dimension);
-
 		BritishCalendar cal = new BritishCalendar(year, moy-1, 1, 0, 0, 0);
 		cal.setLenient(false);
+		
+		addCalendarOrdinals(r_month, year, moy);
 				
 		m.add(r_month, INTERVALS.hasXsdDurationDescription, oneMonth);
 		m.add(r_month, TIME.hasDurationDescription, INTERVALS.one_month );

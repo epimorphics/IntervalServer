@@ -171,12 +171,14 @@ public class InstantDoc extends Doc {
 		Literal l_dateTime = ResourceFactory.createTypedLiteral(s_relPart, XSDDatatype.XSDdateTime);
 		
 		int year = cal2.get(Calendar.YEAR);
-		int moy  = cal2.get(Calendar.MONTH);
+		int moy  = cal2.get(Calendar.MONTH)+1-Calendar.JANUARY;
 		int dom  = cal2.get(Calendar.DATE);
-		int hod  = cal2.get(Calendar.HOUR);
+		int hod  = cal2.get(Calendar.HOUR_OF_DAY);
 		int moh  = cal2.get(Calendar.MINUTE);
 		int som  = cal2.get(Calendar.SECOND);
 		
+		addCalendarOrdinals(r_inst, year, moy, dom, hod, moh, som);
+
 		String s_month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.UK);
 		String s_dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 		String s_domSuffix = getDecimalSuffix(dom);

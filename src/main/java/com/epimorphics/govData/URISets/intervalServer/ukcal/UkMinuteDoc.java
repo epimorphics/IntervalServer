@@ -194,9 +194,10 @@ public class UkMinuteDoc extends UkDoc {
 	protected static Resource createResource(URI base, Model m, int year, int moy, int dom, int hod, int moh) {
 		Resource r_min = createResourceAndLabels(base, m, year, moy, dom, hod, moh);
 		m.add(r_min, RDF.type, SCOVO.Dimension);
-
 		BritishCalendar cal = new BritishCalendar(year, moy-1, dom, hod, moh, 0);
 		cal.setLenient(false);
+		
+		addCalendarOrdinals(r_min, year, moy, dom, hod, moh);
 
 		m.add(r_min, INTERVALS.hasXsdDurationDescription, oneMinute);
 		m.add(r_min, TIME.hasDurationDescription, INTERVALS.one_minute);

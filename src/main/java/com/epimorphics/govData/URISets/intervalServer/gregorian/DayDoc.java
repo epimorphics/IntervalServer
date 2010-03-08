@@ -185,6 +185,7 @@ public class DayDoc extends Doc {
 		cal.set(year, moy-1, dom,0 , 0, 0);
 		cal.getTimeInMillis();
 		
+		addCalendarOrdinals(r_day, year, moy, dom);
 		
 		m.add(r_day, INTERVALS.hasXsdDurationDescription, oneDay);
 		m.add(r_day, TIME.hasDurationDescription, INTERVALS.one_day);

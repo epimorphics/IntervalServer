@@ -107,7 +107,7 @@ public class GregorianOnlyCalendar extends GregorianCalendar {
 		int years 		= advanceFieldUptoLimit(Calendar.YEAR, end, working);
 		int months		= advanceFieldUptoLimit(Calendar.MONTH, end, working);
 		int days		= advanceFieldUptoLimit(Calendar.DATE, end, working);
-		int hours		= advanceFieldUptoLimit(Calendar.HOUR, end, working);
+		int hours		= advanceFieldUptoLimit(Calendar.HOUR_OF_DAY, end, working);
 		int mins		= advanceFieldUptoLimit(Calendar.MINUTE, end, working);;
 		int secs		= advanceFieldUptoLimit(Calendar.SECOND, end, working);;
 

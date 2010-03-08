@@ -48,6 +48,7 @@ import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.reasoner.rulesys.builtins.AddOne;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
@@ -171,7 +172,9 @@ public class UkGovYearDoc extends UkGovDoc {
 		model.add(r_year, RDF.type, SCOVO.Dimension);
 		BritishCalendar cal = new BritishCalendar(year, Calendar.APRIL, 1, 0, 0, 0);	
 		cal.setLenient(false);
-				
+		
+		addCalendarOrdinals(r_year, year);
+		
 		model.add(r_year, INTERVALS.hasXsdDurationDescription, oneYear);
 		model.add(r_year, TIME.hasDurationDescription, INTERVALS.one_year);
 		
