@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -33,6 +34,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,17 +191,31 @@ abstract public class Doc extends GregorianCalURITemplate implements Constants {
 	protected ResponseBuilder doGetTurtle() {
 		return doGet("N3");
 	}
-	
+
 	protected ResponseBuilder doGetJson() {
-		StreamingOutput so = new StreamingOutput () {
-			public void write(OutputStream output) throws IOException,
-					WebApplicationException {
-				Encoder enc = Encoder.get();
-				OutputStreamWriter osw = new OutputStreamWriter(output);
-				enc.encode(model, osw, true);	
-			}};
-		return Response.ok(so);
+		ArrayList<Resource> roots = new ArrayList<Resource>();
+		roots.add(r_thisTemporalEntity);
+		Encoder enc = Encoder.get();
+		
+		JSONObject jo = enc.encodeRecursive(model,roots);
+
+		return Response.ok(jo.toString());
 	}
+
+	
+//	protected ResponseBuilder doGetJson() {
+//		StreamingOutput so = new StreamingOutput () {
+//			public void write(OutputStream output) throws IOException,
+//					WebApplicationException {
+//				Encoder enc = Encoder.get();
+//				OutputStreamWriter osw = new OutputStreamWriter(output);
+//				ArrayList<Resource> roots = new ArrayList<Resource>();
+//				roots.add(r_thisTemporalEntity);
+//				enc.encode(model, roots, osw);
+//				//enc.encode(model, osw, true);	
+//			}};
+//		return Response.ok(so);
+//	}
 
 	protected static void connectToNeigbours(Model model, Resource r_this,
 		Resource r_next, Resource r_prev) {

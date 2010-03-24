@@ -279,6 +279,8 @@ public class DayDoc extends Doc {
 		Resource r_doc = model.createResource(contentURI.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, DAY_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one calendar day duration" +
 									   " starting at midnight on a given day.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

@@ -260,6 +260,8 @@ public class MonthDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, MONTH_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one calendar month duration" +
 									   " starting at midnight on the 1st day of a given month.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

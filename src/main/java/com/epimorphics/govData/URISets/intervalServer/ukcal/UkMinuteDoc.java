@@ -292,6 +292,8 @@ public class UkMinuteDoc extends UkDoc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, MINUTE_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one minute duration.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		

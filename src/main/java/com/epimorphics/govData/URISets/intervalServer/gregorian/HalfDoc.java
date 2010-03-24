@@ -257,6 +257,9 @@ public class HalfDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, HALF_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one half year (6 calendar month) duration" +
 									   " starting at midnight on the 1st day of a given half year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

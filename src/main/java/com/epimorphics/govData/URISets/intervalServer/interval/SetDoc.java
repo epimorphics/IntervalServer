@@ -52,7 +52,7 @@ public class SetDoc extends Doc {
 		public static final String PATH_REGEX = "("+INTERVAL_SET+")";
 		public static final String INTERVAL_SET_LABEL = "Combined Interval and Instances Dataset";
 		
-	URI setURI;
+	//URI setURI;
 	
 	
 	@GET
@@ -94,6 +94,8 @@ public class SetDoc extends Doc {
 		Resource r_set = model.createResource(setURI.toString(),VOID.Dataset);
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INTERVAL_SET_LABEL);
+		
+		r_thisTemporalEntity = r_set;
 		
 		model.add(r_set, RDFS.label, INTERVAL_SET_LABEL, "en");
 		model.add(r_set, SKOS.prefLabel, INTERVAL_SET_LABEL,"en");

@@ -265,13 +265,15 @@ public class UkGovYearDoc extends UkGovDoc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, YEAR_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one year duration" +
 									   " starting at midnight on the 1st of April of a given "+UkCalURITemplate.CALENDAR_NAME+"year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		
-		model.add(r_set, DGU.itemType, INTERVALS.CalendarYear);
+		model.add(r_set, DGU.itemType, INTERVALS.BusinessYear);
 		model.add(r_set, VOID.uriRegexPattern, base_reg+YEAR_ID_STEM+YEAR_PATTERN_PLAIN);
 		
 		model.add(r_set, VOID.exampleResource, createResourceAndLabels(base, model, 1752));

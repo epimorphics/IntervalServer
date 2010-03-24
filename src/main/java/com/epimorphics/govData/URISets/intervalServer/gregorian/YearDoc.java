@@ -249,6 +249,8 @@ public class YearDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, YEAR_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one year duration" +
 									   " starting at midnight on the 1st of January of a given year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

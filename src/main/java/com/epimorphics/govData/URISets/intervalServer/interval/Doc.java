@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.util.ArrayList;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +73,8 @@ abstract public class Doc extends URITemplate implements Constants {
 	protected URI contentURI;
 	protected URI setURI;
 	
+	protected Resource r_thisTemporalEntity;
+	
 	protected String ext;
 	
 	protected Model model = ModelFactory.createDefaultModel();
@@ -110,15 +114,25 @@ abstract public class Doc extends URITemplate implements Constants {
 	}
 	
 	protected ResponseBuilder doGetJson() {
-		StreamingOutput so = new StreamingOutput () {
-			public void write(OutputStream output) throws IOException,
-					WebApplicationException {
-				Encoder enc = Encoder.get();
-				OutputStreamWriter osw = new OutputStreamWriter(output);
-				enc.encode(model, osw, true);	
-			}};
-		return Response.ok(so);
+		ArrayList<Resource> roots = new ArrayList<Resource>();
+		roots.add(r_thisTemporalEntity);
+		Encoder enc = Encoder.get();
+		
+		JSONObject jo = enc.encodeRecursive(model,roots);
+
+		return Response.ok(jo.toString());
 	}
+	
+//	protected ResponseBuilder doGetJson() {
+//		StreamingOutput so = new StreamingOutput () {
+//			public void write(OutputStream output) throws IOException,
+//					WebApplicationException {
+//				Encoder enc = Encoder.get();
+//				OutputStreamWriter osw = new OutputStreamWriter(output);
+//				enc.encode(model, osw, true);	
+//			}};
+//		return Response.ok(so);
+//	}
 
 
 

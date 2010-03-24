@@ -296,6 +296,8 @@ public class UkGovWeekOfYearDoc extends UkGovDoc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, WEEK_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of ISO 8601 numbered "+CALENDAR_NAME+" calendar aligned time intervals of one week duration" +
 									   " starting at midnight on the Monday of a given week.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);

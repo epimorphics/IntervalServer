@@ -118,7 +118,7 @@ public class UkCalSetDoc extends UkDoc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, CALENDAR_SET_LABEL);
 		
-
+		r_thisTemporalEntity = r_set;
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		

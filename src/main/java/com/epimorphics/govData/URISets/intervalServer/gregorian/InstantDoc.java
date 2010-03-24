@@ -237,6 +237,8 @@ public class InstantDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, INSTANT_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of time instant on the "+CALENDAR_NAME+" time line.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		

@@ -118,6 +118,8 @@ public class GregorianCalSetDoc extends Doc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, CALENDAR_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		
 //		model.add(r_set, VOID.uriRegexPattern, base_reg+YEAR_ID_STEM+YEAR_PATTERN_PLAIN);

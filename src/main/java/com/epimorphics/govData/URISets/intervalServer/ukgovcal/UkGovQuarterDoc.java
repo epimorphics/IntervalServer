@@ -275,13 +275,15 @@ public class UkGovQuarterDoc extends UkGovDoc {
 		Resource r_doc = model.createResource(loc.toString(), FOAF.Document);
 		initSetModel(r_set, r_doc, QUARTER_SET_LABEL);
 		
+		r_thisTemporalEntity = r_set;
+		
 		model.add(r_set, RDFS.comment, "A dataset of "+CALENDAR_NAME+" calendar aligned time intervals of one quarter year (3 calendar month) duration" +
 									   " starting at midnight on the 1st day of a given quarter year.","en");
 		model.add(r_set, RDF.type, VOID.Dataset);
 		
 		String base_reg = base.toString().replaceAll("\\.", "\\\\.");
 		
-		model.add(r_set, DGU.itemType, INTERVALS.CalendarQuarter);
+		model.add(r_set, DGU.itemType, INTERVALS.BusinessQuarter);
 		model.add(r_set, VOID.uriRegexPattern, base_reg+QUARTER_ID_STEM+QUARTER_PATTERN_PLAIN);
 
 		model.add(r_set, VOID.exampleResource, UkGovQuarterDoc.createResourceAndLabels(base, model, 1644, 3));
