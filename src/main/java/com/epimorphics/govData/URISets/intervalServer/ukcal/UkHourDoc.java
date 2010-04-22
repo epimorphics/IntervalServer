@@ -164,6 +164,7 @@ public class UkHourDoc extends UkDoc {
 	
 		String s_hourURI = base + HOUR_ID_STEM + relPart;
 		Resource r_hour = m.createResource(s_hourURI, INTERVALS.CalendarHour);
+		r_hour.addProperty(RDF.type, INTERVALS.Hour);
 
 		String s_label = ""+CALENDAR_NAME+" Hour:" + relPart;
 	

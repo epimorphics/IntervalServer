@@ -157,6 +157,8 @@ public class UkMonthDoc extends UkDoc {
 		String s_monthURI = base + MONTH_ID_STEM + relPart;
 		Resource r_month = m.createResource(s_monthURI, INTERVALS.CalendarMonth);
 		
+		r_month.addProperty(RDF.type, INTERVALS.Month);
+		
 		String s_label = ""+CALENDAR_NAME+" Month:" + relPart;
 		m.add(r_month, SKOS.prefLabel, s_label, "en");
 		m.add(r_month, RDFS.label, s_label, "en");

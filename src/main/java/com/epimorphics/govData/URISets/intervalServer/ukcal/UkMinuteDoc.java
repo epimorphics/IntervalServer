@@ -166,6 +166,7 @@ public class UkMinuteDoc extends UkDoc {
 
 		String s_minURI = base + MINUTE_ID_STEM + relPart;
 		Resource r_min = m.createResource(s_minURI, INTERVALS.CalendarMinute);
+		r_min.addProperty(RDF.type, INTERVALS.Minute);
 
 		String s_label = ""+CALENDAR_NAME+" Minute:" + relPart;
 

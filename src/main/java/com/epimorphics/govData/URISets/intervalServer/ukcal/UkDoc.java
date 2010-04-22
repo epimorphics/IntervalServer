@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.ws.rs.WebApplicationException;
@@ -62,9 +63,13 @@ import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFWriter;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.util.iterator.Filter;
+import com.hp.hpl.jena.util.iterator.Map1;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.DCTypes;
 import com.hp.hpl.jena.vocabulary.DC_11;
@@ -176,12 +181,48 @@ abstract public class UkDoc extends UkCalURITemplate implements Constants {
 	
 	protected ResponseBuilder doGet(final String lang) {
 		StreamingOutput so = new StreamingOutput() {
+			
 			public void write(OutputStream os) throws IOException {
-				model.write(os, lang);
+				RDFWriter writer = model.getWriter(lang);
+				if(lang.equals("RDF/XML-ABBREV")) {
+					
+					ExtendedIterator<Resource> t_iter = 
+						r_thisTemporalEntity.listProperties(RDF.type).filterKeep(new Filter<Statement>() {
+							@Override
+							public boolean accept(Statement o) {
+								return !o.getObject().equals(SCOVO.Dimension);
+							}
+						}).mapWith(new Map1<Statement,Resource>() {
+
+							public Resource map1(Statement o) {
+								return o.getResource();
+							}
+							
+						});
+
+					List<Resource> typeList = t_iter.toList();
+					Resource[] types = typeList.toArray(new Resource[0]);
+					
+					if(types.length>0) {
+						writer.setProperty("prettyTypes",types);
+					}
+				}
+				writer.write(model,os,null);
+//				model.write(os, lang);
 			}
 		};
 		return Response.ok(so);
 	}
+	
+//	protected ResponseBuilder doGet(final String lang) {
+//		StreamingOutput so = new StreamingOutput() {
+//			public void write(OutputStream os) throws IOException {
+//				model.write(os, lang);
+//			}
+//		};
+//		return Response.ok(so);
+//	}
+	
 	protected ResponseBuilder doGetRDF() {
 		return doGet("RDF/XML-ABBREV");
 	}

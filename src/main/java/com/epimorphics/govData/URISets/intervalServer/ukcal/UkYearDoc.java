@@ -145,6 +145,7 @@ public class UkYearDoc extends UkDoc {
 		String s_yearURI = base + YEAR_ID_STEM + String.format("%04d",year);
 		Resource r_year = model.createResource(s_yearURI, INTERVALS.CalendarYear);
 
+		r_year.addProperty(RDF.type, INTERVALS.Year);
 		
 		String s_label = ""+CALENDAR_NAME+" Year:" + String.format("%04d",year) ;
 		model.add(r_year, SKOS.prefLabel, s_label, "en");

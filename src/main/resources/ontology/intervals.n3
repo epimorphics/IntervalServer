@@ -1073,9 +1073,9 @@
               [ rdf:type owl:Class ;
                 owl:unionOf (:Day :Hour :Minute :Second time:Instant)
               ] ;
-      rdfs:label "ordinal day of month"@en ;
+      rdfs:label "ordinal day of year"@en ;
       rdfs:range xsd:integer ;
-      skos:prefLabel "ordinal day of month"@en .
+      skos:prefLabel "ordinal day of year"@en .
 
 :ordinalHalfOfYear
       rdf:type owl:DatatypeProperty ;

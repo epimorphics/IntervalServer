@@ -153,6 +153,9 @@ public class CalendarUtils {
 		cal.setLenient(true);
 		cal.set(Calendar.YEAR, year);
 		cal.set(Calendar.WEEK_OF_YEAR, woy);
+//		while (cal.get(Calendar.DAY_OF_WEEK)!= Calendar.MONDAY) {
+//			cal.add(Calendar.DATE, -1);
+//		}
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);

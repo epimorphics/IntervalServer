@@ -71,7 +71,7 @@ public class UkWeekOfYearDoc extends UkDoc {
 		
 		startTime = new BritishCalendar(Locale.UK);
 		startTime.setLenient(false);
-		startTime.set(year, month-1, day, hour, min, sec);
+		startTime.set(this.year, month-1, day, hour, min, sec);
 		
 		super.populateModel();
 	}
@@ -163,7 +163,7 @@ public class UkWeekOfYearDoc extends UkDoc {
 		Resource r_week = m.createResource(s_weekURI, INTERVALS.Iso8601Week);
 		r_week.addProperty(RDF.type,INTERVALS.Week);
 		
-		String s_label = "Iso8601 Week:" + relPart;
+		String s_label = "British Week:" + relPart;
 		m.add(r_week, SKOS.prefLabel, s_label, "en");
 		m.add(r_week, RDFS.label, s_label, "en");
 	
@@ -240,9 +240,8 @@ public class UkWeekOfYearDoc extends UkDoc {
 
 	@Override
 	void addThisTemporalEntity() {
-		r_thisTemporalEntity = createResource(base, model, year, woy_week);
-		r_thisTemporalEntity.addProperty(DGU.uriSet,createWeekSet());
-		
+		r_thisTemporalEntity = createResource(base, model, woy_year, woy_week);
+		r_thisTemporalEntity.addProperty(DGU.uriSet, createWeekSet());
 		
 		addGeneralIntervalTimeLink(model, startTime, oneWeek);		
 	}
