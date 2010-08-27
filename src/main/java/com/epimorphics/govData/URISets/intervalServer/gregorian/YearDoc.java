@@ -22,11 +22,6 @@ import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Locale;
 
-import com.epimorphics.govData.URISets.intervalServer.BaseURI;
-import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
-import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
-import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -36,6 +31,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.govData.URISets.intervalServer.util.CalendarUtils;
+import com.epimorphics.govData.URISets.intervalServer.util.GregorianOnlyCalendar;
+import com.epimorphics.govData.URISets.intervalServer.util.MediaTypeUtils;
 import com.epimorphics.govData.vocabulary.DGU;
 import com.epimorphics.govData.vocabulary.FOAF;
 import com.epimorphics.govData.vocabulary.INTERVALS;
@@ -43,7 +41,6 @@ import com.epimorphics.govData.vocabulary.SCOVO;
 import com.epimorphics.govData.vocabulary.SKOS;
 import com.epimorphics.govData.vocabulary.TIME;
 import com.epimorphics.govData.vocabulary.VOID;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.Resource;
