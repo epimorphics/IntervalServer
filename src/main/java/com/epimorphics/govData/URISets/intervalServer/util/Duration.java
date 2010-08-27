@@ -95,7 +95,7 @@ public class Duration {
 				|| secs > 0) {
 			sb.append("P");
 		} else {
-			return null;
+			return "P0D";
 		}
 
 		if (years > 0)
