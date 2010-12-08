@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.openjena.atlas.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,8 +240,8 @@ abstract public class UkDoc extends UkCalURITemplate implements Constants {
 		ArrayList<Resource> roots = new ArrayList<Resource>();
 		roots.add(r_thisTemporalEntity);
 		Encoder enc = Encoder.get();
-		
-		JSONObject jo = enc.encodeRecursive(model,roots);
+
+		JsonObject jo = enc.encodeRecursive(model, roots) ;
 
 		return Response.ok(jo.toString());
 	}

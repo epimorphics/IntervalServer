@@ -33,6 +33,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.openjena.atlas.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,7 +160,7 @@ abstract public class Doc extends URITemplate implements Constants {
 		roots.add(r_thisTemporalEntity);
 		Encoder enc = Encoder.get();
 		
-		JSONObject jo = enc.encodeRecursive(model,roots);
+		JsonObject jo = enc.encodeRecursive(model, roots);
 
 		return Response.ok(jo.toString());
 	}
