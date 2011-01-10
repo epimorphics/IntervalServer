@@ -20,6 +20,7 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -235,13 +236,15 @@ abstract public class Doc extends GregorianCalURITemplate implements Constants {
 	}
 
 	protected ResponseBuilder doGetJson() {
+		StringWriter writer = new StringWriter();
 		ArrayList<Resource> roots = new ArrayList<Resource>();
 		roots.add(r_thisTemporalEntity);
 		Encoder enc = Encoder.get();
-		
-		JsonObject jo = enc.encodeRecursive(model, roots);
+//		JsonObject jo = enc.encodeRecursive(model, roots);
 
-		return Response.ok(jo.toString());
+		enc.encodeRecursive(model, roots, writer, true);
+
+		return Response.ok(writer.toString());
 	}
 
 	
