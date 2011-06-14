@@ -31,7 +31,8 @@
 	</welcome-file-list>
 	<env-entry>
 		<env-entry-name>hard-base-uri</env-entry-name>
-		<!-- <env-entry-value>http://reference.data.gov.uk/</env-entry-value> -->
+		<!-- Comment out the following line for testing purposes -->
+		<env-entry-value>http://reference.data.gov.uk/</env-entry-value>
 		<env-entry-type>java.lang.String</env-entry-type>
 	</env-entry>
 </web-app>

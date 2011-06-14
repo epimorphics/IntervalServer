@@ -25,14 +25,14 @@ public interface Constants {
 	
 	public static final String PROJECT_NAME			="UK Gov. Intervals and Instants URI Set Server";
 	public static final String RELEASE_NAME 		= "Harrison";
-	public static final String RELEASE_DATE 		= "2010-02-19";
-	public static final String RELEASE_REVISION 	=  "0.0.1";
+	public static final String RELEASE_DATE 		= "2011-06-14";
+	public static final String RELEASE_REVISION 	=  "0.0.2";
 	
 	public static final String MAINTAINER_NAME			= "Stuart Williams";
 	public static final String MAINTAINER_MBOX_SHA1		= "39ca2515140476c82ed5d89130908e62d8eaa330";
 	
 	public static final String PUBLISHER_NAME		= "data.gov.uk";
 	public static final String COPYRIGHT_ASSIGNMENT	= "Crown Copyright (c)";
-	public static final String LICENSE_URI			= "http://data.gov.uk/terms-conditions";
+	public static final String LICENSE_URI			= "http://reference.data.gov.uk/id/open-government-licence";
 	
 }
