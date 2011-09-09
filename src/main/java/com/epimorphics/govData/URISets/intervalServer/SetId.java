@@ -49,12 +49,13 @@ public class SetId {
 	@Path("{path:"+PATH_REGEX+"}" )
 	public Response redirector(
 			@PathParam("path")  String path){
-		String fullURI = ui.getAbsolutePath().toString();
-		fullURI = fullURI.replaceFirst(GregorianCalURITemplate.SET_STEM, GregorianCalURITemplate.DOC_STEM);
+		
+		String base = (BaseURI.getBase()== null ? ui.getBaseUri() : BaseURI.getBase()).toString();
+		String pathUri = ui.getPath().replaceFirst(GregorianCalURITemplate.SET_STEM, GregorianCalURITemplate.DOC_STEM);
 
 		ResponseBuilder resp = null;
 		try {
-			resp = Response.seeOther(new URI(fullURI));
+			resp = Response.seeOther(new URI(base+pathUri));
 		} catch (URISyntaxException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}

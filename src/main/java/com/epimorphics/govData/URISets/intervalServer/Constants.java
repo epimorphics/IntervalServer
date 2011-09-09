@@ -25,8 +25,8 @@ public interface Constants {
 	
 	public static final String PROJECT_NAME			="UK Gov. Intervals and Instants URI Set Server";
 	public static final String RELEASE_NAME 		= "Harrison";
-	public static final String RELEASE_DATE 		= "2011-06-14";
-	public static final String RELEASE_REVISION 	=  "0.0.2";
+	public static final String RELEASE_DATE 		= "2011-09-09";
+	public static final String RELEASE_REVISION 	=  "0.0.3";
 	
 	public static final String MAINTAINER_NAME			= "Stuart Williams";
 	public static final String MAINTAINER_MBOX_SHA1		= "39ca2515140476c82ed5d89130908e62d8eaa330";
