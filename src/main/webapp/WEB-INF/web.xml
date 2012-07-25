@@ -22,13 +22,13 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
 	<servlet-mapping>
 		<servlet-name>Interval Server</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 	<env-entry>
 		<env-entry-name>hard-base-uri</env-entry-name>
 		<!-- Comment out the following line for testing purposes -->
