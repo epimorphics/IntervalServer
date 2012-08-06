@@ -117,6 +117,13 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<version>1.0</version>
 			</plugin>
+			<plugin>
+			    <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                   <webXml>${maven.war.webxml}</webXml>
+                </configuration>
+			</plugin>
 		</plugins>
 		<finalName>IntervalServer</finalName>
 	</build>
