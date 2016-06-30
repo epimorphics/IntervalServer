@@ -36,7 +36,7 @@
 			<url>http://repository.codehaus.org</url>
 		</repository>
 -->
-		
+
 		<repository>
 			<id>epi-public-repo</id>
 			<name>Epimorphics Public Repository</name>
@@ -59,7 +59,7 @@
 			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
 	</repositories>
-<!--	
+<!--
 	<pluginRepositories>
 		<pluginRepository>
 			<id>jetty</id>
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>com.epimorphics.lda</groupId>
 			<artifactId>json-rdf</artifactId>
-			<version>1.2.13</version>
+			<version>1.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -110,9 +110,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- <dependency> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId> 
+		<!-- <dependency> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId>
 			<version>1.6</version> </dependency> -->
-		<!-- <dependency> <groupId>org.apache.myfaces.core</groupId> <artifactId>myfaces-core</artifactId> 
+		<!-- <dependency> <groupId>org.apache.myfaces.core</groupId> <artifactId>myfaces-core</artifactId>
 			<version>1.2.8</version> </dependency> -->
 
 		<dependency>

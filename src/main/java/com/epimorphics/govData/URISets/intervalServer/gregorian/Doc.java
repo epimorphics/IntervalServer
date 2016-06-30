@@ -24,7 +24,6 @@ package com.epimorphics.govData.URISets.intervalServer.gregorian;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-
-import org.openjena.atlas.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

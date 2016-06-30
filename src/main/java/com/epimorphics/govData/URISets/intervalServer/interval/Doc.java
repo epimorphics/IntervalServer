@@ -24,13 +24,11 @@ package com.epimorphics.govData.URISets.intervalServer.interval;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -38,8 +36,6 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.codehaus.jettison.json.JSONObject;
-import org.openjena.atlas.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
