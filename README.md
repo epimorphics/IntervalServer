@@ -1,5 +1,9 @@
 # IntervalServer
 
+**Deprecated**
+GDS no longer run the reference data server, nor the interval URI resolver so this code is no longer in use. Anyone forking this repo should review dependencies for any vulnerabilities before depolying it.
+
+
 IntervalServer repo contains the source code for the Servlet that provides the Interval service at reference.data.gov.uk. e.g.
 
    - `http://reference.data.gov.uk/id/quarter/2016-Q1` [.rdf](http://reference.data.gov.uk/doc/quarter/2016-Q1) [.ttl](http://reference.data.gov.uk/doc/quarter/2016-Q1.ttl) [.json](http://reference.data.gov.uk/doc/quarter/2016-Q1.json)
